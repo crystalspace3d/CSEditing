@@ -6056,7 +6056,7 @@ void wxPropertyGrid::RefreshEditor()
     if ( p->IsValueUnspecified() )
     {
         editorClass->SetValueToUnspecified(p, wnd);
-        SetEditorAppearance(m_unspecifiedAppearance);
+        SetEditorearance(m_unspecifiedAppearance);
     }
 }
 
@@ -7670,7 +7670,7 @@ bool wxPropertyGrid::DoSelectProperty( wxPGProperty* p, unsigned int flags )
                     if ( p->IsValueUnspecified() )
                     {
                         editor->SetValueToUnspecified(p, primaryCtrl);
-                        SetEditorAppearance(m_unspecifiedAppearance);
+                        SetEditorearance(m_unspecifiedAppearance);
                     }
     
                     // Focus and select all (wxTextCtrl, wxComboBox etc)
@@ -9555,7 +9555,7 @@ void wxPropertyGrid::HandleFocusChange( wxWindow* newFocused )
         if ( p )
         {
             const wxPGEditor* editor = p->GetEditorClass();
-            ResetEditorAppearance();
+            ResetEditorearance();
             editor->OnFocus(p, GetEditorControl());
         }
     }

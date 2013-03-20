@@ -15,8 +15,9 @@
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-#include "cssysdef.h"
-#include "csutil/scf.h"
+#include <cssysdef.h>
+#include <csutil/scf.h>
+
 #include "ieditor/editor.h"
 
 #include "textlog.h"
@@ -45,8 +46,8 @@ bool TextLog::Initialize (iObjectRegistry* obj_reg, iEditor* editor,
   if (!component)
     return ReportError ("The logger component is not registered to the space manager");
 
-  csRef<CS::EditorApp::Component::iLogger> logger =
-    scfQueryInterface<CS::EditorApp::Component::iLogger> (component);
+  csRef<CSE::Editor::Component::iLogger> logger =
+    scfQueryInterface<CSE::Editor::Component::iLogger> (component);
   if (!logger)
     return ReportError ("The logger component does not implement the iLogger interface");
 

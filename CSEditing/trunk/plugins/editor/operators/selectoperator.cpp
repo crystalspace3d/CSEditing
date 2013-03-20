@@ -15,24 +15,23 @@
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-
-#include "cssysdef.h"
-#include "csgeom/vector2.h"
-#include "cstool/enginetools.h"
-#include "csutil/scf.h"
-#include "csutil/sysfunc.h"
+#include <cssysdef.h>
+#include <csgeom/vector2.h>
+#include <cstool/enginetools.h>
+#include <csutil/scf.h>
+#include <csutil/sysfunc.h>
+#include <iengine/camera.h>
+#include <iengine/mesh.h>
+#include <iutil/csinput.h>
+#include <csutil/event.h>
+#include <csutil/eventnames.h>
+#include <iutil/object.h>
+#include <iutil/objreg.h>
+#include <iutil/plugin.h>
 
 #include "ieditor/action.h"
 #include "ieditor/context.h"
 #include "ieditor/editor.h"
-#include "iengine/camera.h"
-#include "iengine/mesh.h"
-#include "iutil/csinput.h"
-#include "csutil/event.h"
-#include "csutil/eventnames.h"
-#include "iutil/object.h"
-#include "iutil/objreg.h"
-#include "iutil/plugin.h"
 
 #include "selectoperator.h"
 

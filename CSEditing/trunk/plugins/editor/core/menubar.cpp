@@ -15,13 +15,13 @@
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
+#include <cssysdef.h>
+#include <csutil/objreg.h>
+#include <csutil/scf.h>
+#include <iutil/event.h>
+#include <iutil/eventq.h>
 
-#include "cssysdef.h"
-#include "csutil/objreg.h"
-#include "csutil/scf.h"
 #include "ieditor/context.h"
-#include "iutil/event.h"
-#include "iutil/eventq.h"
 
 #include "menubar.h"
 #include "editor.h"

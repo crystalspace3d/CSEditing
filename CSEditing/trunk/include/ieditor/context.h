@@ -32,8 +32,8 @@ struct iObjectRegistry;
 
 class wxEvtHandler;
 
-namespace CS {
-namespace EditorApp {
+namespace CSE {
+namespace Editor {
 
 /**
  * 
@@ -108,7 +108,7 @@ struct iContextFileLoader : public virtual iBase
   virtual iCollection* GetCollection () const = 0;
 };
 
-} // namespace EditorApp
-} // namespace CS
+} // namespace Editor
+} // namespace CSE
 
 #endif

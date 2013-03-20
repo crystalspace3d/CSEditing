@@ -15,15 +15,15 @@
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-
 #ifndef __SPACE_TEXTLOG_H__
 #define __SPACE_TEXTLOG_H__
 
-#include "csutil/scf_implementation.h"
+#include <csutil/scf_implementation.h>
+#include <iutil/objreg.h>
+#include <ivaria/reporter.h>
+
 #include "ieditor/components.h"
 #include "ieditor/space.h"
-#include "iutil/objreg.h"
-#include "ivaria/reporter.h"
 
 #include <wx/log.h>
 #include <wx/panel.h>
@@ -31,8 +31,8 @@
 
 class wxWindow;
 
-using namespace CS::EditorApp;
-using namespace CS::EditorApp::Component;
+using namespace CSE::Editor;
+using namespace CSE::Editor::Component;
 
 CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 {

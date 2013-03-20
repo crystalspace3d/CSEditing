@@ -15,21 +15,20 @@
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-
 #ifndef __CSEDITOR_COMPONENT_2DINFO_H__
 #define __CSEDITOR_COMPONENT_2DINFO_H__
 
-#include "csutil/csbaseeventh.h"
-#include "csutil/eventhandlers.h"
-#include "csutil/scf_implementation.h"
-#include "iutil/eventq.h"
-#include "ivaria/reporter.h"
-#include "ivideo/fontserv.h"
+#include <csutil/csbaseeventh.h>
+#include <csutil/eventhandlers.h>
+#include <csutil/scf_implementation.h>
+#include <iutil/eventq.h>
+#include <ivaria/reporter.h>
+#include <ivideo/fontserv.h>
 
 #include "ieditor/editor.h"
 #include "ieditor/space.h"
 
-using namespace CS::EditorApp;
+using namespace CSE::Editor;
 
 CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 {

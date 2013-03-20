@@ -29,8 +29,8 @@
 
 #include "context.h"
 
-namespace CS {
-namespace EditorApp {
+namespace CSE {
+namespace Editor {
 
 Context::Context (iObjectRegistry* obj_reg)
   : scfImplementationType (this), object_reg (obj_reg)
@@ -251,5 +251,5 @@ iCollection* Context::GetCollection () const
   return collection;
 }
 
-} // namespace EditorApp
-} // namespace CS
+} // namespace Editor
+} // namespace CSE

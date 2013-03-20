@@ -16,22 +16,22 @@
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-
 #ifndef __SPACE_3DVIEW_H__
 #define __SPACE_3DVIEW_H__
 
-#include "csutil/csbaseeventh.h"
-#include "csutil/eventnames.h"
-#include "csutil/scf_implementation.h"
+#include <csutil/csbaseeventh.h>
+#include <csutil/eventnames.h>
+#include <csutil/scf_implementation.h>
+#include <iutil/event.h>
+#include <iutil/eventh.h>
+#include <iutil/comp.h>
+
 #include "ieditor/editor.h"
 #include "ieditor/space.h"
-#include "iutil/event.h"
-#include "iutil/eventh.h"
-#include "iutil/comp.h"
 
 class wxWindow;
 
-using namespace CS::EditorApp;
+using namespace CSE::Editor;
 
 CS_PLUGIN_NAMESPACE_BEGIN(CSEditor)
 {

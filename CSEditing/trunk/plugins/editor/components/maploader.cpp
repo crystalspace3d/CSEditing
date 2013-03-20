@@ -15,20 +15,20 @@
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
+#include <cssysdef.h>
+#include <csutil/scf.h>
+#include <iengine/engine.h>
+#include <imap/loader.h>
+#include <imap/saver.h>
+#include <iutil/cmdline.h>
+#include <iutil/plugin.h>
+#include <iutil/vfs.h>
+#include <ivaria/pmeter.h>
 
-#include "cssysdef.h"
-#include "csutil/scf.h"
+#include "cseditor/vfsfiledialog.h"
 #include "ieditor/context.h"
-#include "iengine/engine.h"
-#include "imap/loader.h"
-#include "imap/saver.h"
-#include "iutil/cmdline.h"
-#include "iutil/plugin.h"
-#include "iutil/vfs.h"
-#include "ivaria/pmeter.h"
 
 #include "maploader.h"
-#include "cseditor/vfsfiledialog.h"
 
 #include <wx/frame.h>
 #include <wx/menuitem.h>

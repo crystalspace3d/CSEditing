@@ -22,8 +22,8 @@
 #include <csutil/scf.h>
 #include <csutil/scf_implementation.h>
 
-namespace CS {
-namespace EditorApp {
+namespace CSE {
+namespace Editor {
 
 struct iContext;
 struct iLayout;
@@ -54,7 +54,7 @@ struct iPanel : public virtual iBase
 */
 };
 
-} // namespace EditorApp
-} // namespace CS
+} // namespace Editor
+} // namespace CSE
 
 #endif

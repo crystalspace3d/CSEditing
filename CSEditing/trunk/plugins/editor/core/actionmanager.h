@@ -16,18 +16,18 @@
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-
 #ifndef __ACTIONMANAGER_H__
 #define __ACTIONMANAGER_H__
 
-#include "csutil/refarr.h"
+#include <csutil/refarr.h>
+#include <iutil/event.h>
+
 #include "ieditor/action.h"
 #include "ieditor/editor.h"
-#include "iutil/event.h"
 
 struct iObjectRegistry;
 
-using namespace CS::EditorApp;
+using namespace CSE::Editor;
 
 CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 {

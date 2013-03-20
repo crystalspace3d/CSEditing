@@ -15,15 +15,12 @@
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-
-#include "cssysdef.h"
-
+#include <cssysdef.h>
 #include <csgeom/math3d.h>
-#include "csutil/event.h"
-#include "csutil/eventnames.h"
-#include "csutil/scf.h"
-#include "csutil/sysfunc.h"
-
+#include <csutil/event.h>
+#include <csutil/eventnames.h>
+#include <csutil/scf.h>
+#include <csutil/sysfunc.h>
 #include <iengine/camera.h>
 #include <iengine/mesh.h>
 #include <iengine/movable.h>

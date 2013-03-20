@@ -1,0 +1,5 @@
+SubDir TOP data editor ;
+
+InstallData [ Wildcard images : *.xpm ] : data editor images ;
+
+FileListEntriesData world [ Wildcard images : *.xpm ] : castle : data-runtime-images ;

@@ -27,8 +27,8 @@ class wxBitmap;
 
 struct iObjectRegistry;
 
-namespace CS {
-namespace EditorApp {
+namespace CSE {
+namespace Editor {
 
 struct iEditor;
 struct iEditorComponent;
@@ -113,7 +113,7 @@ struct iComponentManager : public virtual iBase
   virtual iSpaceFactory* FindSpaceFactory (const char* pluginName, size_t& index) const = 0;
 };
 
-} // namespace EditorApp
-} // namespace CS
+} // namespace Editor
+} // namespace CSE
 
 #endif // __IEDITOR_SPACE_H__

@@ -25,8 +25,8 @@
 
 #include <wx/string.h>
 
-namespace CS {
-namespace EditorApp {
+namespace CSE {
+namespace Editor {
 
 struct iContext;
 
@@ -99,7 +99,7 @@ struct iActionManager : public virtual iBase
   virtual size_t GetMaximumStackSize () const = 0;
 };
 
-} // namespace EditorApp
-} // namespace CS
+} // namespace Editor
+} // namespace CSE
 
 #endif

@@ -15,22 +15,21 @@
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
+#include <cssysdef.h>
+#include <csutil/scf.h>
+#include <iutil/vfs.h>
+#include <cstool/initapp.h>
+#include <imap/reader.h>
+#include <iutil/document.h>
+#include <iutil/stringarray.h>
 
-#include "cssysdef.h"
-#include "csutil/scf.h"
-#include "translation.h"
-#include "iutil/vfs.h"
-#include "cstool/initapp.h"
 #include "ieditor/context.h"
-#include "imap/reader.h"
-#include "iutil/document.h"
-#include "iutil/stringarray.h"
+
+#include "translation.h"
 
 CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 {
   SCF_IMPLEMENT_FACTORY (EditorTranslation)
-
-  using namespace std;
 
   const char* EditorTranslation::languageDir = "/data/editor/lang/";
   const char* EditorTranslation::language     = "de_DE";

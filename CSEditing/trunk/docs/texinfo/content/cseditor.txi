@@ -1,5 +1,5 @@
 @c -*-texinfo-*-
-@node cseditor, , ViewMesh, Working with Engine Content
+@node cseditor, , Using CSEditing, Using CSEditing
 @section The cseditor framework
 @cindex cseditor
 

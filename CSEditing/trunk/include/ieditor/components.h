@@ -25,8 +25,8 @@
 class wxTextCtrl;
 class wxWindow;
 
-namespace CS {
-namespace EditorApp {
+namespace CSE {
+namespace Editor {
 namespace Component {
 
 /**
@@ -43,7 +43,7 @@ struct iLogger : public virtual iBase
 };
 
 } // namespace Component
-} // namespace EditorApp
-} // namespace CS
+} // namespace Editor
+} // namespace CSE
 
 #endif // __IEDITOR_COMPONENTS_H__

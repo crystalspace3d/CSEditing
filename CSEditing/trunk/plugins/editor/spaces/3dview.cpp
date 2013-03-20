@@ -16,16 +16,16 @@
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
+#include <cssysdef.h>
+#include <cstool/csview.h>
+#include <cstool/initapp.h>
+#include <csutil/scf.h>
+#include <iengine/camera.h>
+#include <ivideo/graph2d.h>
+#include <ivideo/graph3d.h>
+#include <ivideo/wxwin.h>
 
-#include "cssysdef.h"
-#include "cstool/csview.h"
-#include "cstool/initapp.h"
-#include "csutil/scf.h"
 #include "ieditor/context.h"
-#include "iengine/camera.h"
-#include "ivideo/graph2d.h"
-#include "ivideo/graph3d.h"
-#include "ivideo/wxwin.h"
 
 #include "3dview.h"
 

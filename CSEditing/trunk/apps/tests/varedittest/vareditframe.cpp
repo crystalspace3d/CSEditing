@@ -120,7 +120,7 @@ ModifiableTestFrame::ModifiableTestFrame (iObjectRegistry* object_reg )
   SetSizer (mainsizer);
 
   // Create the modifiable editor
-  modifiableEditor = new CS::EditorApp::ModifiableEditor (object_reg,
+  modifiableEditor = new CSE::Editor::ModifiableEditor (object_reg,
 							  this,
 							  wxID_ANY,
 							  wxDefaultPosition,

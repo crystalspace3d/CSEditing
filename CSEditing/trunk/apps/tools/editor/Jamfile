@@ -9,18 +9,21 @@ if $(WX.AVAILABLE) = "yes"
   Application cseditor : $(CSEDITOR.SOURCES) ;
   ExternalLibs cseditor : CRYSTAL WX ;
   CFlags cseditor : $(COMPILER.C++FLAGS.STRICTALIASING.DISABLE) ;
-  LinkWith cseditor : crystalspace ;
   Win32Resource cseditor : [ ConcatDirs $(SUBDIR) cseditor.rc ] ;
   # To locate wx.rc
   Win32RcFlags cseditor : [ Match ^(-I.*) ^(-D.*) : [ SplitToList $(WX.CFLAGS) ] ] ;
   FileListEntryApplications cseditor : app-tool ;
+
+  if $(CEL.DESIRED) = yes && $(CEL.AVAILABLE) = yes
+  {
+    ExternalLibs cseditor : CEL ;
+  }
 
   SubVariant static ;
   Description cseditor_static : "Crystal Space Editor (static build)" ;
   Application cseditor_static : $(CSEDITOR.SOURCES) : nohelp independent noinstall ;
   ExternalLibs cseditor_static : CRYSTAL WX ;
   CFlags cseditor_static : $(COMPILER.C++FLAGS.STRICTALIASING.DISABLE) ;
-  LinkWith cseditor_static : crystalspace ;
   FileListEntryApplications cseditor_static : app-tool-static ;
   Win32Resource cseditor_static : [ ConcatDirs $(SUBDIR) cseditor.rc ] ;
   # To locate wx.rc
