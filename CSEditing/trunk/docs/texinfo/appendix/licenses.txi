@@ -1,0 +1,13 @@
+@c -*-texinfo-*-
+@node Licenses, Index, Using CSEditing, Top
+@appendix Licenses
+@cindex Licenses
+
+The CSEditing library and all its applications and plugin modules are
+licensed under the @sc{gnu} Lesser General Public License.
+
+@menu
+* Library Copying:: @sc{gnu} Lesser General Public License
+@end menu
+
+@imports{appendix,lgpl.txi}
