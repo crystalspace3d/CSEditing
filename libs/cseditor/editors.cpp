@@ -2304,7 +2304,7 @@ wxWindow* wxPropertyGrid::GenerateEditorTextCtrlAndButton( const wxPoint& pos,
 
 // -----------------------------------------------------------------------
 
-void wxPropertyGrid::SetEditorAppearance( const wxPGCell& cell )
+void wxPropertyGrid::SetEditorearance( const wxPGCell& cell )
 {
     wxWindow* editor = GetEditorControl();
     if ( !editor )

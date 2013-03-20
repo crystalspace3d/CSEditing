@@ -15,21 +15,21 @@
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-
 #ifndef __COMPONENTS_EXIT_H__
 #define __COMPONENTS_EXIT_H__
 
-#include "csutil/csbaseeventh.h"
-#include "csutil/scf_implementation.h"
+#include <csutil/csbaseeventh.h>
+#include <csutil/scf_implementation.h>
+#include <iutil/comp.h>
+#include <ivaria/reporter.h>
+
 #include "ieditor/editor.h"
 #include "ieditor/menu.h"
 #include "ieditor/space.h"
-#include "iutil/comp.h"
-#include "ivaria/reporter.h"
 
 #include <wx/frame.h>
 
-using namespace CS::EditorApp;
+using namespace CSE::Editor;
 
 CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 {

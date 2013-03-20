@@ -15,18 +15,18 @@
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
+#include <cssysdef.h>
+#include <csutil/scf.h>
+#include <iengine/camera.h>
+#include <iengine/mesh.h>
+#include <iengine/movable.h>
+#include <iengine/sector.h>
+#include <imesh/objmodel.h>
+#include <iutil/object.h>
+#include <ivideo/graph2d.h>
+#include <ivideo/graph3d.h>
 
-#include "cssysdef.h"
-#include "csutil/scf.h"
 #include "ieditor/context.h"
-#include "iengine/camera.h"
-#include "iengine/mesh.h"
-#include "iengine/movable.h"
-#include "iengine/sector.h"
-#include "imesh/objmodel.h"
-#include "iutil/object.h"
-#include "ivideo/graph2d.h"
-#include "ivideo/graph3d.h"
 
 #include "2dinfo.h"
 

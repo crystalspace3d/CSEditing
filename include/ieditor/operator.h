@@ -24,8 +24,8 @@
 
 struct iEvent;
 
-namespace CS {
-namespace EditorApp {
+namespace CSE {
+namespace Editor {
   
 struct iContext;
 struct iEditor;
@@ -104,7 +104,7 @@ struct iOperatorManager : public virtual iBase
   virtual iOperator* Invoke (iOperator* op, iEvent* event) = 0; 
 };  
 
-} // namespace EditorApp
-} // namespace CS
+} // namespace Editor
+} // namespace CSE
 
 #endif

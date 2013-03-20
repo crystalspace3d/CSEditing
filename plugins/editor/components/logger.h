@@ -18,21 +18,21 @@
 #ifndef __COMPONENTS_LOGGER_H__
 #define __COMPONENTS_LOGGER_H__
 
-#include "csutil/scf_implementation.h"
-#include "csutil/stringarray.h"
-#include "csutil/threadmanager.h"
+#include <csutil/scf_implementation.h>
+#include <csutil/stringarray.h>
+#include <csutil/threadmanager.h>
+#include <ivaria/reporter.h>
+
 #include "ieditor/components.h"
 #include "ieditor/editor.h"
 #include "ieditor/space.h"
-#include "ivaria/reporter.h"
 
 #include <wx/datetime.h>
-
 #include <wx/log.h>
 #include <wx/textctrl.h>
 
-using namespace CS::EditorApp;
-using namespace CS::EditorApp::Component;
+using namespace CSE::Editor;
+using namespace CSE::Editor::Component;
 
 CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 {

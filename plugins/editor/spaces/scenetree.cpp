@@ -17,8 +17,7 @@
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 #include <cssysdef.h>
-#include "csutil/scf.h"
-
+#include <csutil/scf.h>
 #include <iengine/campos.h>
 #include <iengine/collection.h>
 #include <iengine/light.h>
@@ -27,8 +26,8 @@
 #include <iengine/portalcontainer.h>
 #include <iengine/sector.h>
 #include <iengine/texture.h>
-#include "iutil/event.h"
-#include "iutil/eventh.h"
+#include <iutil/event.h>
+#include <iutil/eventh.h>
 #include <iutil/object.h>
 #include <iutil/objreg.h>
 #include <iutil/plugin.h>

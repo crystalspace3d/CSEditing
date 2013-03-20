@@ -18,16 +18,16 @@
 #ifndef __SPACEMANAGER_H__
 #define __SPACEMANAGER_H__
 
-#include "csutil/csbaseeventh.h"
-#include "csutil/hash.h"
-#include "csutil/refarr.h"
+#include <csutil/csbaseeventh.h>
+#include <csutil/hash.h>
+#include <csutil/refarr.h>
 
 #include "ieditor/space.h"
 #include "ieditor/context.h"
 
 #include <wx/bitmap.h>
 
-using namespace CS::EditorApp;
+using namespace CSE::Editor;
 
 CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 {

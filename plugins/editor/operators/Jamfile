@@ -1,11 +1,9 @@
 SubDir TOP plugins editor operators ;
 
-
 if $(WX.AVAILABLE) = "yes"
 {
   Description cseditoroperators : "CSEditor operators" ;
 
   Plugin cseditoroperators : [ Wildcard *.cpp *.h ] ;
-  LinkWith cseditoroperators : crystalspace ;
-  ExternalLibs cseditoroperators : WX ;
+  ExternalLibs cseditoroperators : CRYSTAL WX ;
 }

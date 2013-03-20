@@ -4,6 +4,6 @@ if $(WX.AVAILABLE) = "yes"
 {
   Description cseditorcomponents : "CSEditor components" ;
   Plugin cseditorcomponents : [ Wildcard *.cpp *.h ] ;
-  LinkWith cseditorcomponents : crystalspace crystalspace_gui ;
-  ExternalLibs cseditorcomponents : WX ;
+  LinkWith cseditorcomponents : csediting_gui ;
+  ExternalLibs cseditorcomponents : CRYSTAL WX ;
 }

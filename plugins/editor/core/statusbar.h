@@ -15,13 +15,12 @@
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-
 #ifndef __STATUSBAR_H__
 #define __STATUSBAR_H__
 
-#include "csutil/scf_implementation.h"
-#include "csutil/csstring.h"
-#include "ivaria/pmeter.h"
+#include <csutil/scf_implementation.h>
+#include <csutil/csstring.h>
+#include <ivaria/pmeter.h>
 
 #include <wx/statusbr.h>
 #include <wx/event.h>

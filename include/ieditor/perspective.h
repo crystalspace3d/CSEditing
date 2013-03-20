@@ -22,8 +22,8 @@
 #include <csutil/scf.h>
 #include <csutil/scf_implementation.h>
 
-namespace CS {
-namespace EditorApp {
+namespace CSE {
+namespace Editor {
 
 enum SplitMode
 {
@@ -87,7 +87,7 @@ struct iPerspectiveManager : public virtual iBase
 */
 };
 
-} // namespace EditorApp
-} // namespace CS
+} // namespace Editor
+} // namespace CSE
 
 #endif // __IEDITOR_PERSPECTIVE_H__

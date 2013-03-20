@@ -18,10 +18,9 @@
 #ifndef __CSEDITOR_MODIFIABLE_EDITOR_H__
 #define __CSEDITOR_MODIFIABLE_EDITOR_H__
 
-#include "cssysdef.h"
-#include "csutil/csstring.h"
-#include "csutil/hash.h"
-#include "csutil/ref.h"
+#include <csutil/csstring.h>
+#include <csutil/hash.h>
+#include <csutil/ref.h>
 
 // Property grid manager
 #include "cseditor/wx/propgrid/manager.h"
@@ -42,10 +41,10 @@ struct iModifiableConstraint;
 struct iModifiableDescription;
 
 } // namespace Utility
-} // namespace CS
+} // namespace CSE
 
-namespace CS {
-namespace EditorApp {
+namespace CSE {
+namespace Editor {
 
 class /*CS_CRYSTALSPACE_EXPORT*/ ModifiableEditor : public wxPanel 
 {
@@ -115,7 +114,7 @@ private:
   DECLARE_EVENT_TABLE ();
 };
 
-} // namespace EditorApp
-} // namespace CS
+} // namespace Editor
+} // namespace CSE
 
 #endif

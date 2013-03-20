@@ -32,7 +32,7 @@
 
 CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 {
-  using namespace CS::EditorApp;
+  using namespace CSE::Editor;
 
   class CSPartEditSpace : public wxPanel, public csBaseEventHandler, public scfImplementation1<CSPartEditSpace, iSpace>
   {

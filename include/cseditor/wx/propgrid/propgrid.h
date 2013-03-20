@@ -8235,12 +8235,12 @@ protected:
     */
     void RecalculateVirtualSize( int forceXPos = -1 );
 
-    void SetEditorAppearance( const wxPGCell& cell );
+    void SetEditorearance( const wxPGCell& cell );
 
-    void ResetEditorAppearance()
+    void ResetEditorearance()
     {
         wxPGCell cell;
-        SetEditorAppearance(cell);
+        SetEditorearance(cell);
     }
 
     void PrepareAfterItemsAdded();

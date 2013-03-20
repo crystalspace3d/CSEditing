@@ -40,8 +40,8 @@ class wxChoice;
 #include <wx/treectrl.h>
 #include <wx/dialog.h>
 
-namespace CS {
-namespace EditorApp {
+namespace CSE {
+namespace Editor {
 
 /**
  * Type of the operation to be made by a given VFSFileDialog.
@@ -218,7 +218,7 @@ private:
   DECLARE_EVENT_TABLE();
 };
 
-} // namespace EditorApp
-} //namespace CS
+} // namespace Editor
+} //namespace CSE
 
 #endif

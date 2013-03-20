@@ -46,7 +46,7 @@
 //#include "images/new_dir.xpm"
 //#include "images/toparent.xpm"
 
-using namespace CS::EditorApp;
+using namespace CSE::Editor;
 
 BEGIN_EVENT_TABLE (VFSFileDialog, wxDialog)
   EVT_TREE_SEL_CHANGED(DIRECTORY_TREE, VFSFileDialog::OnDirTreeSelChange)

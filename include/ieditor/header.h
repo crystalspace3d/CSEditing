@@ -25,8 +25,8 @@
 
 class wxWindow;
 
-namespace CS {
-namespace EditorApp {
+namespace CSE {
+namespace Editor {
   
 struct iContext;
 struct iEditor;
@@ -46,6 +46,6 @@ struct iHeader : public virtual iBase
 
 
 
-} // namespace EditorApp
-} // namespace CS
+} // namespace Editor
+} // namespace CSE
 #endif

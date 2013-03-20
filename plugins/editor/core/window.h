@@ -15,25 +15,23 @@
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-
 #ifndef __CSEDITOR_WINDOW_H__
 #define __CSEDITOR_WINDOW_H__
 
-#include "cssysdef.h"
+#include <csutil/hash.h>
+
+#include "ieditor/layout.h"
+#include "ieditor/space.h"
 
 #include <wx/splitter.h>
 #include <wx/panel.h>
 #include <wx/bmpcbox.h>
-#include "wx/aui/aui.h"
+#include <wx/aui/aui.h>
 #include <wx/toolbar.h>
 #include <wx/button.h>
 #include <wx/menu.h>
 
-#include "csutil/hash.h"
-#include "ieditor/layout.h"
-#include "ieditor/space.h"
-
-using namespace CS::EditorApp;
+using namespace CSE::Editor;
 
 CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 {

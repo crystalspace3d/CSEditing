@@ -15,17 +15,18 @@
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-#include "cssysdef.h"
+#include <cssysdef.h>
+#include <csgeom/vector3.h>
+#include <csutil/cscolor.h>
+#include <imap/reader.h>
+#include <iutil/modifiable.h>
+#include <iutil/objreg.h>
+#include <iutil/plugin.h>
+#include <iutil/stringarray.h>
+#include <ivaria/translator.h>
+
 #include "cseditor/modifiableeditor.h"
 #include "cseditor/wxpgslider.h"
-#include "csgeom/vector3.h"
-#include "csutil/cscolor.h"
-#include "imap/reader.h"
-#include "iutil/modifiable.h"
-#include "iutil/objreg.h"
-#include "iutil/plugin.h"
-#include "iutil/stringarray.h"
-#include "ivaria/translator.h"
 
 using namespace CS::Utility;
 
@@ -192,7 +193,7 @@ void wxToCS (csVariantType type, const wxVariant& original, csVariant& variant)
 
 //--------------------------------------------------
 
-using namespace CS::EditorApp;
+using namespace CSE::Editor;
 
 BEGIN_EVENT_TABLE (ModifiableEditor, wxPanel)
 EVT_PG_CHANGING (pageId, ModifiableEditor::OnPropertyGridChanging)

@@ -19,10 +19,11 @@
 #ifndef __EDITOR_H__
 #define __EDITOR_H__
 
-#include "csutil/csstring.h"
-#include "csutil/weakref.h"
+#include <csutil/csstring.h>
+#include <csutil/weakref.h>
+#include <iutil/comp.h>
+
 #include "ieditor/editor.h"
-#include "iutil/comp.h"
 
 #include <wx/frame.h>
 #include <wx/timer.h>
@@ -30,7 +31,7 @@
 struct iEventQueue;
 struct iVirtualClock;
 
-using namespace CS::EditorApp;
+using namespace CSE::Editor;
 
 CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 {

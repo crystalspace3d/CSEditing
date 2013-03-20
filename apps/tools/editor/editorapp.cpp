@@ -57,10 +57,10 @@ int main (int argc, const char* const argv[])
 
 #endif // defined(CS_PLATFORM_WIN32)
 
-using namespace CS::EditorApp;
+using namespace CSE::Editor;
 
 // Define a new application type
-class EditorApplication : public wxApp
+class Editorlication : public wxApp
 {
   bool ReportError (const char* description, ...)
   {
@@ -97,13 +97,13 @@ public:
   virtual int OnExit (void);
 };
 
-IMPLEMENT_APP (EditorApplication);
+IMPLEMENT_APP (Editorlication);
 
 /*---------------------------------------------------------------------*
  * Main function
  *---------------------------------------------------------------------*/
 
-bool EditorApplication::OnInit (void)
+bool Editorlication::OnInit (void)
 {
   wxInitAllImageHandlers ();
 
@@ -182,7 +182,7 @@ bool EditorApplication::OnInit (void)
   return true;
 }
 
-int EditorApplication::OnExit ()
+int Editorlication::OnExit ()
 {
   // Send the general Crystal Space 'quit' event
   csRef<iEventQueue> queue (csQueryRegistry<iEventQueue> (object_reg));

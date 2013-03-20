@@ -15,22 +15,20 @@
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-
 #ifndef __MENUBAR_H__
 #define __MENUBAR_H__
 
-#include "csutil/refarr.h"
-#include "csutil/weakrefarr.h"
-#include "csutil/hash.h"
+#include <csutil/refarr.h>
+#include <csutil/weakrefarr.h>
+#include <csutil/hash.h>
+
 #include "ieditor/menu.h"
 #include "ieditor/operator.h"
 
 #include <wx/aui/aui.h>
 #include <wx/menu.h>
 
-#include <map>
-
-using namespace CS::EditorApp;
+using namespace CSE::Editor;
 
 CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 {

@@ -27,8 +27,8 @@
 
 struct iObjectRegistry;
 
-namespace CS {
-namespace EditorApp {
+namespace CSE {
+namespace Editor {
 
 class Context
   : public scfImplementation4<Context,
@@ -121,7 +121,7 @@ private:
   csEventID eventSetCollection;
 };
 
-} // namespace EditorApp
-} // namespace CS
+} // namespace Editor
+} // namespace CSE
 
 #endif

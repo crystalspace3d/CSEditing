@@ -19,22 +19,22 @@
 #ifndef __SPACE_SCENETREE_H__
 #define __SPACE_SCENETREE_H__
 
-#include "csutil/csbaseeventh.h"
-#include "ieditor/context.h"
-#include "ieditor/editor.h"
-#include "ieditor/space.h"
-
+#include <csutil/csbaseeventh.h>
 #include <csutil/scf_implementation.h>
 #include <csutil/hash.h>
 #include <iutil/comp.h>
 #include <iengine/scenenode.h>
+
+#include "ieditor/context.h"
+#include "ieditor/editor.h"
+#include "ieditor/space.h"
 
 #include <wx/event.h>
 #include <wx/panel.h>
 #include <wx/treectrl.h>
 #include <wx/imaglist.h>
 
-using namespace CS::EditorApp;
+using namespace CSE::Editor;
 
 CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 {

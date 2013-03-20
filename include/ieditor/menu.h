@@ -27,8 +27,8 @@ class wxMenu;
 class wxMenuBar;
 class wxMenuItem;
 
-namespace CS {
-namespace EditorApp {
+namespace CSE {
+namespace Editor {
   
 struct iContext;
 struct iLayout;
@@ -97,7 +97,7 @@ struct iMenuManager : public virtual iBase
   virtual csRef<iSubMenu> GetSubMenu (const char* item) = 0;
 };
 
-} // namespace EditorApp
-} // namespace CS
+} // namespace Editor
+} // namespace CSE
 
 #endif

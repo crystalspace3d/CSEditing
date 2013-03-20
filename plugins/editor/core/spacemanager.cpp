@@ -15,21 +15,21 @@
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
+#include <cssysdef.h>
 
-#include "cssysdef.h"
+#include <csutil/objreg.h>
+#include <csutil/scf.h>
+#include <csutil/weakrefarr.h>
+#include <iutil/document.h>
+#include <iutil/plugin.h>
+#include <ivaria/reporter.h>
 
-#include "csutil/objreg.h"
-#include "csutil/scf.h"
-#include "csutil/weakrefarr.h"
 #include "ieditor/context.h"
 #include "ieditor/header.h"
 #include "ieditor/layout.h"
 #include "ieditor/menu.h"
 #include "ieditor/operator.h"
 #include "ieditor/panel.h"
-#include "iutil/document.h"
-#include "iutil/plugin.h"
-#include "ivaria/reporter.h"
 
 #include "editor.h"
 #include "layouts.h"

@@ -15,14 +15,14 @@
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-
 #ifndef __CSEDITOR_PANEL_CAMERA_H__
 #define __CSEDITOR_PANEL_CAMERA_H__
 
-#include "csutil/scf_implementation.h"
+#include <csutil/scf_implementation.h>
+
 #include "ieditor/panel.h"
 
-using namespace CS::EditorApp;
+using namespace CSE::Editor;
 
 CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 {

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2011-2012 by Jorrit Tyberghein, Jelle Hellemans, Christian Van Brussel
+    Copyright (C) 2011-2013 by Jorrit Tyberghein, Jelle Hellemans, Christian Van Brussel
     Copyright (C) 2007 by Seth Yastrov
 
     This library is free software; you can redistribute it and/or
@@ -27,8 +27,8 @@ class wxFrame;
 struct iDocumentNode;
 struct iProgressMeter;
 
-namespace CS {
-namespace EditorApp {
+namespace CSE {
+namespace Editor {
 
 struct iActionManager;
 struct iComponentManager;
@@ -40,7 +40,7 @@ struct iOperatorManager;
 struct iPerspective;
 struct iPerspectiveManager;
 
-// TODO namespace CS::Editor::Core
+// TODO namespace CSE::Editor::Core
 
 struct iEditorManager : public virtual iBase
 {
@@ -95,7 +95,7 @@ struct iEditorFrame : public virtual iBase
   virtual iPerspective* GetPerspective () const = 0;
 };
 
-} // namespace EditorApp
-} // namespace CS
+} // namespace Editor
+} // namespace CSE
 
 #endif

@@ -20,7 +20,7 @@
 
 #include "ieditor/perspective.h"
 
-using namespace CS::EditorApp;
+using namespace CSE::Editor;
 
 CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 {

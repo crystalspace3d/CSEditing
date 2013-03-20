@@ -15,33 +15,34 @@
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-#include "cssysdef.h"
-#include "csgeom/math3d.h"
-#include "csgeom/plane3.h"
-#include "cstool/csview.h"
-#include "cstool/enginetools.h"
-#include "cstool/initapp.h"
-#include "csutil/event.h"
-#include "csutil/ref.h"
-#include "csutil/scf.h"
-#include "csutil/sysfunc.h"
+#include <cssysdef.h>
+#include <csgeom/math3d.h>
+#include <csgeom/plane3.h>
+#include <cstool/csview.h>
+#include <cstool/enginetools.h>
+#include <cstool/initapp.h>
+#include <csutil/event.h>
+#include <csutil/ref.h>
+#include <csutil/scf.h>
+#include <csutil/sysfunc.h>
+#include <imap/reader.h>
+#include <imesh/object.h>
+#include <imesh/objmodel.h>
+#include <imesh/particles.h>
+#include <iutil/csinput.h>
+#include <iutil/eventq.h>
+#include <iutil/object.h>
+#include <iutil/objreg.h>
+#include <iutil/plugin.h>
+#include <iutil/virtclk.h>
+#include <ivaria/translator.h>
+#include <ivideo/graph2d.h>
+#include <ivideo/graph3d.h>
+#include <ivideo/natwin.h>
+#include <ivideo/wxwin.h>
+
 #include "ieditor/context.h"
 #include "ieditor/operator.h"
-#include "imap/reader.h"
-#include "imesh/object.h"
-#include "imesh/objmodel.h"
-#include "imesh/particles.h"
-#include "iutil/csinput.h"
-#include "iutil/eventq.h"
-#include "iutil/object.h"
-#include "iutil/objreg.h"
-#include "iutil/plugin.h"
-#include "iutil/virtclk.h"
-#include "ivaria/translator.h"
-#include "ivideo/graph2d.h"
-#include "ivideo/graph3d.h"
-#include "ivideo/natwin.h"
-#include "ivideo/wxwin.h"
 
 #include <wx/wx.h>
 #include <wx/artprov.h>
