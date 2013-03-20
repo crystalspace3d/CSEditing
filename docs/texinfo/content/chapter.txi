@@ -1,0 +1,17 @@
+@c -*-texinfo-*-
+@node Using CSEditing, Licenses, CSEditing Introduction, Top
+@chapter Using CSEditing
+@cindex Using CSEditing
+
+This section presents the various components of the CSEditing library.
+
+Currently, the library is only made of the @ref{cseditor, cseditor framework},
+a system dedicated to the creation of custom data editors with graphical user
+interfaces, and the cseditor application, which is dedicated to the edition of
+content for the Crystal Space 3D software development kit.
+
+@menu
+* cseditor:: The cseditor framework
+@end menu
+
+@imports{content,cseditor.txi}

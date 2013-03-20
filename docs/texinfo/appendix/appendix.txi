@@ -1,0 +1,2 @@
+@c -*-texinfo-*-
+@imports{appendix,licenses.txi}
