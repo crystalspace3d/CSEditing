@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Created by texi2html 1.76 -->
+<!--
+Written by: Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people <dev@texi2html.cvshome.org>
+Send bugs and suggestions to <users@texi2html.cvshome.org>
+
+-->
+<head>
+<title>CSEditing 2.1.0: 2.1 The cseditor framework</title>
+
+<meta name="description" content="CSEditing 2.1.0: 2.1 The cseditor framework">
+<meta name="keywords" content="CSEditing 2.1.0: 2.1 The cseditor framework">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.76">
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="cseditor"></a>
+<a name="0"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="Using-CSEditing.html#0" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="Licenses.html#0" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="Using-CSEditing.html#0" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="Using-CSEditing.html#0" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="Licenses.html#0" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="cse_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="cs_Index.html#0" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="cse_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<hr size="1">
+<h2 class="section"> 2.1 The cseditor framework </h2>
+
+<p>The cseditor framework is a generic edition system, that can be used to setup
+a Graphical User Interface (GUI) edition environment. The <tt>&lsquo;cseditor&rsquo;</tt>
+application that is available within Crystal Space do use the cseditor
+framework for the edition of its 3D objects and environments, but the framework
+is not limited to this and can be reused in many different edition contexts.
+</p>
+<p>The framework is split in a core system that is reused in every editor
+application, and a set of editor components that are registered at will and
+defines the behavior and the functionalities of the editor.
+</p>
+<a name="1"></a>
+<h3 class="subheading"> The core system </h3>
+
+<p>The core of the cseditor framework provides mechanisms in order to define the
+list of editor components that are present in the GUI, along with functionalities
+for adding menu entries, executing and undoing an action, and reporting the
+status of the different processes that are run.
+</p>
+<p>The core system is based around the GUI of the <a href="http://www.blender.org/">Blender</a>
+open source 3D editor. The cseditor uses the same
+<a href="http://wiki.blender.org/index.php/Doc:2.6/Manual/Interface/Window_system">organization of windows</a> that allows to add and remove dynamically sub-windows,
+and to re-arrange them at will.
+</p>
+<p>The header files defining the core of the cseditor framework can be found in
+the <tt>&lsquo;include/ieditor/&rsquo;</tt> directory. The root interface for accessing the
+cseditor plugin is the <code>iEditorManager</code> interface, that is accessible from
+the Crystal Space plugin manager with the <code>&quot;crystalspace.editor.core&quot;</code>
+component identifier.
+</p>
+<p>This component should be loaded and setup from a root application file, see
+the file <tt>&lsquo;apps/tools/editor/editorapp.cpp&rsquo;</tt> for an example of usage.
+</p>
+<a name="2"></a>
+<h3 class="subheading"> The cseditor context </h3>
+
+<p>The current edition context is stored in the <code>iContext</code> and related
+interfaces. This context defines the current state of the editor, such as the
+list of objects selected, the 3D camera, and the ressource file currently
+loaded.
+</p>
+<p>Most editor components will listen and react to the changes in the context,
+such as getting or not visible, and providing or not some menu entries.
+</p>
+<p>The context being application specific, the <code>iContext</code> interface is
+accompanied by a set of different context interfaces that can be selected by
+the programmer depending on the set of editor components that are used.
+General mechanisms allowing to help the building of that selection are however
+still lacking.
+</p>
+<a name="3"></a>
+<h3 class="subheading"> The editor components </h3>
+
+<p>Several types of different editor components can be registered within the core
+system. Those components are:
+</p>
+<ul>
+<li>
+<samp>&lsquo;iSpace&rsquo;</samp>: spaces are the most important GUI components, and occupy most
+of the place available in the top-level window. This top-level window can be
+split in one to several spaces, and the user can dynamically split and merge
+those spaces in order to adapt to the needs of the user.
+</li><li>
+<samp>&lsquo;iPanel&rsquo;</samp>: panels are added to a given <code>iSpace</code> and are enabled or
+not depending on the current editor context.
+</li><li>
+<samp>&lsquo;iHeader&rsquo;</samp>: headers defines the list of menu entries that are available
+for a given <code>iSpace</code>.
+</li><li>
+<samp>&lsquo;iEditorComponent&rsquo;</samp>: those components are not visible within the GUI,
+although they are active within it, for example by adding and managing global
+menu entries.
+</li></ul>
+
+<p>A programmer can either reuse the editor components that are available within
+cseditor, or he can implement some custom new ones.
+</p>
+<p>The implementation of the default editor components are in the directory
+<tt>&lsquo;plugins/editor/&rsquo;</tt>. The list of components that are registered within a
+given <code>iEditor</code> instance are defined in the file
+<tt>&lsquo;apps/tools/editor/editorapp.cpp&rsquo;</tt>.
+</p>
+
+<hr size="1">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="Using-CSEditing.html#0" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="Licenses.html#0" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="Using-CSEditing.html#0" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="Using-CSEditing.html#0" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="Licenses.html#0" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="cse_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="cs_Index.html#0" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="cse_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated using <a href="http://texi2html.cvshome.org/"><em>texi2html 1.76</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>
