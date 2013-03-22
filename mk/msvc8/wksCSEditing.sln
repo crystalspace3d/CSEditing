@@ -1,0 +1,79 @@
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual C++ Express 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "grpall_CSEditing", "grpall_CSEditing.vcproj", "{961E97A8-ED54-CEAC-9A25-813BD8AD0CAA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A5790401-9CB0-0ED8-0CD6-381BE7A7CF0A} = {A5790401-9CB0-0ED8-0CD6-381BE7A7CF0A}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "grplibs_CSEditing", "grplibs_CSEditing.vcproj", "{A025217A-9A1E-7A6C-F5CE-5132ABD00CF4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A5790401-9CB0-0ED8-0CD6-381BE7A7CF0A} = {A5790401-9CB0-0ED8-0CD6-381BE7A7CF0A}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libcsediting_staticplugins", "libcsediting_staticplugins.vcproj", "{A5790401-9CB0-0ED8-0CD6-381BE7A7CF0A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		DebugWithDlls|Win32 = DebugWithDlls|Win32
+		DebugWithDlls|x64 = DebugWithDlls|x64
+		DebugWithStaticLibs|Win32 = DebugWithStaticLibs|Win32
+		DebugWithStaticLibs|x64 = DebugWithStaticLibs|x64
+		ReleaseWithDlls|Win32 = ReleaseWithDlls|Win32
+		ReleaseWithDlls|x64 = ReleaseWithDlls|x64
+		ReleaseWithStaticLibs|Win32 = ReleaseWithStaticLibs|Win32
+		ReleaseWithStaticLibs|x64 = ReleaseWithStaticLibs|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{961E97A8-ED54-CEAC-9A25-813BD8AD0CAA}.DebugWithDlls|Win32.ActiveCfg = DebugWithDlls|Win32
+		{961E97A8-ED54-CEAC-9A25-813BD8AD0CAA}.DebugWithDlls|Win32.Build.0 = DebugWithDlls|Win32
+		{961E97A8-ED54-CEAC-9A25-813BD8AD0CAA}.DebugWithDlls|x64.ActiveCfg = DebugWithDlls|x64
+		{961E97A8-ED54-CEAC-9A25-813BD8AD0CAA}.DebugWithDlls|x64.Build.0 = DebugWithDlls|x64
+		{961E97A8-ED54-CEAC-9A25-813BD8AD0CAA}.DebugWithStaticLibs|Win32.ActiveCfg = DebugWithStaticLibs|Win32
+		{961E97A8-ED54-CEAC-9A25-813BD8AD0CAA}.DebugWithStaticLibs|Win32.Build.0 = DebugWithStaticLibs|Win32
+		{961E97A8-ED54-CEAC-9A25-813BD8AD0CAA}.DebugWithStaticLibs|x64.ActiveCfg = DebugWithStaticLibs|x64
+		{961E97A8-ED54-CEAC-9A25-813BD8AD0CAA}.DebugWithStaticLibs|x64.Build.0 = DebugWithStaticLibs|x64
+		{961E97A8-ED54-CEAC-9A25-813BD8AD0CAA}.ReleaseWithDlls|Win32.ActiveCfg = ReleaseWithDlls|Win32
+		{961E97A8-ED54-CEAC-9A25-813BD8AD0CAA}.ReleaseWithDlls|Win32.Build.0 = ReleaseWithDlls|Win32
+		{961E97A8-ED54-CEAC-9A25-813BD8AD0CAA}.ReleaseWithDlls|x64.ActiveCfg = ReleaseWithDlls|x64
+		{961E97A8-ED54-CEAC-9A25-813BD8AD0CAA}.ReleaseWithDlls|x64.Build.0 = ReleaseWithDlls|x64
+		{961E97A8-ED54-CEAC-9A25-813BD8AD0CAA}.ReleaseWithStaticLibs|Win32.ActiveCfg = ReleaseWithStaticLibs|Win32
+		{961E97A8-ED54-CEAC-9A25-813BD8AD0CAA}.ReleaseWithStaticLibs|Win32.Build.0 = ReleaseWithStaticLibs|Win32
+		{961E97A8-ED54-CEAC-9A25-813BD8AD0CAA}.ReleaseWithStaticLibs|x64.ActiveCfg = ReleaseWithStaticLibs|x64
+		{961E97A8-ED54-CEAC-9A25-813BD8AD0CAA}.ReleaseWithStaticLibs|x64.Build.0 = ReleaseWithStaticLibs|x64
+		{A025217A-9A1E-7A6C-F5CE-5132ABD00CF4}.DebugWithDlls|Win32.ActiveCfg = DebugWithDlls|Win32
+		{A025217A-9A1E-7A6C-F5CE-5132ABD00CF4}.DebugWithDlls|Win32.Build.0 = DebugWithDlls|Win32
+		{A025217A-9A1E-7A6C-F5CE-5132ABD00CF4}.DebugWithDlls|x64.ActiveCfg = DebugWithDlls|x64
+		{A025217A-9A1E-7A6C-F5CE-5132ABD00CF4}.DebugWithDlls|x64.Build.0 = DebugWithDlls|x64
+		{A025217A-9A1E-7A6C-F5CE-5132ABD00CF4}.DebugWithStaticLibs|Win32.ActiveCfg = DebugWithStaticLibs|Win32
+		{A025217A-9A1E-7A6C-F5CE-5132ABD00CF4}.DebugWithStaticLibs|Win32.Build.0 = DebugWithStaticLibs|Win32
+		{A025217A-9A1E-7A6C-F5CE-5132ABD00CF4}.DebugWithStaticLibs|x64.ActiveCfg = DebugWithStaticLibs|x64
+		{A025217A-9A1E-7A6C-F5CE-5132ABD00CF4}.DebugWithStaticLibs|x64.Build.0 = DebugWithStaticLibs|x64
+		{A025217A-9A1E-7A6C-F5CE-5132ABD00CF4}.ReleaseWithDlls|Win32.ActiveCfg = ReleaseWithDlls|Win32
+		{A025217A-9A1E-7A6C-F5CE-5132ABD00CF4}.ReleaseWithDlls|Win32.Build.0 = ReleaseWithDlls|Win32
+		{A025217A-9A1E-7A6C-F5CE-5132ABD00CF4}.ReleaseWithDlls|x64.ActiveCfg = ReleaseWithDlls|x64
+		{A025217A-9A1E-7A6C-F5CE-5132ABD00CF4}.ReleaseWithDlls|x64.Build.0 = ReleaseWithDlls|x64
+		{A025217A-9A1E-7A6C-F5CE-5132ABD00CF4}.ReleaseWithStaticLibs|Win32.ActiveCfg = ReleaseWithStaticLibs|Win32
+		{A025217A-9A1E-7A6C-F5CE-5132ABD00CF4}.ReleaseWithStaticLibs|Win32.Build.0 = ReleaseWithStaticLibs|Win32
+		{A025217A-9A1E-7A6C-F5CE-5132ABD00CF4}.ReleaseWithStaticLibs|x64.ActiveCfg = ReleaseWithStaticLibs|x64
+		{A025217A-9A1E-7A6C-F5CE-5132ABD00CF4}.ReleaseWithStaticLibs|x64.Build.0 = ReleaseWithStaticLibs|x64
+		{A5790401-9CB0-0ED8-0CD6-381BE7A7CF0A}.DebugWithDlls|Win32.ActiveCfg = DebugWithDlls|Win32
+		{A5790401-9CB0-0ED8-0CD6-381BE7A7CF0A}.DebugWithDlls|Win32.Build.0 = DebugWithDlls|Win32
+		{A5790401-9CB0-0ED8-0CD6-381BE7A7CF0A}.DebugWithDlls|x64.ActiveCfg = DebugWithDlls|x64
+		{A5790401-9CB0-0ED8-0CD6-381BE7A7CF0A}.DebugWithDlls|x64.Build.0 = DebugWithDlls|x64
+		{A5790401-9CB0-0ED8-0CD6-381BE7A7CF0A}.DebugWithStaticLibs|Win32.ActiveCfg = DebugWithStaticLibs|Win32
+		{A5790401-9CB0-0ED8-0CD6-381BE7A7CF0A}.DebugWithStaticLibs|Win32.Build.0 = DebugWithStaticLibs|Win32
+		{A5790401-9CB0-0ED8-0CD6-381BE7A7CF0A}.DebugWithStaticLibs|x64.ActiveCfg = DebugWithStaticLibs|x64
+		{A5790401-9CB0-0ED8-0CD6-381BE7A7CF0A}.DebugWithStaticLibs|x64.Build.0 = DebugWithStaticLibs|x64
+		{A5790401-9CB0-0ED8-0CD6-381BE7A7CF0A}.ReleaseWithDlls|Win32.ActiveCfg = ReleaseWithDlls|Win32
+		{A5790401-9CB0-0ED8-0CD6-381BE7A7CF0A}.ReleaseWithDlls|Win32.Build.0 = ReleaseWithDlls|Win32
+		{A5790401-9CB0-0ED8-0CD6-381BE7A7CF0A}.ReleaseWithDlls|x64.ActiveCfg = ReleaseWithDlls|x64
+		{A5790401-9CB0-0ED8-0CD6-381BE7A7CF0A}.ReleaseWithDlls|x64.Build.0 = ReleaseWithDlls|x64
+		{A5790401-9CB0-0ED8-0CD6-381BE7A7CF0A}.ReleaseWithStaticLibs|Win32.ActiveCfg = ReleaseWithStaticLibs|Win32
+		{A5790401-9CB0-0ED8-0CD6-381BE7A7CF0A}.ReleaseWithStaticLibs|Win32.Build.0 = ReleaseWithStaticLibs|Win32
+		{A5790401-9CB0-0ED8-0CD6-381BE7A7CF0A}.ReleaseWithStaticLibs|x64.ActiveCfg = ReleaseWithStaticLibs|x64
+		{A5790401-9CB0-0ED8-0CD6-381BE7A7CF0A}.ReleaseWithStaticLibs|x64.Build.0 = ReleaseWithStaticLibs|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

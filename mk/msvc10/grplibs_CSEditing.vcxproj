@@ -35,7 +35,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{A5790401-9CB0-0ED8-0CD6-381BE7A7CF0A}</ProjectGuid>
+    <ProjectGuid>{A025217A-9A1E-7A6C-F5CE-5132ABD00CF4}</ProjectGuid>
     <SccProjectName />
     <SccLocalPath />
   </PropertyGroup>
@@ -69,37 +69,13 @@
   <PropertyGroup>
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='ReleaseWithStaticLibs|Win32'">false</LinkIncremental>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='ReleaseWithStaticLibs|Win32'">..\..\out\release10\libs\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='ReleaseWithStaticLibs|Win32'">..\..\out\release10\build\libcsediting_staticplugins\</IntDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='ReleaseWithStaticLibs|Win32'">libcsediting_staticplugins</TargetName>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDlls|Win32'">false</LinkIncremental>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDlls|Win32'">..\..\out\release10\libs\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDlls|Win32'">..\..\out\release10\build\libcsediting_staticplugins\</IntDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDlls|Win32'">libcsediting_staticplugins</TargetName>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='DebugWithStaticLibs|Win32'">true</LinkIncremental>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='DebugWithStaticLibs|Win32'">..\..\out\debug10\libs\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='DebugWithStaticLibs|Win32'">..\..\out\debug10\build\libcsediting_staticplugins\</IntDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='DebugWithStaticLibs|Win32'">libcsediting_staticplugins_d</TargetName>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='DebugWithDlls|Win32'">true</LinkIncremental>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='DebugWithDlls|Win32'">..\..\out\debug10\libs\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='DebugWithDlls|Win32'">..\..\out\debug10\build\libcsediting_staticplugins\</IntDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='DebugWithDlls|Win32'">libcsediting_staticplugins_d</TargetName>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='ReleaseWithStaticLibs|x64'">false</LinkIncremental>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='ReleaseWithStaticLibs|x64'">..\..\out\release10-x64\libs\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='ReleaseWithStaticLibs|x64'">..\..\out\release10-x64\build\libcsediting_staticplugins\</IntDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='ReleaseWithStaticLibs|x64'">libcsediting_staticplugins</TargetName>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDlls|x64'">false</LinkIncremental>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDlls|x64'">..\..\out\release10-x64\libs\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDlls|x64'">..\..\out\release10-x64\build\libcsediting_staticplugins\</IntDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDlls|x64'">libcsediting_staticplugins</TargetName>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='DebugWithStaticLibs|x64'">true</LinkIncremental>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='DebugWithStaticLibs|x64'">..\..\out\debug10-x64\libs\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='DebugWithStaticLibs|x64'">..\..\out\debug10-x64\build\libcsediting_staticplugins\</IntDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='DebugWithStaticLibs|x64'">libcsediting_staticplugins_d</TargetName>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='DebugWithDlls|x64'">true</LinkIncremental>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='DebugWithDlls|x64'">..\..\out\debug10-x64\libs\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='DebugWithDlls|x64'">..\..\out\debug10-x64\build\libcsediting_staticplugins\</IntDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='DebugWithDlls|x64'">libcsediting_staticplugins_d</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWithStaticLibs|Win32'">
     <ClCompile>
@@ -107,14 +83,12 @@
       <StringPooling>true</StringPooling>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <BufferSecurityCheck>false</BufferSecurityCheck>
-      <ProgramDataBaseFileName>..\..\out\release10\build\libcsediting_staticplugins\Win32\csediting_staticplugins.pdb</ProgramDataBaseFileName>
-      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>/MP  %(AdditionalOptions)</AdditionalOptions>
+      <BufferSecurityCheck>false</BufferSecurityCheck>      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PrecompiledHeaderOutputFile>..\..\out\release10\build\libcsediting_staticplugins\libcsediting_staticplugins.pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>..\..\out\release10\build\libcsediting_staticplugins\</AssemblerListingLocation>
-      <ObjectFileName>..\..\out\release10\build\libcsediting_staticplugins\</ObjectFileName>
+      <PrecompiledHeaderOutputFile>..\..\out\release10\build\grplibs_CSEditing\grplibs_CSEditing.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>..\..\out\release10\build\grplibs_CSEditing\</AssemblerListingLocation>
+      <ObjectFileName>..\..\out\release10\build\grplibs_CSEditing\</ObjectFileName>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
@@ -134,17 +108,14 @@
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
     <Lib>
-      <OutputFile>..\..\out\release10\libs\libcsediting_staticplugins.lib</OutputFile>
+      <OutputFile>..\..\out\release10\libs\grplibs_CSEditing.lib</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TargetMachine>MachineX86</TargetMachine>
     </Lib>
     <PostBuildEvent>
-      <Command>md ..\..\out\release10\bin 2&gt; nul
-copy /y "$(TargetPath)" ..\..\out\release10\bin\
-</Command>
     </PostBuildEvent>
     <ResourceCompile>
-      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.;..\..\plugins;..\..;..\..\include</AdditionalIncludeDirectories>
       <Culture>0x0409</Culture>
     </ResourceCompile>
@@ -155,14 +126,12 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
       <StringPooling>true</StringPooling>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <BufferSecurityCheck>false</BufferSecurityCheck>
-      <ProgramDataBaseFileName>..\..\out\release10\build\libcsediting_staticplugins\Win32\csediting_staticplugins.pdb</ProgramDataBaseFileName>
-      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;WIN32;CS_USE_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>/MP  %(AdditionalOptions)</AdditionalOptions>
+      <BufferSecurityCheck>false</BufferSecurityCheck>      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_USE_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PrecompiledHeaderOutputFile>..\..\out\release10\build\libcsediting_staticplugins\libcsediting_staticplugins.pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>..\..\out\release10\build\libcsediting_staticplugins\</AssemblerListingLocation>
-      <ObjectFileName>..\..\out\release10\build\libcsediting_staticplugins\</ObjectFileName>
+      <PrecompiledHeaderOutputFile>..\..\out\release10\build\grplibs_CSEditing\grplibs_CSEditing.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>..\..\out\release10\build\grplibs_CSEditing\</AssemblerListingLocation>
+      <ObjectFileName>..\..\out\release10\build\grplibs_CSEditing\</ObjectFileName>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
@@ -182,17 +151,14 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
     <Lib>
-      <OutputFile>..\..\out\release10\libs\libcsediting_staticplugins.lib</OutputFile>
+      <OutputFile>..\..\out\release10\libs\grplibs_CSEditing.lib</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TargetMachine>MachineX86</TargetMachine>
     </Lib>
     <PostBuildEvent>
-      <Command>md ..\..\out\release10\bin 2&gt; nul
-copy /y "$(TargetPath)" ..\..\out\release10\bin\
-</Command>
     </PostBuildEvent>
     <ResourceCompile>
-      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.;..\..\plugins;..\..;..\..\include</AdditionalIncludeDirectories>
       <Culture>0x0409</Culture>
     </ResourceCompile>
@@ -202,14 +168,12 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>true</MinimalRebuild>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <ProgramDataBaseFileName>..\..\out\debug10\build\libcsediting_staticplugins\Win32\csediting_staticplugins.pdb</ProgramDataBaseFileName>
-      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PrecompiledHeaderOutputFile>..\..\out\debug10\build\libcsediting_staticplugins\libcsediting_staticplugins.pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>..\..\out\debug10\build\libcsediting_staticplugins\</AssemblerListingLocation>
-      <ObjectFileName>..\..\out\debug10\build\libcsediting_staticplugins\</ObjectFileName>
+      <PrecompiledHeaderOutputFile>..\..\out\debug10\build\grplibs_CSEditing\grplibs_CSEditing.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>..\..\out\debug10\build\grplibs_CSEditing\</AssemblerListingLocation>
+      <ObjectFileName>..\..\out\debug10\build\grplibs_CSEditing\</ObjectFileName>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
@@ -227,17 +191,14 @@ copy /y "$(TargetPath)" ..\..\out\release10\bin\
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
     <Lib>
-      <OutputFile>..\..\out\debug10\libs\libcsediting_staticplugins_d.lib</OutputFile>
+      <OutputFile>..\..\out\debug10\libs\grplibs_CSEditing.lib</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TargetMachine>MachineX86</TargetMachine>
     </Lib>
     <PostBuildEvent>
-      <Command>md ..\..\out\debug10\bin 2&gt; nul
-copy /y "$(TargetPath)" ..\..\out\debug10\bin\
-</Command>
     </PostBuildEvent>
     <ResourceCompile>
-      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.;..\..\plugins;..\..;..\..\include</AdditionalIncludeDirectories>
       <Culture>0x0409</Culture>
     </ResourceCompile>
@@ -247,14 +208,12 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>true</MinimalRebuild>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <ProgramDataBaseFileName>..\..\out\debug10\build\libcsediting_staticplugins\Win32\csediting_staticplugins.pdb</ProgramDataBaseFileName>
-      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;WIN32;CS_USE_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_USE_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PrecompiledHeaderOutputFile>..\..\out\debug10\build\libcsediting_staticplugins\libcsediting_staticplugins.pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>..\..\out\debug10\build\libcsediting_staticplugins\</AssemblerListingLocation>
-      <ObjectFileName>..\..\out\debug10\build\libcsediting_staticplugins\</ObjectFileName>
+      <PrecompiledHeaderOutputFile>..\..\out\debug10\build\grplibs_CSEditing\grplibs_CSEditing.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>..\..\out\debug10\build\grplibs_CSEditing\</AssemblerListingLocation>
+      <ObjectFileName>..\..\out\debug10\build\grplibs_CSEditing\</ObjectFileName>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
@@ -272,17 +231,14 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
     <Lib>
-      <OutputFile>..\..\out\debug10\libs\libcsediting_staticplugins_d.lib</OutputFile>
+      <OutputFile>..\..\out\debug10\libs\grplibs_CSEditing.lib</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TargetMachine>MachineX86</TargetMachine>
     </Lib>
     <PostBuildEvent>
-      <Command>md ..\..\out\debug10\bin 2&gt; nul
-copy /y "$(TargetPath)" ..\..\out\debug10\bin\
-</Command>
     </PostBuildEvent>
     <ResourceCompile>
-      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.;..\..\plugins;..\..;..\..\include</AdditionalIncludeDirectories>
       <Culture>0x0409</Culture>
     </ResourceCompile>
@@ -293,14 +249,12 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
       <StringPooling>true</StringPooling>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <BufferSecurityCheck>false</BufferSecurityCheck>
-      <ProgramDataBaseFileName>..\..\out\release10-x64\build\libcsediting_staticplugins\x64\csediting_staticplugins.pdb</ProgramDataBaseFileName>
-      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>/MP  %(AdditionalOptions)</AdditionalOptions>
+      <BufferSecurityCheck>false</BufferSecurityCheck>      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PrecompiledHeaderOutputFile>..\..\out\release10-x64\build\libcsediting_staticplugins\libcsediting_staticplugins.pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>..\..\out\release10-x64\build\libcsediting_staticplugins\</AssemblerListingLocation>
-      <ObjectFileName>..\..\out\release10-x64\build\libcsediting_staticplugins\</ObjectFileName>
+      <PrecompiledHeaderOutputFile>..\..\out\release10-x64\build\grplibs_CSEditing\grplibs_CSEditing.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>..\..\out\release10-x64\build\grplibs_CSEditing\</AssemblerListingLocation>
+      <ObjectFileName>..\..\out\release10-x64\build\grplibs_CSEditing\</ObjectFileName>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
@@ -320,17 +274,14 @@ copy /y "$(TargetPath)" ..\..\out\debug10\bin\
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
     <Lib>
-      <OutputFile>..\..\out\release10-x64\libs\libcsediting_staticplugins.lib</OutputFile>
+      <OutputFile>..\..\out\release10-x64\libs\grplibs_CSEditing.lib</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TargetMachine>MachineX64</TargetMachine>
     </Lib>
     <PostBuildEvent>
-      <Command>md ..\..\out\release10-x64\bin 2&gt; nul
-copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
-</Command>
     </PostBuildEvent>
     <ResourceCompile>
-      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;_WIN64;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WIN64;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.;..\..\plugins;..\..;..\..\include</AdditionalIncludeDirectories>
       <Culture>0x0409</Culture>
     </ResourceCompile>
@@ -341,14 +292,12 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
       <StringPooling>true</StringPooling>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <BufferSecurityCheck>false</BufferSecurityCheck>
-      <ProgramDataBaseFileName>..\..\out\release10-x64\build\libcsediting_staticplugins\x64\csediting_staticplugins.pdb</ProgramDataBaseFileName>
-      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;WIN32;CS_USE_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>/MP  %(AdditionalOptions)</AdditionalOptions>
+      <BufferSecurityCheck>false</BufferSecurityCheck>      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_USE_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PrecompiledHeaderOutputFile>..\..\out\release10-x64\build\libcsediting_staticplugins\libcsediting_staticplugins.pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>..\..\out\release10-x64\build\libcsediting_staticplugins\</AssemblerListingLocation>
-      <ObjectFileName>..\..\out\release10-x64\build\libcsediting_staticplugins\</ObjectFileName>
+      <PrecompiledHeaderOutputFile>..\..\out\release10-x64\build\grplibs_CSEditing\grplibs_CSEditing.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>..\..\out\release10-x64\build\grplibs_CSEditing\</AssemblerListingLocation>
+      <ObjectFileName>..\..\out\release10-x64\build\grplibs_CSEditing\</ObjectFileName>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
@@ -368,17 +317,14 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
     <Lib>
-      <OutputFile>..\..\out\release10-x64\libs\libcsediting_staticplugins.lib</OutputFile>
+      <OutputFile>..\..\out\release10-x64\libs\grplibs_CSEditing.lib</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TargetMachine>MachineX64</TargetMachine>
     </Lib>
     <PostBuildEvent>
-      <Command>md ..\..\out\release10-x64\bin 2&gt; nul
-copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
-</Command>
     </PostBuildEvent>
     <ResourceCompile>
-      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;_WIN64;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WIN64;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.;..\..\plugins;..\..;..\..\include</AdditionalIncludeDirectories>
       <Culture>0x0409</Culture>
     </ResourceCompile>
@@ -388,14 +334,12 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>true</MinimalRebuild>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <ProgramDataBaseFileName>..\..\out\debug10-x64\build\libcsediting_staticplugins\x64\csediting_staticplugins.pdb</ProgramDataBaseFileName>
-      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PrecompiledHeaderOutputFile>..\..\out\debug10-x64\build\libcsediting_staticplugins\libcsediting_staticplugins.pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>..\..\out\debug10-x64\build\libcsediting_staticplugins\</AssemblerListingLocation>
-      <ObjectFileName>..\..\out\debug10-x64\build\libcsediting_staticplugins\</ObjectFileName>
+      <PrecompiledHeaderOutputFile>..\..\out\debug10-x64\build\grplibs_CSEditing\grplibs_CSEditing.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>..\..\out\debug10-x64\build\grplibs_CSEditing\</AssemblerListingLocation>
+      <ObjectFileName>..\..\out\debug10-x64\build\grplibs_CSEditing\</ObjectFileName>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
@@ -413,17 +357,14 @@ copy /y "$(TargetPath)" ..\..\out\release10-x64\bin\
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
     <Lib>
-      <OutputFile>..\..\out\debug10-x64\libs\libcsediting_staticplugins_d.lib</OutputFile>
+      <OutputFile>..\..\out\debug10-x64\libs\grplibs_CSEditing.lib</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TargetMachine>MachineX64</TargetMachine>
     </Lib>
     <PostBuildEvent>
-      <Command>md ..\..\out\debug10-x64\bin 2&gt; nul
-copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
-</Command>
     </PostBuildEvent>
     <ResourceCompile>
-      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;_WIN64;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WIN64;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.;..\..\plugins;..\..;..\..\include</AdditionalIncludeDirectories>
       <Culture>0x0409</Culture>
     </ResourceCompile>
@@ -433,14 +374,12 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>true</MinimalRebuild>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <ProgramDataBaseFileName>..\..\out\debug10-x64\build\libcsediting_staticplugins\x64\csediting_staticplugins.pdb</ProgramDataBaseFileName>
-      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;WIN32;CS_USE_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_USE_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PrecompiledHeaderOutputFile>..\..\out\debug10-x64\build\libcsediting_staticplugins\libcsediting_staticplugins.pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>..\..\out\debug10-x64\build\libcsediting_staticplugins\</AssemblerListingLocation>
-      <ObjectFileName>..\..\out\debug10-x64\build\libcsediting_staticplugins\</ObjectFileName>
+      <PrecompiledHeaderOutputFile>..\..\out\debug10-x64\build\grplibs_CSEditing\grplibs_CSEditing.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>..\..\out\debug10-x64\build\grplibs_CSEditing\</AssemblerListingLocation>
+      <ObjectFileName>..\..\out\debug10-x64\build\grplibs_CSEditing\</ObjectFileName>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
@@ -458,17 +397,14 @@ copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
     <Lib>
-      <OutputFile>..\..\out\debug10-x64\libs\libcsediting_staticplugins_d.lib</OutputFile>
+      <OutputFile>..\..\out\debug10-x64\libs\grplibs_CSEditing.lib</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TargetMachine>MachineX64</TargetMachine>
     </Lib>
     <PostBuildEvent>
-      <Command>md ..\..\out\debug10-x64\bin 2&gt; nul
-copy /y "$(TargetPath)" ..\..\out\debug10-x64\bin\
-</Command>
     </PostBuildEvent>
     <ResourceCompile>
-      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;_WIN64;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WIN64;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.;..\..\plugins;..\..;..\..\include</AdditionalIncludeDirectories>
       <Culture>0x0409</Culture>
     </ResourceCompile>
