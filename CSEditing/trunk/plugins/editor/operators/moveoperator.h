@@ -20,12 +20,13 @@
 
 #include <csgeom/transfrm.h>
 #include <csutil/scf_implementation.h>
+#include <csutil/weakref.h>
 #include <iutil/comp.h>
 
 #include "ieditor/operator.h"
 #include "ieditor/action.h"
 
-using namespace CSE::Editor;
+using namespace CSE::Editor::Core;
 
 CS_PLUGIN_NAMESPACE_BEGIN(CSEditor)
 {

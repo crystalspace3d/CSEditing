@@ -19,23 +19,25 @@
 #ifndef __CSEDITOR_CONTEXT_H__
 #define __CSEDITOR_CONTEXT_H__
 
-#include "csutil/hash.h"
-#include "csutil/refarr.h"
+#include <csutil/hash.h>
+#include <csutil/refarr.h>
+
+#include "icontext/camera.h"
+#include "icontext/fileloader.h"
+#include "icontext/objectselection.h"
 #include "ieditor/context.h"
 
 #include <wx/event.h>
 
-struct iObjectRegistry;
-
-namespace CSE {
-namespace Editor {
+using namespace CSE::Editor::Context;
+using namespace CSE::Editor::Core;
 
 class Context
-  : public scfImplementation4<Context,
-    iContext,
-    iContextObjectSelection,
-    iContextCamera,
-    iContextFileLoader>
+: public scfImplementation4<Context,
+  iContext,
+  iContextObjectSelection,
+  iContextCamera,
+  iContextFileLoader>
 {
 public:
   Context (iObjectRegistry* obj_reg);
@@ -120,8 +122,5 @@ private:
 
   csEventID eventSetCollection;
 };
-
-} // namespace Editor
-} // namespace CSE
 
 #endif

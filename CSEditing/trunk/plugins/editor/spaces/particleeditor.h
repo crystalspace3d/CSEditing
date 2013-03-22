@@ -15,33 +15,37 @@
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-
 #ifndef __SPACE_PARTICLEEDITOR_H__
 #define __SPACE_PARTICLEEDITOR_H__
 
+#include <csutil/csbaseeventh.h>
+#include <csutil/eventnames.h>
+#include <csutil/ref.h>
+#include <csutil/scf_implementation.h>
+#include <iutil/event.h>
+#include <iutil/comp.h>
+#include <iutil/modifiable.h>
+
 #include "cseditor/modifiableeditor.h"
-#include "csutil/csbaseeventh.h"
-#include "csutil/eventnames.h"
-#include "csutil/ref.h"
-#include "csutil/scf_implementation.h"
 #include "ieditor/editor.h"
 #include "ieditor/space.h"
-#include "iutil/event.h"
-#include "iutil/comp.h"
-#include "iutil/modifiable.h"
+
+using namespace CSE::Editor::Core;
+using namespace CSE::Editor::Utility;
 
 CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 {
-  using namespace CSE::Editor;
 
-  class CSPartEditSpace : public wxPanel, public csBaseEventHandler, public scfImplementation1<CSPartEditSpace, iSpace>
+  class CSPartEditSpace : public wxPanel, public csBaseEventHandler,
+    public scfImplementation1<CSPartEditSpace, iSpace>
   {
   public:
     CSPartEditSpace (iBase* parent);
     virtual ~CSPartEditSpace ();
 
     // iSpace
-    virtual bool Initialize (iObjectRegistry* obj_reg, iEditor* editor, iSpaceFactory* fact, wxWindow* parent);
+    virtual bool Initialize (iObjectRegistry* obj_reg, iEditor* editor,
+			     iSpaceFactory* fact, wxWindow* parent);
     virtual iSpaceFactory* GetFactory () const { return spaceFactory; }
     virtual wxWindow* GetwxWindow ();
     virtual void SetEnabled (bool enabled);

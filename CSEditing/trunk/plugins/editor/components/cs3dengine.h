@@ -22,11 +22,11 @@
 #include <iutil/comp.h>
 #include <ivaria/reporter.h>
 
+#include "ieditor/component.h"
 #include "ieditor/editor.h"
 #include "ieditor/menu.h"
-#include "ieditor/space.h"
 
-using namespace CSE::Editor;
+using namespace CSE::Editor::Core;
 
 CS_PLUGIN_NAMESPACE_BEGIN(CSEditor)
 {

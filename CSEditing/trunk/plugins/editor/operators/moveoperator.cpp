@@ -30,11 +30,16 @@
 #include <iutil/plugin.h>
 #include <ivideo/graph2d.h>
 
+#include "icontext/camera.h"
+#include "icontext/objectselection.h"
+#include "ieditor/context.h"
 #include "ieditor/action.h"
 #include "ieditor/context.h"
 #include "ieditor/editor.h"
 
 #include "moveoperator.h"
+
+using namespace CSE::Editor::Context;
 
 CS_PLUGIN_NAMESPACE_BEGIN(CSEditor)
 {

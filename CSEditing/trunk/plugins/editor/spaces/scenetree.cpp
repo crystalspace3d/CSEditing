@@ -34,10 +34,16 @@
 #include <ivaria/engseq.h>
 #include <ivideo/shader/shader.h>
 
+#include "icontext/fileloader.h"
+#include "icontext/objectselection.h"
+#include "ieditor/context.h"
+
 #include <wx/wx.h>
 #include <wx/treectrl.h>
 
 #include "scenetree.h"
+
+using namespace CSE::Editor::Context;
 
 CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 {

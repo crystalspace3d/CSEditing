@@ -15,38 +15,53 @@
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-
 #ifndef __IEDITOR_LAYOUT_H__
 #define __IEDITOR_LAYOUT_H__
 
-#include <csutil/scf.h>
-#include <csutil/scf_implementation.h>
+/**\file 
+ * Visual layout of CS::Editor::Core::iSpace objects
+ */
+
+/**
+ * \addtogroup core
+ * @{ */
+
+#include <csutil/scf_interface.h>
 
 namespace CSE {
 namespace Editor {
+namespace Core {
   
 struct iOperator;
 struct iMenu;
   
 /**
- * 
+ * \todo
  */
 struct iLayout : public virtual iBase
 {
   SCF_INTERFACE (iLayout, 0, 0, 1);
 
+  /// \todo
   virtual iOperator* AppendOperator (const char* id, const char* label, const char* icon) = 0;
+  /// \todo
   virtual iMenu* AppendMenu (const char* id, const char* label) = 0;
+  /// \todo
   virtual void AppendLabel (const char* label) = 0;
+  /// \todo
   virtual void AppendSeparator () = 0;
 
   // remove?
+  /// \todo
   virtual iLayout* Row () = 0;
+  /// \todo
   virtual iLayout* Column () = 0;
 };
 
-
-
+} // namespace Core
 } // namespace Editor
 } // namespace CSE
+
+/** @} */
+
 #endif

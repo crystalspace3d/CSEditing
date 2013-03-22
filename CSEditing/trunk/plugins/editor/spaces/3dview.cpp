@@ -25,11 +25,14 @@
 #include <ivideo/graph3d.h>
 #include <ivideo/wxwin.h>
 
+#include "icontext/camera.h"
 #include "ieditor/context.h"
 
 #include "3dview.h"
 
 #include <wx/wx.h>
+
+using namespace CSE::Editor::Context;
 
 CS_PLUGIN_NAMESPACE_BEGIN(CSEditor)
 {

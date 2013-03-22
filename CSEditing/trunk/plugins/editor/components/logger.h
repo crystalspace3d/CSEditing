@@ -23,16 +23,16 @@
 #include <csutil/threadmanager.h>
 #include <ivaria/reporter.h>
 
-#include "ieditor/components.h"
+#include "icomponent/logger.h"
+#include "ieditor/component.h"
 #include "ieditor/editor.h"
-#include "ieditor/space.h"
 
 #include <wx/datetime.h>
 #include <wx/log.h>
 #include <wx/textctrl.h>
 
-using namespace CSE::Editor;
 using namespace CSE::Editor::Component;
+using namespace CSE::Editor::Core;
 
 CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 {

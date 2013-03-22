@@ -18,6 +18,14 @@
 #ifndef __VFSFILEDIALOG_H__
 #define __VFSFILEDIALOG_H__
 
+/**\file 
+ * File selection dialog for the iVFS
+ */
+
+/**
+ * \addtogroup utility
+ * @{ */
+
 struct iVFS;
 class wxTreeCtrl;
 class wxTextCtrl;
@@ -42,6 +50,7 @@ class wxChoice;
 
 namespace CSE {
 namespace Editor {
+namespace Utility {
 
 /**
  * Type of the operation to be made by a given VFSFileDialog.
@@ -218,7 +227,10 @@ private:
   DECLARE_EVENT_TABLE();
 };
 
+} // namespace Utility
 } // namespace Editor
-} //namespace CSE
+} // namespace CSE
+
+/** @} */
 
 #endif

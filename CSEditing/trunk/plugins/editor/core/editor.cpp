@@ -22,6 +22,8 @@
 #include <csutil/stringquote.h>
 #include <iutil/virtclk.h>
 
+#include "ieditor/component.h"
+
 #include "actionmanager.h"
 #include "editor.h"
 #include "menubar.h"

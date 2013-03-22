@@ -25,11 +25,11 @@
 
 #include "ieditor/editor.h"
 #include "ieditor/menu.h"
-#include "ieditor/space.h"
+#include "ieditor/component.h"
 
 #include <wx/frame.h>
 
-using namespace CSE::Editor;
+using namespace CSE::Editor::Core;
 
 CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 {

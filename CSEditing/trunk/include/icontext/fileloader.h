@@ -1,4 +1,5 @@
 /*
+    Copyright (C) 2013 by Christian Van Brussel
     Copyright (C) 2011 by Jelle Hellemans
 
     This library is free software; you can redistribute it and/or
@@ -15,47 +16,44 @@
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-#ifndef __IEDITOR_HEADER_H__
-#define __IEDITOR_HEADER_H__
+#ifndef __ICONTEXT_FILELOADER_H__
+#define __ICONTEXT_FILELOADER_H__
 
 /**\file 
- * Header menus for CS::Editor::Core::iSpace objects.
+ * Context for file loading.
  */
 
 /**
- * \addtogroup core
+ * \addtogroup editorapp
  * @{ */
 
 #include <csutil/scf_interface.h>
-#include <csutil/refarr.h>
 
-class wxWindow;
+struct iCollection;
 
 namespace CSE {
 namespace Editor {
-namespace Core {
-  
-struct iContext;
-struct iEditor;
-struct iLayout;
-  
-/**
- * \todo
- */
-struct iHeader : public virtual iBase
-{
-  SCF_INTERFACE (iHeader, 0, 0, 1);
+namespace Context {
 
-  //iLayout wxwindow is persistent, but content is cleared.
-  //iSpace listens to context changes and redraws.
-  /// \todo
-  virtual void Draw (iContext* context, iLayout* layout) = 0;
+/**
+ * Context for file loading.
+ */
+struct iContextFileLoader : public virtual iBase
+{
+  SCF_INTERFACE (iContextFileLoader, 1, 0, 0);
+  
+  virtual void SetPath (const char* path) = 0;
+  virtual const char* GetPath () = 0;
+  virtual void SetFilename (const char* filename) = 0;
+  virtual const char* GetFilename () = 0;
+  virtual void SetCollection (iCollection* collection) = 0;
+  virtual iCollection* GetCollection () const = 0;
 };
 
-} // namespace Core
+} // namespace Context
 } // namespace Editor
 } // namespace CSE
 
 /** @} */
 
-#endif
+#endif // __ICONTEXT_FILELOADER_H__

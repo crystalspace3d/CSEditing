@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2011-2012 by Jorrit Tyberghein, Jelle Hellemans, Christian Van Brussel
+    Copyright (C) 2011-2013 by Jorrit Tyberghein, Jelle Hellemans, Christian Van Brussel
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -21,23 +21,22 @@
  * malloc() is in the WX libs. */
 #define CS_NO_MALLOC_OVERRIDE
 
-#include "cssysdef.h"
+#include <cssysdef.h>
+#include <cstool/initapp.h>
+#include <cstool/wxappargconvert.h>
+#include <iutil/event.h>
+#include <iutil/eventq.h>
+#include <iutil/objreg.h>
 
-#include "cstool/initapp.h"
-#include "cstool/wxappargconvert.h"
 #include "ieditor/editor.h"
 #include "ieditor/perspective.h"
-#include "ieditor/space.h"
-#include "iutil/event.h"
-#include "iutil/eventq.h"
-#include "iutil/objreg.h"
+#include "ieditor/component.h"
+
 #include "context.h"
 
-#include "csutil/custom_new_disable.h"
+#include <csutil/custom_new_disable.h>
 #include <wx/wx.h>
-#include "csutil/custom_new_enable.h"
-
-#include "cstool/wxappargconvert.h"
+#include <csutil/custom_new_enable.h>
 
 CS_IMPLEMENT_APPLICATION
 
@@ -57,10 +56,10 @@ int main (int argc, const char* const argv[])
 
 #endif // defined(CS_PLATFORM_WIN32)
 
-using namespace CSE::Editor;
+using namespace CSE::Editor::Core;
 
 // Define a new application type
-class Editorlication : public wxApp
+class EditorApplication : public wxApp
 {
   bool ReportError (const char* description, ...)
   {
@@ -97,13 +96,13 @@ public:
   virtual int OnExit (void);
 };
 
-IMPLEMENT_APP (Editorlication);
+IMPLEMENT_APP (EditorApplication);
 
 /*---------------------------------------------------------------------*
  * Main function
  *---------------------------------------------------------------------*/
 
-bool Editorlication::OnInit (void)
+bool EditorApplication::OnInit (void)
 {
   wxInitAllImageHandlers ();
 
@@ -182,7 +181,7 @@ bool Editorlication::OnInit (void)
   return true;
 }
 
-int Editorlication::OnExit ()
+int EditorApplication::OnExit ()
 {
   // Send the general Crystal Space 'quit' event
   csRef<iEventQueue> queue (csQueryRegistry<iEventQueue> (object_reg));

@@ -26,6 +26,8 @@
 #include <ivideo/graph2d.h>
 #include <ivideo/graph3d.h>
 
+#include "icontext/camera.h"
+#include "icontext/objectselection.h"
 #include "ieditor/context.h"
 
 #include "2dinfo.h"

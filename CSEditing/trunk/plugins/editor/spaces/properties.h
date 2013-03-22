@@ -30,7 +30,7 @@
 
 class wxWindow;
 
-using namespace CSE::Editor;
+using namespace CSE::Editor::Core;
 
 CS_PLUGIN_NAMESPACE_BEGIN(CSEditor)
 {

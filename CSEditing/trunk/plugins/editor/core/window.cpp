@@ -19,7 +19,10 @@
 #include <csutil/objreg.h>
 #include <csutil/scf.h>
 #include <csutil/stringquote.h>
+#include <csutil/weakrefarr.h>
 #include <ivaria/reporter.h>
+
+#include "ieditor/component.h"
 
 #include "editor.h"
 #include "perspective.h"

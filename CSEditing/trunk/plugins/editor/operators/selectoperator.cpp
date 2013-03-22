@@ -35,6 +35,8 @@
 
 #include "selectoperator.h"
 
+using namespace CSE::Editor::Context;
+
 CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 {
   
