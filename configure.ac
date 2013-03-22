@@ -9,7 +9,7 @@ AC_PREREQ([2.54])
 #----------------------------------------------------------------------------
 AC_INIT(
     [CSEditing],
-    [2.0],
+    [2.1],
     [crystal-main@lists.sourceforge.net])
 CS_PACKAGEINFO(
     [Crystal Space Editing Environment],
