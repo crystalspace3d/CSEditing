@@ -137,17 +137,7 @@ AC_DEFINE_UNQUOTED([CEL_PLUGIN_DIR], ["$CEL_PLUGIN_DIR"],
 ])])
 
 #------------------------------------------------------------------------------
-# Check for wxWidgets. Also check if it was built with OpenGL support since it
-# is required by the Crystal Space wxWidgets canvas.
-#
-# IMPLEMENTATION NOTE
-#
-# On Windows, wx-config's --gl-libs options incorrectly emits a reference to a
-# non-existent library (wxmsw_glxxx.lib). To handle this broken case, we first
-# try the result of --libs and --gl-libs together; if that fails, then we try
-# only --libs augmented with the results of our own OpenGL checks. On more 
-# recent WX versions it seems that on Win32 both the libraries from --gl-libs 
-# and the OpenGL checks are needed - the last case.
+# Check for wxWidgets.
 #------------------------------------------------------------------------------
 CS_CHECK_LIB_WITH([wx],
     [AC_LANG_PROGRAM(
@@ -194,43 +184,11 @@ AS_IF([test $cs_cv_libwx = yes],
 		[C++],
 		[cs_cv_libwx_needs_UNICODE=no],
 		[cs_cv_libwx_cflags="$cs_cv_libwx_cflags -DUNICODE -D_UNICODE"
-		cs_cv_libwx_needs_UNICODE=yes])])])
-    AS_IF([test -z "$cs_cv_libwx_opengl"],
-	[AS_IF([test -n "$CONFIG_WX"],
-	    [cs_cv_libwx_gllibs=CS_RUN_PATH_NORMALIZE([$CONFIG_WX --gl-libs])],
-	    [cs_cv_libwx_gllibs=''])])
-    CS_CHECK_BUILD([if wxWidgets is built with OpenGL support],
-	[cs_cv_libwx_opengl],
-	[AC_LANG_PROGRAM(
-	    [[#include "wx/wxprec.h"
-	    #ifdef __BORLANDC__
-	    #pragma hdrstop
-	    #endif
-	    #ifndef WX_PRECOMP
-	    #include "wx/wx.h"
-	    #endif
-	    #include "wx/glcanvas.h"
-	    ]],
-	    [wxGLCanvas* f = new wxGLCanvas(0, wxID_ANY, wxPoint());
-	    glVertex3f(0,0,0)])],
-	[CS_CREATE_TUPLE(
-	    [$cs_cv_libwx_cflags],
-	    [$cs_cv_libwx_lflags],
-	    [$cs_cv_libwx_libs   $cs_cv_libwx_gllibs]) \
-	CS_CREATE_TUPLE(
-	    [$cs_cv_libwx_cflags $cs_cv_libglu_cflags],
-	    [$cs_cv_libwx_lflags $cs_cv_libglu_lflags],
-	    [$cs_cv_libwx_libs   $cs_cv_libglu_libs])  \
-	CS_CREATE_TUPLE(
-	    [$cs_cv_libwx_cflags $cs_cv_libglu_cflags],
-	    [$cs_cv_libwx_lflags $cs_cv_libglu_lflags],
-	    [$cs_cv_libwx_libs   $cs_cv_libwx_gllibs $cs_cv_libglu_libs])],
-	[C++])],
-    [cs_cv_libwx_opengl=no])
+		cs_cv_libwx_needs_UNICODE=yes])])])])
     
-CS_NOTABLE([wxwidgets], [gui], [], [$cs_cv_libwx_opengl])
-AS_IF([test $cs_cv_libwx_opengl = yes],
-    [CS_EMIT_BUILD_RESULT([cs_cv_libwx_opengl], [WX])])
+CS_NOTABLE([wxwidgets], [gui], [], [$cs_cv_libwx])
+AS_IF([test $cs_cv_libwx = yes],
+    [CS_EMIT_BUILD_RESULT([cs_cv_libwx], [WX])])
 
 AS_IF([test $cs_cv_libwx = yes],
     [CS_CHECK_BUILD([if wxWidgets is built with wxAUI support],
