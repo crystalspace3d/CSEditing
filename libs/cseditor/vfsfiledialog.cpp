@@ -15,7 +15,6 @@
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-
 #include "wx/wxprec.h"
 
 #ifndef WX_PRECOMP
@@ -46,7 +45,7 @@
 //#include "images/new_dir.xpm"
 //#include "images/toparent.xpm"
 
-using namespace CSE::Editor;
+using namespace CSE::Editor::Utility;
 
 BEGIN_EVENT_TABLE (VFSFileDialog, wxDialog)
   EVT_TREE_SEL_CHANGED(DIRECTORY_TREE, VFSFileDialog::OnDirTreeSelChange)

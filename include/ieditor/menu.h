@@ -15,13 +15,19 @@
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-
 #ifndef __IEDITOR_MENUBAR_H__
 #define __IEDITOR_MENUBAR_H__
 
-#include "csutil/scf.h"
-#include "csutil/scf_implementation.h"
-#include "iutil/eventnames.h"
+/**\file 
+ * Menu objects
+ */
+
+/**
+ * \addtogroup core
+ * @{ */
+
+#include <csutil/scf_interface.h>
+#include <iutil/eventnames.h>
 
 class wxMenu;
 class wxMenuBar;
@@ -29,11 +35,15 @@ class wxMenuItem;
 
 namespace CSE {
 namespace Editor {
+namespace Core {
   
 struct iContext;
 struct iLayout;
 struct iMenuItem;
 
+/**
+ * \todo
+ */
 struct iMenu : public virtual iBase
 {
   SCF_INTERFACE (iMenu, 0, 0, 1);
@@ -63,6 +73,7 @@ struct iMenuItem : public virtual iBase
 
   /// Get the wrapped wxMenuItem.
   virtual wxMenuItem* GetwxMenuItem () const = 0;
+  /// \todo
   virtual const csEventID GetEventID () const = 0;
 };
 
@@ -80,8 +91,11 @@ struct iSubMenu : public virtual iBase
   /// Get the wrapped wxMenu.
   virtual wxMenu* GetwxMenu () const = 0;
   
+  /// \todo
   virtual csPtr<iMenuItem> AppendItem (const char* item, const char* eventName) = 0;
+  /// \todo
   virtual csPtr<iMenuItem> AppendSeparator () = 0;
+  /// \todo
   virtual csPtr<iSubMenu> AppendSubMenu (const char* item) = 0;
 };
 
@@ -94,10 +108,15 @@ struct iMenuManager : public virtual iBase
 
   /// Get the wrapped wxMenuBar.
   virtual wxMenuBar* GetwxMenuBar () const = 0;
+
+  /// \todo
   virtual csRef<iSubMenu> GetSubMenu (const char* item) = 0;
 };
 
+} // namespace Core
 } // namespace Editor
 } // namespace CSE
+
+/** @} */
 
 #endif

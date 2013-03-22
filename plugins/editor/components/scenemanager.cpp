@@ -32,12 +32,17 @@
 #include <iutil/plugin.h>
 #include <ivaria/pmeter.h>
 
+#include "icontext/camera.h"
+#include "icontext/fileloader.h"
+#include "icontext/objectselection.h"
 #include "ieditor/context.h"
 #include "ieditor/operator.h"
 
 #include "scenemanager.h"
 
 #include <wx/frame.h>
+
+using namespace CSE::Editor::Context;
 
 CS_PLUGIN_NAMESPACE_BEGIN(CSEditor)
 {

@@ -120,18 +120,14 @@ ModifiableTestFrame::ModifiableTestFrame (iObjectRegistry* object_reg )
   SetSizer (mainsizer);
 
   // Create the modifiable editor
-  modifiableEditor = new CSE::Editor::ModifiableEditor (object_reg,
-							  this,
-							  wxID_ANY,
-							  wxDefaultPosition,
-							  wxDefaultSize,
-							  0L,
-							  wxT ("Modifiable editor") );
+  modifiableEditor = new CSE::Editor::Utility::ModifiableEditor
+    (object_reg, this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0L,
+     wxT ("Modifiable editor"));
   mainsizer->Add (modifiableEditor, 1, wxEXPAND | wxALL, 10);
 
   // Setup the data path where reside the translations of the description of the
   // modifiable objects
-  modifiableEditor->SetResourcePath ("/data/varedittest");
+  modifiableEditor->SetResourcePath ("/appdata/varedittest");
 }
 
 ModifiableTestFrame::~ModifiableTestFrame ()

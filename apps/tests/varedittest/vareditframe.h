@@ -85,7 +85,7 @@ private:
   };
 
   // Container of the iModifiable editing GUI
-  CSE::Editor::ModifiableEditor* modifiableEditor;
+  CSE::Editor::Utility::ModifiableEditor* modifiableEditor;
 
   void OnClose (wxCloseEvent& event);
   void OnQuit (wxCommandEvent& event);

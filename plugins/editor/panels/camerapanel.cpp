@@ -23,11 +23,14 @@
 #include <iutil/objreg.h>
 #include <iutil/plugin.h>
 
+#include "icontext/camera.h"
+#include "ieditor/context.h"
 #include "ieditor/space.h"
 #include "ieditor/layout.h"
-#include "ieditor/context.h"
 
 #include "camerapanel.h"
+
+using namespace CSE::Editor::Context;
 
 CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 {

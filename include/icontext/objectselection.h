@@ -1,4 +1,5 @@
 /*
+    Copyright (C) 2013 by Christian Van Brussel
     Copyright (C) 2011 by Jelle Hellemans
 
     This library is free software; you can redistribute it and/or
@@ -15,56 +16,52 @@
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-#ifndef __IEDITOR_PANEL_H__
-#define __IEDITOR_PANEL_H__
+#ifndef __ICONTEXT_OBJECTSELECTION_H__
+#define __ICONTEXT_OBJECTSELECTION_H__
 
 /**\file 
- * Panels holding properties and other GUI elements.
+ * Context for object selection.
  */
 
 /**
- * \addtogroup core
+ * \addtogroup editorapp
  * @{ */
 
+
 #include <csutil/scf_interface.h>
+#include <csutil/weakrefarr.h>
+
+struct iObject;
 
 namespace CSE {
 namespace Editor {
-namespace Core {
+namespace Context {
 
-struct iContext;
-struct iLayout;
-  
 /**
- * A panel is a window in the editor.
- * 
- * This panel interface allows plugins to implement custom panels.
+ * Context for object selection.
  */
-struct iPanel : public virtual iBase
+struct iContextObjectSelection : public virtual iBase
 {
-  SCF_INTERFACE (iPanel, 0, 0, 1);
+  SCF_INTERFACE (iContextObjectSelection, 1, 0, 0);
   
-  /**
-   * Check whether this panel can be drawn.
-   */
-  virtual bool Poll (iContext* context) = 0;
+  virtual void SetActiveObject (iObject* object) = 0;
+  virtual iObject* GetActiveObject () const = 0;
 
-  /**
-   * This will be called when the UI needs to be redrawn or the context
-   * changed.
-   */
-  virtual void Draw (iContext* context, iLayout* layout) = 0;
+  virtual void SetSelectedObjects
+    (const csWeakRefArray<iObject>& objects) = 0;
+  virtual const csWeakRefArray<iObject>& GetSelectedObjects () const = 0;
 
-/*
-  virtual void Save (iDocumentNode* node) const = 0;
-  virtual bool Load (iDocumentNode* node) = 0;
-*/
+  virtual void AddSelectedObject (iObject* object) = 0;
+  virtual void DeleteSelectedObject (iObject* object) = 0;
+  virtual void ClearSelectedObjects () = 0;
+
+  virtual bool ContainsSelectedObject (iObject* object) const = 0;
 };
 
-} // namespace Core
+} // namespace Context
 } // namespace Editor
 } // namespace CSE
 
 /** @} */
 
-#endif
+#endif // __ICONTEXT_OBJECTSELECTION_H__

@@ -1,5 +1,6 @@
 /*
-    Copyright (C) 2012 by Christian Van Brussel
+    Copyright (C) 2013 by Christian Van Brussel
+    Copyright (C) 2011 by Jelle Hellemans
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -15,35 +16,43 @@
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
+#ifndef __ICONTEXT_H__
+#define __ICONTEXT_H__
 
-#ifndef __IEDITOR_COMPONENTS_H__
-#define __IEDITOR_COMPONENTS_H__
+/**\file 
+ * Context of the active camera.
+ */
 
-#include <csutil/scf.h>
-#include <csutil/scf_implementation.h>
+/**
+ * \addtogroup editorapp
+ * @{ */
 
-class wxTextCtrl;
-class wxWindow;
+#include <csutil/scf_interface.h>
+
+struct iCamera;
 
 namespace CSE {
 namespace Editor {
-namespace Component {
+namespace Context {
 
 /**
- * 
+ * Context of the active camera.
  */
-struct iLogger : public virtual iBase
+struct iContextCamera : public virtual iBase
 {
-  SCF_INTERFACE (iLogger, 1, 0, 0);
+  SCF_INTERFACE (iContextCamera, 1, 0, 0);
+  
+  /// Set the active camera that is displaying the main CS view
+  virtual void SetCamera (iCamera* camera) = 0;
 
-  virtual void SetMaximumReportCount (size_t count) = 0;
-  virtual size_t GetMaximumReportCount () const = 0;
-
-  virtual wxTextCtrl* CreateTextCtrl (wxWindow* parent) = 0;
+  /// Get the active camera that is displaying the main CS view
+  virtual iCamera* GetCamera () = 0; // const?
 };
 
-} // namespace Component
+} // namespace Context
 } // namespace Editor
 } // namespace CSE
 
-#endif // __IEDITOR_COMPONENTS_H__
+/** @} */
+
+#endif // __ICONTEXT_H__

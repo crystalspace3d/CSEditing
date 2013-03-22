@@ -19,8 +19,15 @@
 #ifndef __IEDITOR_EDITOR_H__
 #define __IEDITOR_EDITOR_H__
 
-#include "csutil/scf.h"
-#include "csutil/scf_implementation.h"
+/**\file 
+ * Main interfaces of the cseditor.
+ */
+
+/**
+ * \addtogroup core
+ * @{ */
+
+#include <csutil/scf_interface.h>
 
 class wxFrame;
 
@@ -29,6 +36,7 @@ struct iProgressMeter;
 
 namespace CSE {
 namespace Editor {
+namespace Core {
 
 struct iActionManager;
 struct iComponentManager;
@@ -40,62 +48,97 @@ struct iOperatorManager;
 struct iPerspective;
 struct iPerspectiveManager;
 
-// TODO namespace CSE::Editor::Core
-
+/**
+ * Manager of CSE::Editor::Core::iEditor instances, and root access to the
+ * cseditor plugin.
+ */
 struct iEditorManager : public virtual iBase
 {
   SCF_INTERFACE (iEditorManager, 1, 0, 0);
 
+  /// \todo
   virtual bool StartEngine () = 0;
+  /// \todo
   virtual bool StartApplication () = 0;
 
+  /// \todo
   virtual iEditor* CreateEditor (const char* name, const char* title,
 				 iContext* context) = 0;
+  /// \todo
   virtual void DeleteEditor (iEditor* editor) = 0;
+  /// \todo
   virtual iEditor* FindEditor (const char* name) = 0;
+  /// \todo
   virtual iEditor* GetEditor (size_t index) = 0;
+  /// \todo
   virtual size_t GetEditorCount () const = 0;
 };
 
+/**
+ * Instance of an editor, containing at least one CSE::Editor::Core::iEditorFrame
+ */
 struct iEditor : public virtual iBase
 {
   SCF_INTERFACE (iEditor, 1, 0, 0);
 
+  /// \todo
   virtual iContext* GetContext () const = 0;
 
+  /// \todo
   virtual iActionManager* GetActionManager () const = 0;
+  /// \todo
   virtual iEditorManager* GetEditorManager () const = 0;
+  /// \todo
   virtual iMenuManager* GetMenuManager () const = 0;
+  /// \todo
   virtual iOperatorManager* GetOperatorManager () const = 0;
+  /// \todo
   virtual iPerspectiveManager* GetPerspectiveManager () const = 0;
+  /// \todo
   virtual iComponentManager* GetComponentManager () const = 0;
   // TODO: icon/image manager
   // TODO: translation manager
 
+  /// \todo
   virtual csPtr<iProgressMeter> CreateProgressMeter () const = 0;
+  /// \todo
   virtual void ReportStatus (const char* text) = 0;
 
   //virtual void Save (iDocumentNode* node) const = 0;
   //virtual bool Load (iDocumentNode* node) = 0;
 
+  /// \todo
   virtual iEditorFrame* CreateFrame (const char* title,
 				     iPerspective* perspective = nullptr) = 0;
+  /// \todo
   virtual void DeleteFrame (iEditorFrame* frame) = 0;
+  /// \todo
   virtual size_t GetFrameCount () const = 0;
+  /// \todo
   virtual iEditorFrame* GetFrame (size_t index = 0) const = 0;
 };
 
+/**
+ * A top-level window (that is, a wxFrame) of an instance of
+ * CSE::Editor::Core::iEditor.
+ */
 struct iEditorFrame : public virtual iBase
 {
   SCF_INTERFACE (iEditorFrame, 1, 0, 0);
 
+  /// \todo
   virtual wxFrame* GetwxFrame () = 0;
 
+  /// \todo
   virtual bool SetPerspective (iPerspective* perspective) = 0;
+  /// \todo
   virtual iPerspective* GetPerspective () const = 0;
 };
 
+} // namespace Core
 } // namespace Editor
 } // namespace CSE
+
+/** @} */
 
 #endif

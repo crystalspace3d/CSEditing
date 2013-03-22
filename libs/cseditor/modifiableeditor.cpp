@@ -193,7 +193,7 @@ void wxToCS (csVariantType type, const wxVariant& original, csVariant& variant)
 
 //--------------------------------------------------
 
-using namespace CSE::Editor;
+using namespace CSE::Editor::Utility;
 
 BEGIN_EVENT_TABLE (ModifiableEditor, wxPanel)
 EVT_PG_CHANGING (pageId, ModifiableEditor::OnPropertyGridChanging)

@@ -15,17 +15,24 @@
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-
 #ifndef __IEDITOR_OPERATOR_H__
 #define __IEDITOR_OPERATOR_H__
 
-#include <csutil/scf.h>
-#include <csutil/scf_implementation.h>
+/**\file 
+ * Management of operators
+ */
+
+/**
+ * \addtogroup core
+ * @{ */
+
+#include <csutil/scf_interface.h>
 
 struct iEvent;
 
 namespace CSE {
 namespace Editor {
+namespace Core {
   
 struct iContext;
 struct iEditor;
@@ -97,14 +104,20 @@ struct iOperatorManager : public virtual iBase
 {
   SCF_INTERFACE (iOperatorManager, 0, 0, 1);
   
+  /// \todo
   virtual csPtr<iOperator> CreateOperator (const char* pluginName) = 0;
 
+  /// \todo
   virtual iOperator* Execute (iOperator* op) = 0;
   
+  /// \todo
   virtual iOperator* Invoke (iOperator* op, iEvent* event) = 0; 
 };  
 
+} // namespace Core
 } // namespace Editor
 } // namespace CSE
+
+/** @} */
 
 #endif

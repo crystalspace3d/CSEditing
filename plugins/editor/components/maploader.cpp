@@ -26,12 +26,16 @@
 #include <ivaria/pmeter.h>
 
 #include "cseditor/vfsfiledialog.h"
+#include "icontext/fileloader.h"
 #include "ieditor/context.h"
 
 #include "maploader.h"
 
 #include <wx/frame.h>
 #include <wx/menuitem.h>
+
+using namespace CSE::Editor::Context;
+using namespace CSE::Editor::Utility;
 
 CS_PLUGIN_NAMESPACE_BEGIN(CSEditor)
 {

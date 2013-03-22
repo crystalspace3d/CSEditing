@@ -19,12 +19,17 @@
 #define __CSEDITOR_SELECTOPERATOR_H__
 
 #include <csutil/scf_implementation.h>
+#include <csutil/weakref.h>
+#include <csutil/weakrefarr.h>
 #include <iutil/comp.h>
 
+#include "icontext/camera.h"
+#include "icontext/objectselection.h"
+#include "ieditor/context.h"
 #include "ieditor/operator.h"
 #include "ieditor/action.h"
 
-using namespace CSE::Editor;
+using namespace CSE::Editor::Core;
 
 CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 {

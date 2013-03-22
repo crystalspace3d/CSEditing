@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2007 by Marten Svanfeldt
+  Copyright (C) 2013 by Christian Van Brussel
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Library General Public
@@ -15,9 +15,8 @@
   License along with this library; if not, write to the Free
   Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-
-#ifndef CS_NAMESPACEDOCS_H
-#define CS_NAMESPACEDOCS_H
+#ifndef CSE_NAMESPACEDOCS_H
+#define CSE_NAMESPACEDOCS_H
 
 /** \file
  * Documentation for namespaces in CSEditing
@@ -29,20 +28,33 @@
 namespace CSEE
 {
   /**
-   * Graphical User Interface tools for the edition of Crystal Space objects.
+   * Graphical User Interface tools and components for the edition of Crystal
+   * Space objects.
    */
   namespace Editor
   {
     /**
-     * Default components for the cseditor framework.
+     * Default components for the cseditor application.
      */
     namespace Component
     {}
 
     /**
-     * Core components of the cseditor framework.
+     * Default context interfaces for the cseditor application.
+     */
+    namespace Context
+    {}
+
+    /**
+     * Interfaces of the core cseditor framework.
      */
     namespace Core
+    {}
+
+    /**
+     * Generic tools for GUI management.
+     */
+    namespace Utility
     {}
   }
 }

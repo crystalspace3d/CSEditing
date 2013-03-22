@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2011 by Jelle Hellemans
+    Copyright (C) 2012 by Christian Van Brussel
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -15,47 +15,47 @@
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-#ifndef __IEDITOR_HEADER_H__
-#define __IEDITOR_HEADER_H__
+#ifndef __ICOMPONENT_LOGGER_H__
+#define __ICOMPONENT_LOGGER_H__
 
 /**\file 
- * Header menus for CS::Editor::Core::iSpace objects.
+ * Logger component for the management of system report messages.
  */
 
 /**
- * \addtogroup core
+ * \addtogroup editorapp
  * @{ */
 
 #include <csutil/scf_interface.h>
-#include <csutil/refarr.h>
 
+class wxTextCtrl;
 class wxWindow;
 
 namespace CSE {
 namespace Editor {
-namespace Core {
-  
-struct iContext;
-struct iEditor;
-struct iLayout;
-  
-/**
- * \todo
- */
-struct iHeader : public virtual iBase
-{
-  SCF_INTERFACE (iHeader, 0, 0, 1);
+namespace Component {
 
-  //iLayout wxwindow is persistent, but content is cleared.
-  //iSpace listens to context changes and redraws.
-  /// \todo
-  virtual void Draw (iContext* context, iLayout* layout) = 0;
+/**
+ * Logger component for the management of system report messages.
+ */
+struct iLogger : public virtual iBase
+{
+  SCF_INTERFACE (iLogger, 1, 0, 0);
+
+  /// Set the maximum amount of reports that will be held in memory.
+  virtual void SetMaximumReportCount (size_t count) = 0;
+
+  /// Get the maximum amount of reports that will be held in memory.
+  virtual size_t GetMaximumReportCount () const = 0;
+
+  /// Create a text control widget for the display of the reports.
+  virtual wxTextCtrl* CreateTextCtrl (wxWindow* parent) = 0;
 };
 
-} // namespace Core
+} // namespace Component
 } // namespace Editor
 } // namespace CSE
 
 /** @} */
 
-#endif
+#endif // __ICOMPONENT_LOGGER_H__

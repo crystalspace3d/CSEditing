@@ -1,4 +1,5 @@
 /*
+    Copyright (C) 2013 by Christian Van Brussel
     Copyright (C) 2011 by Jelle Hellemans
 
     This library is free software; you can redistribute it and/or
@@ -15,11 +16,11 @@
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-#ifndef __IEDITOR_SPACE_H__
-#define __IEDITOR_SPACE_H__
+#ifndef __IEDITOR_COMPONENT_H__
+#define __IEDITOR_COMPONENT_H__
 
 /**\file 
- * Base visual components of the cseditor.
+ * Management of cseditor components.
  */
 
 /**
@@ -38,62 +39,52 @@ namespace Editor {
 namespace Core {
 
 struct iEditor;
+struct iEditorComponent;
+struct iHeader;
+struct iPanel;
 struct iSpaceFactory;
 
 /**
- * A space is a window in the editor.
- * 
- * This space interface allows plugins to implement custom spaces.
+ * A component of the cseditor that is active but not visible.
  */
-struct iSpace : public virtual iBase
+struct iEditorComponent : public virtual iBase
 {
-  SCF_INTERFACE (iSpace, 1, 0, 0);
+  SCF_INTERFACE (iEditorComponent, 1, 0, 0);
 
   /// \todo
-  virtual bool Initialize (iObjectRegistry* obj_reg, iEditor* editor,
-			   iSpaceFactory* factory, wxWindow* parent) = 0;
-
-  /// \todo
-  virtual iSpaceFactory* GetFactory () const = 0;
-
-  /// Get the underlying wxWindow content area of this space.
-  virtual wxWindow* GetwxWindow () = 0;
-
-  /// \todo
-  virtual void SetEnabled (bool enabled) = 0;
-  /// \todo
-  virtual bool GetEnabled () const = 0;
-
+  virtual bool Initialize (iEditor* editor) = 0;
   /// \todo
   virtual void Update () = 0;
+
+  /// \todo
+  virtual void Save (iDocumentNode* node) const = 0;
+  /// \todo
+  virtual bool Load (iDocumentNode* node) = 0;
 };
 
 /**
- * \todo
+ * Manages the set of components of the editor.
  */
-struct iSpaceFactory : public virtual iBase
+struct iComponentManager : public virtual iBase
 {
-  SCF_INTERFACE (iSpaceFactory, 1, 0, 0);
+  SCF_INTERFACE (iComponentManager, 1, 0, 0);
 
   /// \todo
-  virtual csPtr<iSpace> CreateInstance (wxWindow* parent) = 0;
+  virtual bool RegisterComponent (const char* pluginName) = 0;
 
   /// \todo
-  virtual const char* GetIdentifier () const = 0;
+  virtual bool RegisterSpace (const char* pluginName) = 0;
 
   /// \todo
-  virtual const char* GetLabel () const = 0;
+  virtual bool RegisterHeader (const char* pluginName) = 0;
 
   /// \todo
-  virtual const wxBitmap& GetIcon () const = 0;
+  virtual bool RegisterPanel (const char* pluginName) = 0;
 
   /// \todo
-  virtual bool GetMultipleAllowed () const = 0;
-
+  virtual iEditorComponent* FindComponent (const char* pluginName) const = 0;
   /// \todo
-  virtual size_t GetCount () = 0;
-  /// \todo
-  virtual size_t GetEnabledCount () = 0;
+  virtual iSpaceFactory* FindSpaceFactory (const char* pluginName, size_t& index) const = 0;
 };
 
 } // namespace Core
@@ -102,4 +93,4 @@ struct iSpaceFactory : public virtual iBase
 
 /** @} */
 
-#endif // __IEDITOR_SPACE_H__
+#endif // __IEDITOR_COMPONENT_H__

@@ -41,6 +41,8 @@
 #include <ivideo/natwin.h>
 #include <ivideo/wxwin.h>
 
+#include "icontext/fileloader.h"
+#include "icontext/objectselection.h"
 #include "ieditor/context.h"
 #include "ieditor/operator.h"
 
@@ -50,6 +52,7 @@
 #include "particleeditor.h"
 
 using namespace CS::Utility;
+using namespace CSE::Editor::Context;
 
 CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 {

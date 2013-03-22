@@ -18,6 +18,14 @@
 #ifndef __CSEDITOR_MODIFIABLE_EDITOR_H__
 #define __CSEDITOR_MODIFIABLE_EDITOR_H__
 
+/**\file 
+ * Graphical User Interface generation for CS::Utility::iModifiable objects.
+ */
+
+/**
+ * \addtogroup utility
+ * @{ */
+
 #include <csutil/csstring.h>
 #include <csutil/hash.h>
 #include <csutil/ref.h>
@@ -45,7 +53,11 @@ struct iModifiableDescription;
 
 namespace CSE {
 namespace Editor {
+namespace Utility {
 
+/**
+ * Graphical User Interface generation for CS::Utility::iModifiable objects.
+ */
 class /*CS_CRYSTALSPACE_EXPORT*/ ModifiableEditor : public wxPanel 
 {
 public:
@@ -59,14 +71,21 @@ public:
 		    long style,
 		    const wxString& name);
 
+  /**
+   * Set the resource VFS root path that has to be used to find the translation
+   * data.
+   */
   virtual void SetResourcePath (const char* path);
 
   /// Sets the current active modifiable entity in the grid
   virtual void SetModifiable (CS::Utility::iModifiable* modifiable);
+
   /// Gets the currently active modifiable entity in the grid
   virtual CS::Utility::iModifiable* GetModifiable () const;
+
   /// Sets the property grid's message
   void SetMessage (const wxString& title, const wxString& message);
+
   // Clears all the data from the editor
   void Clear ();
 
@@ -114,7 +133,10 @@ private:
   DECLARE_EVENT_TABLE ();
 };
 
+} // namespace Utility
 } // namespace Editor
 } // namespace CSE
+
+/** @} */
 
 #endif

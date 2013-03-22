@@ -22,7 +22,8 @@
 #include <iutil/objreg.h>
 #include <ivaria/reporter.h>
 
-#include "ieditor/components.h"
+#include "icomponent/logger.h"
+#include "ieditor/component.h"
 #include "ieditor/space.h"
 
 #include <wx/log.h>
@@ -31,8 +32,8 @@
 
 class wxWindow;
 
-using namespace CSE::Editor;
 using namespace CSE::Editor::Component;
+using namespace CSE::Editor::Core;
 
 CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 {

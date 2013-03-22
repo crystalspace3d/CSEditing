@@ -15,16 +15,26 @@
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
-
 #ifndef __IEDITOR_PERSPECTIVE_H__
 #define __IEDITOR_PERSPECTIVE_H__
 
-#include <csutil/scf.h>
-#include <csutil/scf_implementation.h>
+/**\file 
+ * Management of the global layouting of a whole CS::Editor::Core::iEditorFrame.
+ */
+
+/**
+ * \addtogroup core
+ * @{ */
+
+#include <csutil/scf_interface.h>
 
 namespace CSE {
 namespace Editor {
+namespace Core {
 
+/**
+ * \todo
+ */
 enum SplitMode
 {
   SPLIT_NONE = 0,
@@ -33,16 +43,21 @@ enum SplitMode
 };
 
 /**
- *
+ * \todo
  */
 struct iPerspectiveWindow : public virtual iBase
 {
   SCF_INTERFACE (iPerspectiveWindow, 1, 0, 0);
 
+  /// \todo
   virtual void SetSpace (const char* pluginName) = 0;
+  /// \todo
   virtual void SetSplitMode (SplitMode mode) = 0;
+  /// \todo
   virtual void SetSplitPosition (int position) = 0;
+  /// \todo
   virtual iPerspectiveWindow* GetChild1 () const = 0;
+  /// \todo
   virtual iPerspectiveWindow* GetChild2 () const = 0;
 
 /*
@@ -58,9 +73,12 @@ struct iPerspective : public virtual iBase
 {
   SCF_INTERFACE (iPerspective, 1, 0, 0);
 
+  /// \todo
   virtual void SetName (const char* name) = 0;
+  /// \todo
   virtual const char* GetName () const = 0;
 
+  /// \todo
   virtual iPerspectiveWindow* GetRootWindow () const = 0;
 /*
   virtual void Save (iDocumentNode* node) const = 0;
@@ -69,16 +87,20 @@ struct iPerspective : public virtual iBase
 };
 
 /**
- * 
+ * \todo
  */
 struct iPerspectiveManager : public virtual iBase
 {
   SCF_INTERFACE (iPerspectiveManager, 1, 0, 0);
 
+  /// \todo
   virtual iPerspective* CreatePerspective
     (const char* name, iPerspective* other = nullptr) = 0;
+  /// \todo
   virtual void DeletePerspective (size_t index) = 0;
+  /// \todo
   virtual size_t GetPerspectiveCount () const = 0;
+  /// \todo
   virtual iPerspective* GetPerspective (size_t index) const = 0;
 
 /*
@@ -87,7 +109,10 @@ struct iPerspectiveManager : public virtual iBase
 */
 };
 
+} // namespace Core
 } // namespace Editor
 } // namespace CSE
+
+/** @} */
 
 #endif // __IEDITOR_PERSPECTIVE_H__

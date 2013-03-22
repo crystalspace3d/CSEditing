@@ -24,6 +24,7 @@
 #include <iutil/plugin.h>
 #include <ivaria/reporter.h>
 
+#include "ieditor/component.h"
 #include "ieditor/context.h"
 #include "ieditor/header.h"
 #include "ieditor/layout.h"
