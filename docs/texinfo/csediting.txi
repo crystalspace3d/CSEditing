@@ -87,10 +87,10 @@ by the copyright holders.
 
 @ifnottex
 @node Top, CSEditing Introduction, , (dir)
-@top CSEditing
+@top Crystal Space Editing Environment
 
-CSEditing is a set of tools and applications dedicated to the editing and the
-pre-processing of data content for the Crystal Space  open-source 3D software
+The CSEditing library is a set of tools and applications dedicated to the editing
+and the pre-processing of data content for the Crystal Space open-source 3D software
 development kit (@sc{sdk}).
 
 This document includes usage instructions, conceptual material, and detailed
