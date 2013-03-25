@@ -520,7 +520,9 @@ void ModifiableEditor::AppendVariant
       
   if (page->GetProperty (label))
     page->SetPropertyHelpString (label, description);
-  else ReportError ("Couldn't find property with name: %s", CS::Quote::Single (label.mb_str ()));
+  else
+    ReportError ("Couldn't find property with name: %s",
+		 CS::Quote::Single (label.mb_str (wxConvUTF8)));
 }
 
 void ModifiableEditor::OnSize (wxSizeEvent& event)
