@@ -950,7 +950,7 @@ bool wxPGProperty::StringToValue( wxVariant& variant, const wxString& text, int 
 
 #ifdef __WXDEBUG__
     if ( debug_print )
-        wxLogDebug(wxT(">> %s.StringToValue('%s')"),GetLabel().c_str(),text.c_str());
+      { wxLogDebug(wxT(">> %s.StringToValue('%s')"),GetLabel().c_str(),text.c_str()); }
 #endif
 
     wxString::const_iterator it = text.begin();
@@ -985,7 +985,7 @@ bool wxPGProperty::StringToValue( wxVariant& variant, const wxString& text, int 
 
                 #ifdef __WXDEBUG__
                     if ( debug_print )
-                        wxLogDebug(wxT("token = '%s', child = %s"),token.c_str(),childName.c_str());
+                      {  wxLogDebug(wxT("token = '%s', child = %s"),token.c_str(),childName.c_str()); }
                 #endif
 
                     // Add only if editable or setting programmatically
@@ -3164,7 +3164,7 @@ bool wxPropertyGrid::Create( wxWindow *parent,
         // themed drawing.
   #if wxCHECK_VERSION(2,8,5)
     #ifdef __WXMSW__
-        style |= GetThemedBorderStyle();
+      style |= wxBORDER_SIMPLE;//GetThemedBorderStyle();
     #else
         style |= wxBORDER_SIMPLE;
     #endif
@@ -5153,7 +5153,7 @@ wxString& wxPropertyGrid::CreateEscapeSequences( wxString& dst_str, wxString& sr
     }
 
     wxString::const_iterator i = src_str.begin();
-    wxUniChar prev_a = wxT('\0');
+    //wxUniChar prev_a = wxT('\0');
 
     dst_str.clear();
 
@@ -5189,7 +5189,7 @@ wxString& wxPropertyGrid::CreateEscapeSequences( wxString& dst_str, wxString& sr
             }
         }
 
-        prev_a = a;
+        //prev_a = a;
     }
     return dst_str;
 }
@@ -7566,7 +7566,7 @@ bool wxPropertyGrid::DoSelectProperty( wxPGProperty* p, unsigned int flags )
             wxASSERT( m_wndEditor == (wxWindow*) NULL );
 
             // Do we need OnMeasureCalls?
-            wxSize imsz = p->OnMeasureImage();
+            //wxSize imsz = p->OnMeasureImage();
 
             //
             // Only create editor for non-disabled non-caption
@@ -7976,7 +7976,7 @@ void wxPropertyGrid::RecalculateVirtualSize( int WXUNUSED(forceXPos) )
         x = width;
     }
 
-    m_width = width;
+    m_width = x; //width; // CVB: correct?
     m_height = height;
 
     // Notify users about height problem
@@ -9741,7 +9741,12 @@ WX_PG_IMPLEMENT_VARIANT_DATA(wxPGVariantDataArrayInt, wxArrayInt)
 WX_PG_IMPLEMENT_VARIANT_DATA(wxPGVariantDataLongLong, wxLongLong)
 WX_PG_IMPLEMENT_VARIANT_DATA(wxPGVariantDataULongLong, wxULongLong)
 
+#if wxCHECK_VERSION(2,9,4)
+WX_PG_IMPLEMENT_WXOBJECT_VARIANT_DATA(wxPGVariantDataFont, wxFont)
+#else
 WX_PG_IMPLEMENT_WXOBJECT_VARIANT_DATA_WITH_PROPER_EQ(wxPGVariantDataFont, wxFont)
+#endif
+
 #if !wxCHECK_VERSION(2,8,0)
     WX_PG_IMPLEMENT_WXOBJECT_VARIANT_DATA_WITH_PROPER_EQ(wxPGVariantDataColour, wxColour)
 #endif
@@ -11970,11 +11975,11 @@ void wxPropertyGridState::CheckColumnWidths( int widthChange )
     // Column to reduce, if needed. Take last one that exceeds minimum width.
     int reduceCol = -1;
 
-    bool minimizedCols = false;
+    //bool minimizedCols = false;
 
 #ifdef __WXDEBUG__
     if ( debug )
-        wxLogDebug(wxT("ColumnWidthCheck (virtualWidth: %i, clientWidth: %i)"), width, clientWidth);
+      { wxLogDebug(wxT("ColumnWidthCheck (virtualWidth: %i, clientWidth: %i)"), width, clientWidth); }
 #endif
 
     //
@@ -11985,7 +11990,7 @@ void wxPropertyGridState::CheckColumnWidths( int widthChange )
         if ( m_colWidths[i] <= min )
         {
             m_colWidths[i] = min;
-            minimizedCols = true;
+            //minimizedCols = true;
         }
         else
         {
@@ -12001,7 +12006,7 @@ void wxPropertyGridState::CheckColumnWidths( int widthChange )
 
 #ifdef __WXDEBUG__
     if ( debug )
-        wxLogDebug(wxT("  HasVirtualWidth: %i  colsWidth: %i"),(int)pg->HasVirtualWidth(),colsWidth);
+      { wxLogDebug(wxT("  HasVirtualWidth: %i  colsWidth: %i"),(int)pg->HasVirtualWidth(),colsWidth); }
 #endif
 
     // Then mode-based requirement
@@ -12015,7 +12020,7 @@ void wxPropertyGridState::CheckColumnWidths( int widthChange )
             // Increase column
         #ifdef __WXDEBUG__
         if ( debug )
-            wxLogDebug(wxT("  Adjust last column to %i"), m_colWidths[lastColumn] + widthHigher);
+	  { wxLogDebug(wxT("  Adjust last column to %i"), m_colWidths[lastColumn] + widthHigher); }
         #endif
             m_colWidths[lastColumn] = m_colWidths[lastColumn] + widthHigher;
         }
@@ -12026,7 +12031,7 @@ void wxPropertyGridState::CheckColumnWidths( int widthChange )
             {
             #ifdef __WXDEBUG__
                 if ( debug )
-                    wxLogDebug(wxT("  Reduce column %i (by %i)"), reduceCol, -widthHigher);
+		  { wxLogDebug(wxT("  Reduce column %i (by %i)"), reduceCol, -widthHigher); }
             #endif
                 // Reduce widest column, and recheck
                 m_colWidths[reduceCol] = m_colWidths[reduceCol] + widthHigher;
@@ -12052,7 +12057,7 @@ void wxPropertyGridState::CheckColumnWidths( int widthChange )
 #ifdef __WXDEBUG__
     if ( debug )
         for ( i=0; i<m_colWidths.size(); i++ )
-            wxLogDebug(wxT("col%i: %i"),i,m_colWidths[i]);
+	  { wxLogDebug(wxT("col%i: %i"),i,m_colWidths[i]); }
 #endif
 
     // Auto center splitter
@@ -12075,7 +12080,7 @@ void wxPropertyGridState::CheckColumnWidths( int widthChange )
             {
             #ifdef __WXDEBUG__
                 if ( debug )
-                    wxLogDebug(wxT("  auto-center splitter reset"));
+		  { wxLogDebug(wxT("  auto-center splitter reset")); }
             #endif
                 splitterX = centerX;
             }
@@ -12083,8 +12088,8 @@ void wxPropertyGridState::CheckColumnWidths( int widthChange )
             {
             #ifdef __WXDEBUG__
                 if ( debug )
-                    wxLogDebug(wxT("  auto-center with widthChange=%i"),
-                               widthChange);
+		  { wxLogDebug(wxT("  auto-center with widthChange=%i"),
+                               widthChange); }
             #endif
                 //float centerX = float(pg->GetSize().x) * 0.5;
 
@@ -12108,8 +12113,8 @@ void wxPropertyGridState::CheckColumnWidths( int widthChange )
                 float deviation = fabs(centerX - splitterX);
             #ifdef __WXDEBUG__
                 if ( debug )
-                    wxLogDebug(wxT("  auto-center with deviation=%.2f"),
-                               deviation);
+		  { wxLogDebug(wxT("  auto-center with deviation=%.2f"),
+                               deviation); }
             #endif
                 if ( deviation > 50.0 )
                 {

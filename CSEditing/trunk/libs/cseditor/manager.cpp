@@ -400,8 +400,10 @@ void wxPropertyGridManager::Init2( int style )
 
     if ( style & wxPG_THEME_BORDER )
     {
-#if defined(__WXMSW__) && wxCHECK_VERSION(2,8,5)
-       propGridFlags |= GetThemedBorderStyle();
+#if defined(__WXMSW__) && wxCHECK_VERSION(2,9,4)
+      propGridFlags |= wxPG_DEFAULT_THEME_BORDER;
+#elif defined(__WXMSW__) && wxCHECK_VERSION(2,8,5)
+      propGridFlags |= GetThemedBorderStyle();
 #else
        propGridFlags |= wxPG_DEFAULT_THEME_BORDER;
 #endif

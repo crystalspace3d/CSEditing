@@ -9,6 +9,20 @@
 // Licence:     wxWindows license
 /////////////////////////////////////////////////////////////////////////////
 
+/**
+ * Note on the inclusion of this library into Crystal Space:
+ *
+ * The wxPropertyGrid library is included in wxWidgets since version 2.9.0. This 
+ * version of wxPropertyGrid is however not API compatible with the previous
+ * versions that were targeted for wxWidgets pre-2.9.0.
+ *
+ * wxWidgets 2.9.0 and above are however still considered as 'development' versions
+ * at the time of this writing, and are therefore currently not widely spread.
+ *
+ * As a result of that, we temporarily use a local version of the wxPropertyGrid
+ * library until wxWidgets 2.9.0 and above would become more spread.
+ */
+
 #ifndef __WX_PROPGRID_PROPGRID_H__
 #define __WX_PROPGRID_PROPGRID_H__
 
