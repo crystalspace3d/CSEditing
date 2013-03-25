@@ -520,10 +520,7 @@ void ModifiableEditor::AppendVariant
       
   if (page->GetProperty (label))
     page->SetPropertyHelpString (label, description);
-  else {
-    // Needed in order to print out the wide char type from GetData
-    wprintf (wxT ("Couldn't find property with name: %s \n"), label.GetData ());
-  }
+  else ReportError ("Couldn't find property with name: %s", CS::Quote::Single (label.mb_str ()));
 }
 
 void ModifiableEditor::OnSize (wxSizeEvent& event)

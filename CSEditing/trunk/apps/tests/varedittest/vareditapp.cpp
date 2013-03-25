@@ -100,5 +100,5 @@ void ModifiableListener::ValueChanged (CS::Utility::iModifiable* modifiable, siz
 {
   csVariant value;
   modifiable->GetParameterValue (parameterIndex, value);
-  printf ("New value set for parameter %zu: %s\n", parameterIndex, value.Description ().GetData ());
+  csPrintf ("New value set for parameter %zu: %s\n", parameterIndex, value.Description ().GetData ());
 }
