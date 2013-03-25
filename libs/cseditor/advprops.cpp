@@ -917,14 +917,21 @@ static long gs_cp_es_syscolour_values[] = {
 };
 
 
+#if wxCHECK_VERSION(2,9,4)
+WX_PG_IMPLEMENT_WXOBJECT_VARIANT_DATA(wxPGVariantDataColourPropertyValue,
+				      wxColourPropertyValue)
+#else
 WX_PG_IMPLEMENT_WXOBJECT_VARIANT_DATA_WITH_PROPER_EQ(wxPGVariantDataColourPropertyValue,
                                                      wxColourPropertyValue)
+#endif
 
 
 // Class body is in advprops.h
 
 WX_PG_IMPLEMENT_PROPERTY_CLASS(wxSystemColourProperty,wxEnumProperty,
-                               wxColourPropertyValue,const wxColourPropertyValue&,Choice)
+                               wxColourPropertyValue,const wxColourPropertyValue&,Choice
+)
+
 
 
 void wxSystemColourProperty::Init( int type, const wxColour& colour )
@@ -2070,7 +2077,10 @@ bool wxDateProperty::StringToValue( wxVariant& variant, const wxString& text,
 {
     wxDateTime dt;
 
-#if wxCHECK_VERSION(2,9,0)
+#if wxCHECK_VERSION(2,9,4)
+    // TODO
+    const char* c = 0;
+#elif wxCHECK_VERSION(2,9,0)
     const char* c = dt.ParseFormat(text, wxString(wxDefaultDateTimeFormat), wxDefaultDateTime, NULL);
 #else
     const wxChar* c = dt.ParseFormat(text, wxDefaultDateTimeFormat);

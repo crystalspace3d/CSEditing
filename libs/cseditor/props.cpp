@@ -728,8 +728,13 @@ bool wxUIntProperty::ValidateValue( wxVariant& value, wxPGValidationInfo& valida
     wxULongLong_t ll;
     if ( wxPGVariantToULongLong(value, &ll) )
     {
+#if wxCHECK_VERSION(2,9,4)
+        wxULongLong_t min = 0;
+        wxULongLong_t max = UINT_MAX;
+#else
         wxULongLong_t min = wxUINT64_MIN;
         wxULongLong_t max = wxUINT64_MAX;
+#endif
         wxVariant variant;
 
         variant = GetAttribute(wxPGGlobalVars->m_strMin);
