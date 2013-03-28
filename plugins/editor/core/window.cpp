@@ -51,7 +51,9 @@ Window::Window (iObjectRegistry* object_reg, iEditor* editor, wxWindow* parent,
 {
   ViewControl* control = new ViewControl (object_reg, editor, this);
   Initialize (control);
-  SetSashGravity (0.5);
+
+  // TODO: need a better resizing policy
+  //SetSashGravity (0.5f);
 }
 
 Window::Window (iObjectRegistry* object_reg, iEditor* editor, wxWindow* parent,
@@ -62,7 +64,7 @@ Window::Window (iObjectRegistry* object_reg, iEditor* editor, wxWindow* parent,
 {
   control->Reparent (this);
   Initialize (control);
-  SetSashGravity (0.5);
+  //SetSashGravity (0.5f);
 }
 
 Window::~Window ()
