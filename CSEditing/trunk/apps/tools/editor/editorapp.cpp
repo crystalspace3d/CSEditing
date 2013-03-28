@@ -61,6 +61,7 @@ using namespace CSE::Editor::Core;
 // Define a new application type
 class EditorApplication : public wxApp
 {
+  // Early messages are reported through the WX logging system
   bool ReportError (const char* description, ...)
   {
     va_list arg;
@@ -88,12 +89,31 @@ class EditorApplication : public wxApp
     return false;
   }
 
+  //-- wxApp
+  virtual bool OnInit (void);
+  virtual int OnExit (void);
+
+  virtual void OnAssertFailure (const wxChar* file, int line, const wxChar* func,
+				const wxChar* cond, const wxChar* msg)
+  {
+    // Catch the WX assertion failures and translate them into Crystal Space report events
+    // instead of through blocking dialogs.
+    wxString text;
+    if (msg)
+      text.Printf (wxT ("WX assertion failed: \"%s\". Location: method \"%s()\" in \"%s:%i\""),
+		   msg, func, file, line);
+    else
+      text.Printf (wxT ("WX assertion failed: \"%s\". Location: method \"%s()\" in \"%s:%i\""),
+		   cond, func, file, line);
+
+    va_list empty;
+    csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+	      "wxWidgets", text.mb_str (wxConvUTF8), empty);
+  }
+
 public:
   iObjectRegistry* object_reg;
   csRef<iEditorManager> editorManager;
-
-  virtual bool OnInit (void);
-  virtual int OnExit (void);
 };
 
 IMPLEMENT_APP (EditorApplication);
