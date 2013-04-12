@@ -192,8 +192,7 @@ bool EditorApplication::OnInit (void)
   // Create a 'Terrain' pespective
   perspective = perspectiveManager->CreatePerspective ("Terrain");
   window = perspective->GetRootWindow ();
-  //window->SetSpace ("crystalspace.editor.space.3dview");
-  window->SetSpace ("crystalspace.editor.space.scenetree");
+  window->SetSpace ("crystalspace.editor.space.3dview");
 
   // Start the application
   if (!editorManager->StartApplication ()) return false;

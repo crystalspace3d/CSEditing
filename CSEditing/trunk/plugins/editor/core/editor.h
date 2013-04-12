@@ -144,6 +144,7 @@ public:
   csRef<ComponentManager> componentManager;
   StatusBar* statusBar;
   csArray<EditorFrame*> frames;
+  bool closing;
 };
 
 class EditorFrame
@@ -163,7 +164,7 @@ public:
   //virtual iPerspective* CloneCurrentPerspective () const;
 
 private:
-  Editor* editor;
+  csRef<Editor> editor;
   csWeakRef<Perspective> perspective;
 };
 

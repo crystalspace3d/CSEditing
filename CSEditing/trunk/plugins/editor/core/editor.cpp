@@ -21,6 +21,8 @@
 #include <csutil/scf.h>
 #include <csutil/stringquote.h>
 #include <iutil/virtclk.h>
+#include <ivideo/graph2d.h>
+#include <ivideo/wxwin.h>
 
 #include "ieditor/component.h"
 
@@ -193,7 +195,7 @@ Editor::Editor (EditorManager* manager, const char* name, const char* title,
 		iContext* context)
   // TODO: use size from CS config
   : scfImplementationType (this), name (name), title (title), manager (manager),
-    context (context), statusBar (nullptr)
+  context (context), statusBar (nullptr), closing (false)
 {
   // Create the main objects and managers
   actionManager.AttachNew (new ActionManager (manager->object_reg, this));
@@ -313,6 +315,19 @@ void Editor::Update ()
 
 void Editor::Close ()
 {
+  if (closing) return;
+  closing = true;
+
+  // Remove this editor from the list maintained by the parent manager.
+  // This editor will get actually deleted once all child frames are
+  // deleted and no references are any longer kept to this editor.
+  manager->editors.Delete (this);
+
+  // Close all child frames
+  for (size_t i = 0; i < frames.GetSize (); i++)
+    frames[i]->Destroy ();
+
+  // Close all managers
   componentManager.Invalidate ();
   perspectiveManager.Invalidate ();
   operatorManager.Invalidate ();
@@ -350,13 +365,12 @@ EditorFrame::EditorFrame (Editor* editor, const char* title, iPerspective* persp
 EditorFrame::~EditorFrame ()
 {
   // Remove this frame from the list maintained by the editor
+  bool first = editor->frames[0] == this;
   editor->frames.Delete (this);
 
-  // If this was the last frame, then close the editor managers
-  if (!editor->frames.GetSize ())
+  // If this was the main frame, then close the parent editor
+  if (first)
     editor->Close ();
-
-  // TODO: transmit the ownership of the menu and status bar
 }
 
 void EditorFrame::Init ()
@@ -383,6 +397,13 @@ bool EditorFrame::SetPerspective (iPerspective* perspective)
 {
   if (this->perspective == perspective)
     return true;
+
+  // Trick in order to avoid the deletion of the wxGL canvas: reparent temporarily
+  // the canvas so that it does not get deleted with all other widgets of the current
+  // perspective.
+  csRef<iGraphics3D> g3d = csQueryRegistry<iGraphics3D> (editor->manager->object_reg);
+  csRef<iWxWindow> wxwin = scfQueryInterface<iWxWindow> (g3d->GetDriver2D ());
+  if (wxwin) wxwin->SetParent (this);
 
   // Remove the previous window
   // TODO: Or keep a cache of the active perspectives instead
