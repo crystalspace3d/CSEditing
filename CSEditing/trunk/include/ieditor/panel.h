@@ -34,6 +34,7 @@ namespace Core {
 
 struct iContext;
 struct iLayout;
+struct iPanelFactory;
   
 /**
  * A panel is a window in the editor.
@@ -44,14 +45,26 @@ struct iPanel : public virtual iBase
 {
   SCF_INTERFACE (iPanel, 0, 0, 1);
   
-  /**
-   * Check whether this panel can be drawn.
-   */
-  virtual bool Poll (iContext* context) = 0;
+  /// \todo
+  // add iPanelfactory::GetEditor instead?
+  virtual bool Initialize (iObjectRegistry* obj_reg, iEditor* editor,
+			   iPanelFactory* factory) = 0;
+
+  /// Get the factory of this panel
+  virtual iPanelFactory* GetFactory () const = 0;
 
   /**
-   * This will be called when the UI needs to be redrawn or the context
-   * changed.
+   * Check whether this panel is visible.
+   */
+  virtual bool PollVisible (iContext* context) const = 0;
+
+  /**
+   * Check whether this panel needs to be redrawn.
+   */
+  virtual bool PollRedraw (iContext* context) const = 0;
+
+  /**
+   * This method will be called when this panel needs to be redrawn.
    */
   virtual void Draw (iContext* context, iLayout* layout) = 0;
 
@@ -59,6 +72,26 @@ struct iPanel : public virtual iBase
   virtual void Save (iDocumentNode* node) const = 0;
   virtual bool Load (iDocumentNode* node) = 0;
 */
+};
+
+struct iPanelFactory : public virtual iBase
+{
+  SCF_INTERFACE (iPanelFactory, 0, 0, 1);
+
+  /// Create a new panel
+  virtual csPtr<iPanel> CreateInstance () = 0;
+
+  /// Get the plugin identifier of this factory
+  virtual const char* GetIdentifier () const = 0;
+
+  /**
+   * Get the label of this factory, that is, the short, human-readable
+   * description of this panel factory.
+   */
+  virtual const char* GetLabel () const = 0;
+
+  /// Get the plugin identifier of the space associated with this factory
+  virtual const char* GetSpace () const = 0;
 };
 
 } // namespace Core

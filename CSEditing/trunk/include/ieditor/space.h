@@ -50,6 +50,7 @@ struct iSpace : public virtual iBase
   SCF_INTERFACE (iSpace, 1, 0, 0);
 
   /// \todo
+  // add iSpacefactory::GetEditor instead?
   virtual bool Initialize (iObjectRegistry* obj_reg, iEditor* editor,
 			   iSpaceFactory* factory, wxWindow* parent) = 0;
 
@@ -75,13 +76,16 @@ struct iSpaceFactory : public virtual iBase
 {
   SCF_INTERFACE (iSpaceFactory, 1, 0, 0);
 
-  /// \todo
+  /// Create a new space
   virtual csPtr<iSpace> CreateInstance (wxWindow* parent) = 0;
 
-  /// \todo
+  /// Get the plugin identifier of this factory
   virtual const char* GetIdentifier () const = 0;
 
-  /// \todo
+  /**
+   * Get the label of this factory, that is, the short, human-readable
+   * description of this space factory.
+   */
   virtual const char* GetLabel () const = 0;
 
   /// \todo

@@ -167,6 +167,8 @@ iMenu* HeaderLayout::AppendMenu (const char* id, const char* label)
 }
 
 void HeaderLayout::AppendLabel (const char* label) {}
+void HeaderLayout::AppendWindow (wxWindow* window) {}
+
 void HeaderLayout::AppendSeparator () 
 {
   tb->AddSeparator ();
@@ -176,7 +178,7 @@ iLayout* HeaderLayout::Row () { return nullptr; }
 iLayout* HeaderLayout::Column () { return nullptr; }
 
 
-wxWindow* HeaderLayout::GetwxWindow () 
+wxWindow* HeaderLayout::GetwxWindow () const
 {
   return tb;
 }
@@ -213,14 +215,17 @@ iMenu* MenuLayout::AppendMenu (const char* id, const char* label)
 }
 
 void MenuLayout::AppendLabel (const char* label) {}
+void MenuLayout::AppendWindow (wxWindow* window) {}
+
 void MenuLayout::AppendSeparator () 
 {
   menu->AppendSeparator ();
 }
+
 iLayout* MenuLayout::Row () { return nullptr; }
 iLayout* MenuLayout::Column () { return nullptr; }
 
-wxWindow* MenuLayout::GetwxWindow () 
+wxWindow* MenuLayout::GetwxWindow () const
 {
   return parent;
 }
@@ -270,11 +275,18 @@ void PanelLayout::AppendLabel (const char* label)
   paneSz->Add (new wxStaticText (parent, wxID_ANY, l), 1, wxEXPAND, 0);
 }
 
+void PanelLayout::AppendWindow (wxWindow* window)
+{
+  paneSz->Add (window, 0, wxEXPAND, 0);
+  window->Show ();
+}
+
 void PanelLayout::AppendSeparator () {}
+
 iLayout* PanelLayout::Row () { return nullptr; }
 iLayout* PanelLayout::Column () { return nullptr; }
 
-wxWindow* PanelLayout::GetwxWindow () 
+wxWindow* PanelLayout::GetwxWindow () const
 {
   return parent;
 }

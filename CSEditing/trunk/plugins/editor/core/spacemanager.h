@@ -22,8 +22,9 @@
 #include <csutil/hash.h>
 #include <csutil/refarr.h>
 
-#include "ieditor/space.h"
 #include "ieditor/context.h"
+#include "ieditor/space.h"
+#include "ieditor/panel.h"
 
 #include <wx/bitmap.h>
 
@@ -32,6 +33,10 @@ using namespace CSE::Editor::Core;
 CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 {
 
+  // TODO: split/rename file in components/manager.h/cpp
+
+class CollapsiblePane;
+class ComponentManager;
 class Editor;
 class EditorManager;
 
@@ -39,7 +44,7 @@ class SpaceFactory
   : public scfImplementation1<SpaceFactory, iSpaceFactory>
 {
 public:
-  SpaceFactory (Editor* editor);
+  SpaceFactory (ComponentManager* manager);
 
   virtual csPtr<iSpace> CreateInstance (wxWindow* parent);
   virtual const char* GetIdentifier () const;
@@ -50,12 +55,50 @@ public:
   virtual size_t GetEnabledCount ();
 
 private:
-  Editor* editor;
+  void Compact ();
+
+private:
+  ComponentManager* manager;
   csString identifier;
   csString label;
   wxBitmap icon;
   bool allowMultiple;
-  csWeakRefArray<iSpace> spaces;
+
+  struct PanelEntry
+  {
+    csRef<iPanel> panel;
+    CollapsiblePane* collapsiblePane;
+
+    PanelEntry ()
+    : collapsiblePane (nullptr) {}
+  };
+
+  struct SpaceEntry
+  {
+    csWeakRef<iSpace> space;
+    csArray<PanelEntry> panels;
+  };
+  csArray<SpaceEntry> spaces;
+
+  friend class ComponentManager;
+};
+
+class PanelFactory
+  : public scfImplementation1<PanelFactory, iPanelFactory>
+{
+public:
+  PanelFactory (Editor* editor);
+
+  virtual csPtr<iPanel> CreateInstance ();
+  virtual const char* GetIdentifier () const;
+  virtual const char* GetLabel () const;
+  virtual const char* GetSpace () const;
+
+private:
+  Editor* editor;
+  csString label;
+  csString space;
+  csString identifier;
 
   friend class ComponentManager;
 };
@@ -72,6 +115,8 @@ public:
   virtual bool RegisterSpace (const char* pluginName);
   virtual bool RegisterHeader (const char* pluginName);
   virtual bool RegisterPanel (const char* pluginName);
+  virtual bool RegisterPanel (iPanelFactory* panel);
+  virtual bool UnregisterPanel (iPanelFactory* panel);
 
   virtual iEditorComponent* FindComponent (const char* pluginName) const;
   virtual iSpaceFactory* FindSpaceFactory (const char* pluginName, size_t& index) const;
@@ -79,16 +124,24 @@ public:
   //-- iEventHandler
   bool HandleEvent (iEvent &event);
 
-  const csRefArray<SpaceFactory>& GetSpaceFactories ();
-  void ReDraw (iSpace* space);
   void Update ();
+  void ReDraw (iSpace* space);
+
+public:
+  Editor* editor;
+  struct SpaceData
+  {
+    csRef<SpaceFactory> factory;
+    csRefArray<iPanelFactory> panelFactories;
+    csRef<iHeader> header;
+  };
+  csArray<SpaceData> spaceData;
 
 private:
-  Editor* editor;
   csHash<csRef<iEditorComponent>, csString> components;
-  csRefArray<SpaceFactory> spaceFactories;
-  csHash<csRef<iHeader>, csString> headers;
-  csHash<csRef<iPanel>, csString> panels;
+
+private:
+  void ReDraw (SpaceFactory::SpaceEntry* entry, SpaceData* spaceData);
 };
 
 }
