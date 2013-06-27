@@ -77,19 +77,36 @@ public:
    */
   virtual void SetResourcePath (const char* path);
 
-  /// Sets the current active modifiable entity in the grid
+  /**
+   * Set whether or not an additional description area will be added in order to
+   * display additional textual description on the selected elements.
+   *
+   * \note This method must be called before SetModifiable() or after
+   * Clear().
+   */
+  virtual void SetDescriptionEnabled (bool enabled);
+
+  /**
+   * Get whether or not an additional description area will be added in order to
+   * display additional textual description on the selected elements.
+   */
+  virtual bool GetDescriptionEnabled () const;
+
+  /// Sets the current active modifiable entity to be edited
   virtual void SetModifiable (CS::Utility::iModifiable* modifiable);
 
-  /// Gets the currently active modifiable entity in the grid
+  /// Gets the currently active modifiable entity being edited
   virtual CS::Utility::iModifiable* GetModifiable () const;
 
   /// Sets the property grid's message
-  void SetMessage (const wxString& title, const wxString& message);
+  //void SetMessage (const wxString& title, const wxString& message);
 
   // Clears all the data from the editor
   void Clear ();
 
 private:
+  void UpdateSize ();
+
   /// Gets called by the space owning this component
   virtual void OnSize (wxSizeEvent& event);
 
@@ -108,6 +125,7 @@ private:
 
   void OnPropertyGridChanging (wxPropertyGridEvent& event);
   void OnPropertyGridChanged (wxPropertyGridEvent& event);
+  void OnPropertyGridItemChanged (wxPropertyGridEvent& event);
 
   bool ReportError (const char* description, ...);
 
@@ -120,6 +138,7 @@ private:
   csRef<iTranslator> translator;
   csRef<iLoaderPlugin> translatorLoader;
   csString resourcePath;
+  bool descriptionEnabled;
 
   enum
   {
