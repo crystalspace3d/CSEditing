@@ -179,11 +179,9 @@ void ViewControl::Realize (const char* pluginName)
   {
     size_t index = 0;
     iSpaceFactory* factory = nullptr;
-    for (csRefArray<SpaceFactory>::ConstIterator it =
-	   mgr->GetSpaceFactories ().GetIterator (); it.HasNext (); index++)
+    for ( ; index < mgr->spaceData.GetSize (); index++)
     {
-      iSpaceFactory* n = it.Next ();
-      SpaceFactory* f = static_cast<SpaceFactory*> (n);
+      SpaceFactory* f = mgr->spaceData[index].factory;
       if (strcmp (f->GetIdentifier (), pluginName) == 0)
       {
 	factory = f;
@@ -208,15 +206,13 @@ void ViewControl::Realize (const char* pluginName)
   }
 
   // Otherwise search for the least represented space
-  size_t i = 0;
   size_t smallest = 1000;
   size_t smallestIndex = 0;
   iSpaceFactory* smallestFactory = nullptr;
 
-  for (csRefArray<SpaceFactory>::ConstIterator it =
-	 mgr->GetSpaceFactories ().GetIterator (); it.HasNext (); )
+  for (size_t i = 0; i < mgr->spaceData.GetSize (); i++)
   {
-    iSpaceFactory* f = it.Next ();
+    iSpaceFactory* f = mgr->spaceData[i].factory;
 
     // Check for the least represented space
     if (smallest > f->GetEnabledCount ()
@@ -226,8 +222,6 @@ void ViewControl::Realize (const char* pluginName)
       smallestIndex = i;
       smallestFactory = f;
     }
-
-    i++;
   }
 
   // Create the space
@@ -295,13 +289,11 @@ SpaceComboBox::SpaceComboBox
   // Build the list of menu entries for all spaces
   iComponentManager* imgr = editor->GetComponentManager ();
   ComponentManager* mgr = static_cast<ComponentManager*> (imgr);
-  csRefArray<SpaceFactory>::ConstIterator spaces =
-    mgr->GetSpaceFactories ().GetIterator ();
 
-  while (spaces.HasNext ())
+  for (size_t i = 0; i < mgr->spaceData.GetSize (); i++)
   {
     // Add the menu entry for this space
-    iSpaceFactory* f = spaces.Next ();
+    iSpaceFactory* f = mgr->spaceData[i].factory;
     wxString label (f->GetLabel (), wxConvUTF8);
     Append (label, f->GetIcon ());
   }
@@ -327,13 +319,9 @@ void SpaceComboBox::OnSelected (wxCommandEvent& event)
   iComponentManager* imgr = editor->GetComponentManager ();
   ComponentManager* mgr = static_cast<ComponentManager*> (imgr);
 
-  csRefArray<SpaceFactory>::ConstIterator spaces =
-    mgr->GetSpaceFactories ().GetIterator ();
-
-  size_t i = 0;
-  while (spaces.HasNext ())
+  for (size_t i = 0; i < mgr->spaceData.GetSize (); i++)
   {
-    iSpaceFactory* f = spaces.Next ();
+    iSpaceFactory* f = mgr->spaceData[i].factory;
     wxString label (f->GetLabel (), wxConvUTF8);
 
     if (GetValue () == label)
@@ -379,8 +367,6 @@ void SpaceComboBox::OnSelected (wxCommandEvent& event)
 
       break;
     }
-
-    i++;
   }
 
   // Put back the previous selection

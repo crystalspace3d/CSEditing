@@ -42,20 +42,27 @@ struct iLayout : public virtual iBase
 {
   SCF_INTERFACE (iLayout, 0, 0, 1);
 
+  virtual wxWindow* GetwxWindow () const = 0;
+
   /// \todo
+  // Take label and icon from the iOperator?
   virtual iOperator* AppendOperator (const char* id, const char* label, const char* icon) = 0;
   /// \todo
+  // Take label from the iMenu?
   virtual iMenu* AppendMenu (const char* id, const char* label) = 0;
   /// \todo
+  // return the label widget
   virtual void AppendLabel (const char* label) = 0;
+  /// \todo
+  virtual void AppendWindow (wxWindow* window) = 0;
   /// \todo
   virtual void AppendSeparator () = 0;
 
-  // remove?
+  // those methods are disabled until they are implemented
   /// \todo
-  virtual iLayout* Row () = 0;
+  //virtual iLayout* Row () = 0;
   /// \todo
-  virtual iLayout* Column () = 0;
+  //virtual iLayout* Column () = 0;
 };
 
 } // namespace Core

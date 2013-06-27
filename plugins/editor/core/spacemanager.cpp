@@ -18,7 +18,6 @@
 #include <cssysdef.h>
 
 #include <csutil/objreg.h>
-#include <csutil/scf.h>
 #include <csutil/weakrefarr.h>
 #include <iutil/document.h>
 #include <iutil/plugin.h>
@@ -30,7 +29,6 @@
 #include "ieditor/layout.h"
 #include "ieditor/menu.h"
 #include "ieditor/operator.h"
-#include "ieditor/panel.h"
 
 #include "editor.h"
 #include "layouts.h"
@@ -47,8 +45,9 @@
 CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 {
 
-SpaceFactory::SpaceFactory (Editor* editor)
-  : scfImplementationType (this), editor (editor), icon (sceneIcon_xpm), allowMultiple (true)
+SpaceFactory::SpaceFactory (ComponentManager* manager)
+  : scfImplementationType (this), manager (manager), icon (sceneIcon_xpm),
+  allowMultiple (true)
 {
 }
 
@@ -78,12 +77,12 @@ csPtr<iSpace> SpaceFactory::CreateInstance (wxWindow* parent)
   if (!base)
   {
     if (!iSCF::SCF->ClassRegistered  (identifier))
-      csReport (editor->manager->object_reg, CS_REPORTER_SEVERITY_ERROR,
+      csReport (manager->editor->manager->object_reg, CS_REPORTER_SEVERITY_ERROR,
 		"crystalspace.editor.core.spacefactory",
-		"The space component %s is not registered",
+		"The space component %s is not registered to SCF",
 		CS::Quote::Single (identifier));
 
-    else csReport (editor->manager->object_reg, CS_REPORTER_SEVERITY_ERROR,
+    else csReport (manager->editor->manager->object_reg, CS_REPORTER_SEVERITY_ERROR,
 		   "crystalspace.editor.core.spacefactory",
 		   "Failed to instantiate space factory %s",
 		   CS::Quote::Single (identifier.GetData ()));
@@ -94,7 +93,7 @@ csPtr<iSpace> SpaceFactory::CreateInstance (wxWindow* parent)
   csRef<iSpace> ref = scfQueryInterface<iSpace> (base);
   if (!ref)
   {
-    csReport (editor->manager->object_reg, CS_REPORTER_SEVERITY_ERROR,
+    csReport (manager->editor->manager->object_reg, CS_REPORTER_SEVERITY_ERROR,
 	      "crystalspace.editor.core.spacefactory",
 	      "The instanciation of the space factory %s is not of type iSpace",
 	      CS::Quote::Single (identifier.GetData ()));
@@ -102,26 +101,105 @@ csPtr<iSpace> SpaceFactory::CreateInstance (wxWindow* parent)
   }
 
   base->DecRef ();
-  ref->Initialize (editor->manager->object_reg, editor, this, parent);
-  spaces.Push (ref); 
+  ref->Initialize (manager->editor->manager->object_reg, manager->editor, this, parent);
+
+  SpaceEntry entry;
+  entry.space = ref;
+
+  for (size_t i = 0; i < manager->spaceData.GetSize (); i++)
+    if (manager->spaceData[i].factory == this)
+    {
+      const ComponentManager::SpaceData& data = manager->spaceData[i];
+      for (size_t j = 0; j < data.panelFactories.GetSize (); j++)
+      {
+	PanelEntry panelEntry;
+	panelEntry.panel = data.panelFactories[j]->CreateInstance ();
+	entry.panels.Push (panelEntry);
+      }
+    }
+
+  spaces.Push (entry);
 
   return csPtr<iSpace> (ref);
 }
 
 size_t SpaceFactory::GetCount ()
 {
-  spaces.Compact ();
+  Compact ();
   return spaces.GetSize ();
 }
 
 size_t SpaceFactory::GetEnabledCount ()
 {
-  spaces.Compact ();
+  Compact ();
   size_t count = 0;
   for (size_t i = 0; i < spaces.GetSize (); i++)
-    if (spaces[i] && spaces[i]->GetEnabled ())
+    if (spaces[i].space && spaces[i].space->GetEnabled ())
       count++;
   return count;
+}
+
+void SpaceFactory::Compact ()
+{
+  for (size_t i = spaces.GetSize (); i > 0 ; i--)
+    if (!spaces[i - 1].space)
+      spaces.DeleteIndexFast (i - 1);
+}
+
+//----------------------------------------------------------------------
+
+PanelFactory::PanelFactory (Editor* editor)
+   : scfImplementationType (this), editor (editor)
+ {}
+
+const char* PanelFactory::GetIdentifier () const
+{
+  return identifier;
+}
+
+const char* PanelFactory::GetLabel () const
+{
+  return label;
+}
+
+const char* PanelFactory::GetSpace () const
+{
+  return space;
+}
+
+csPtr<iPanel> PanelFactory::CreateInstance ()
+{
+  csRef<iBase> base = iSCF::SCF->CreateInstance (identifier);
+  if (!base)
+  {
+    if (!iSCF::SCF->ClassRegistered  (identifier))
+      csReport (editor->manager->object_reg, CS_REPORTER_SEVERITY_ERROR,
+		"crystalspace.editor.core.panelfactory",
+		"The panel component %s is not registered to SCF",
+		CS::Quote::Single (identifier));
+
+    else csReport (editor->manager->object_reg, CS_REPORTER_SEVERITY_ERROR,
+		   "crystalspace.editor.core.panelfactory",
+		   "Failed to instantiate panel factory %s",
+		   CS::Quote::Single (identifier.GetData ()));
+
+    return csPtr<iPanel> (nullptr);
+  }
+
+  csRef<iPanel> ref = scfQueryInterface<iPanel> (base);
+  if (!ref)
+  {
+    csReport (editor->manager->object_reg, CS_REPORTER_SEVERITY_ERROR,
+	      "crystalspace.editor.core.panelfactory",
+	      "The instanciation of the panel factory %s is not of type iPanel",
+	      CS::Quote::Single (identifier.GetData ()));
+    return csPtr<iPanel> (nullptr);
+  }
+
+  base->DecRef ();
+  ref->Initialize (editor->manager->object_reg, editor, this);
+
+  return csPtr<iPanel> (ref);
 }
 
 //----------------------------------------------------------------------
@@ -145,7 +223,7 @@ bool ComponentManager::RegisterComponent (const char* pluginName)
   if (components.Contains (pluginName))
   {
     csReport (editor->manager->object_reg, CS_REPORTER_SEVERITY_WARNING,
-	      "crystalspace.editor.core.spacemanager",
+	      "crystalspace.editor.core.componentmanager",
 	      "The editor component %s is already registered",
 	      CS::Quote::Single (pluginName));
     return true;
@@ -157,12 +235,12 @@ bool ComponentManager::RegisterComponent (const char* pluginName)
   {
     if (!iSCF::SCF->ClassRegistered  (pluginName))
       csReport (editor->manager->object_reg, CS_REPORTER_SEVERITY_ERROR,
-		"crystalspace.editor.core.spacemanager",
-		"The editor component %s is not registered",
+		"crystalspace.editor.core.componentmanager",
+		"The editor component %s is not registered to SCF",
 		CS::Quote::Single (pluginName));
 
     else csReport (editor->manager->object_reg, CS_REPORTER_SEVERITY_ERROR,
-		   "crystalspace.editor.core.spacemanager",
+		   "crystalspace.editor.core.componentmanager",
 		   "Failed to instantiate editor component %s",
 		   CS::Quote::Single (pluginName));
 
@@ -173,7 +251,7 @@ bool ComponentManager::RegisterComponent (const char* pluginName)
   if (!ref)
   {
     csReport (editor->manager->object_reg, CS_REPORTER_SEVERITY_ERROR,
-	      "crystalspace.editor.core.spacemanager",
+	      "crystalspace.editor.core.componentmanager",
 	      "The instanciation of the editor component %s is not of type iEditorComponent",
 	      CS::Quote::Single (pluginName));
     return false;
@@ -184,18 +262,23 @@ bool ComponentManager::RegisterComponent (const char* pluginName)
     return false;
 
   components.PutUnique (pluginName, ref);
-  // TODO: notify component loaded. In debug mode only? No for user error reports
+
+  csReport (editor->manager->object_reg, CS_REPORTER_SEVERITY_NOTIFY,
+	    "crystalspace.editor.core.componentmanager",
+	    "Editor component %s registered",
+	    CS::Quote::Single (pluginName));
+
   return true;
 }
 
 bool ComponentManager::RegisterSpace (const char* pluginName)
 {
   // Check if this space is already registered
-  for (size_t i = 0; i < spaceFactories.GetSize (); i++)
-    if (spaceFactories[i]->identifier == pluginName)
+  for (size_t i = 0; i < spaceData.GetSize (); i++)
+    if (spaceData[i].factory->identifier == pluginName)
     {
       csReport (editor->manager->object_reg, CS_REPORTER_SEVERITY_WARNING,
-		"crystalspace.editor.core.spacemanager",
+		"crystalspace.editor.core.componentmanager",
 		"The space %s is already registered",
 		CS::Quote::Single (pluginName));
       return true;
@@ -205,27 +288,33 @@ bool ComponentManager::RegisterSpace (const char* pluginName)
   csRef<iDocumentNode> klass = iSCF::SCF->GetPluginMetadataNode (pluginName);
   if (klass)
   {
-    csRef<SpaceFactory> f;
-    f.AttachNew (new SpaceFactory (editor));
-    f->identifier = pluginName;
+    SpaceData data;
+    data.factory.AttachNew (new SpaceFactory (this));
+    data.factory->identifier = pluginName;
     csRef<iDocumentNode> m = klass->GetNode ("allowMultiple");
-    if (m) f->allowMultiple = strcmp (m->GetContentsValue (), "true") == 0;
+    if (m) data.factory->allowMultiple = strcmp (m->GetContentsValue (), "true") == 0;
     csRef<iDocumentNode> label = klass->GetNode ("description");
-    if (label) f->label = label->GetContentsValue ();
+    if (label) data.factory->label = label->GetContentsValue ();
       
-    spaceFactories.Push (f);
+    spaceData.Push (data);
+
+    csReport (editor->manager->object_reg, CS_REPORTER_SEVERITY_NOTIFY,
+	      "crystalspace.editor.core.componentmanager",
+	      "Editor space %s registered",
+	      CS::Quote::Single (pluginName));
+
     return true;
   }
 
   // Report for the missing plugin metadata node
   if (!iSCF::SCF->ClassRegistered  (pluginName))
     csReport (editor->manager->object_reg, CS_REPORTER_SEVERITY_ERROR,
-	      "crystalspace.editor.core.spacemanager",
+	      "crystalspace.editor.core.componentmanager",
 	      "The space component %s is not registered to SCF",
 	      CS::Quote::Single (pluginName));
 
   else csReport (editor->manager->object_reg, CS_REPORTER_SEVERITY_ERROR,
-		 "crystalspace.editor.core.spacemanager",
+		 "crystalspace.editor.core.componentmanager",
 		 "No SCF metadata found for the space component %s",
 		 CS::Quote::Single (pluginName));
 
@@ -239,12 +328,12 @@ bool ComponentManager::RegisterHeader (const char* pluginName)
   {
     if (!iSCF::SCF->ClassRegistered  (pluginName))
       csReport (editor->manager->object_reg, CS_REPORTER_SEVERITY_ERROR,
-		"crystalspace.editor.core.spacemanager",
-		"The header component %s is not registered",
+		"crystalspace.editor.core.componentmanager",
+		"The header component %s is not registered to SCF",
 		CS::Quote::Single (pluginName));
 
     else csReport (editor->manager->object_reg, CS_REPORTER_SEVERITY_ERROR,
-		   "crystalspace.editor.core.spacemanager",
+		   "crystalspace.editor.core.componentmanager",
 		   "Failed to instantiate header component %s",
 		   CS::Quote::Single (pluginName));
 
@@ -255,7 +344,7 @@ bool ComponentManager::RegisterHeader (const char* pluginName)
   if (!header)
   {
     csReport (editor->manager->object_reg, CS_REPORTER_SEVERITY_ERROR,
-	      "crystalspace.editor.core.spacemanager",
+	      "crystalspace.editor.core.componentmanager",
 	      "The instanciation of the header component %s is not of type iHeader",
 	      CS::Quote::Single (pluginName));
     return false;
@@ -270,72 +359,54 @@ bool ComponentManager::RegisterHeader (const char* pluginName)
     if (!space)
     {
       csReport (editor->manager->object_reg, CS_REPORTER_SEVERITY_ERROR,
-		"crystalspace.editor.core.spacemanager",
+		"crystalspace.editor.core.componentmanager",
 		"No space defined in the plugin metadata of the header %s",
 		CS::Quote::Single (pluginName));
       return false;
     }
 
-    // Check that the space is valid
-    bool spaceValid = false;
-    for (size_t i = 0; i < spaceFactories.GetSize (); i++)
-      if (spaceFactories[i]->identifier == space->GetContentsValue ())
+    // Search for the associated space factory
+    for (size_t i = 0; i < spaceData.GetSize (); i++)
+      if (spaceData[i].factory->identifier == space->GetContentsValue ())
       {
-	spaceValid = true;
-	break;
+	// Check that a previous header is not already registered
+	if (spaceData[i].header)
+	{
+	  csReport (editor->manager->object_reg, CS_REPORTER_SEVERITY_ERROR,
+		    "crystalspace.editor.core.componentmanager",
+		    "The registration of the header %s failed because another header "
+		    "component was already registered for the space %s",
+		    CS::Quote::Single (pluginName), CS::Quote::Single (space->GetContentsValue ()));
+	  return false;
+	}
+
+	// Register the header
+	spaceData[i].header = header;
+
+	csReport (editor->manager->object_reg, CS_REPORTER_SEVERITY_NOTIFY,
+		  "crystalspace.editor.core.componentmanager",
+		  "Editor header %s registered",
+		  CS::Quote::Single (pluginName));
+
+	return true;
       }
 
-    if (!spaceValid)
-    {
-      csReport (editor->manager->object_reg, CS_REPORTER_SEVERITY_ERROR,
-		"crystalspace.editor.core.spacemanager",
-		"The space defined in the plugin metadata of the header %s is not valid (%s)",
-		CS::Quote::Single (pluginName), CS::Quote::Single (space->GetContentsValue ()));
-      return false;
-    }
-
-    // Register the header
-    headers.Put (space->GetContentsValue (), header);
-    return true;
+    csReport (editor->manager->object_reg, CS_REPORTER_SEVERITY_ERROR,
+	      "crystalspace.editor.core.componentmanager",
+	      "The space defined in the plugin metadata of the header %s is not valid (%s)",
+	      CS::Quote::Single (pluginName), CS::Quote::Single (space->GetContentsValue ()));
+    return false;
   }
 
   csReport (editor->manager->object_reg, CS_REPORTER_SEVERITY_ERROR,
-	    "crystalspace.editor.core.spacemanager",
+	    "crystalspace.editor.core.componentmanager",
 	    "Failed to register header");
   return false;
 }
 
 bool ComponentManager::RegisterPanel (const char* pluginName)
 {
-  csRef<iBase> base = iSCF::SCF->CreateInstance (pluginName);
-  if (!base)
-  {
-    if (!iSCF::SCF->ClassRegistered  (pluginName))
-      csReport (editor->manager->object_reg, CS_REPORTER_SEVERITY_ERROR,
-		"crystalspace.editor.core.spacemanager",
-		"The panel component %s is not registered",
-		CS::Quote::Single (pluginName));
-
-    else csReport (editor->manager->object_reg, CS_REPORTER_SEVERITY_ERROR,
-		   "crystalspace.editor.core.spacemanager",
-		   "Failed to instantiate panel component %s",
-		   CS::Quote::Single (pluginName));
-
-    return false;
-  }
-
-  csRef<iPanel> panel = scfQueryInterface<iPanel> (base);
-  if (!panel)
-  {
-    csReport (editor->manager->object_reg, CS_REPORTER_SEVERITY_ERROR,
-	      "crystalspace.editor.core.spacemanager",
-	      "The instanciation of the panel component %s is not of type iPanel",
-	      CS::Quote::Single (pluginName));
-    return false;
-  }
-
-  base->DecRef ();
-
+  // Create the panel factory
   csRef<iDocumentNode> klass = iSCF::SCF->GetPluginMetadataNode (pluginName);
   if (klass)
   {
@@ -343,34 +414,138 @@ bool ComponentManager::RegisterPanel (const char* pluginName)
     if (!space)
     {
       csReport (editor->manager->object_reg, CS_REPORTER_SEVERITY_ERROR,
-		"crystalspace.editor.core.spacemanager",
+		"crystalspace.editor.core.componentmanager",
 		"No space defined in the plugin metadata of the panel %s",
 		CS::Quote::Single (pluginName));
       return false;
     }
 
-    // TODO: check space valid
-    panels.Put (space->GetContentsValue (), panel);
-    return true;
+    // Search for the associated space factory
+    for (size_t i = 0; i < spaceData.GetSize (); i++)
+      if (spaceData[i].factory->identifier == space->GetContentsValue ())
+      {
+	// Check if this panel is already registered
+	for (size_t j = 0; j < spaceData[i].panelFactories.GetSize (); j++)
+	  if (!strcmp (spaceData[i].panelFactories[j]->GetIdentifier (), pluginName))
+	  {
+	    csReport (editor->manager->object_reg, CS_REPORTER_SEVERITY_WARNING,
+		      "crystalspace.editor.core.componentmanager",
+		      "The panel %s is already registered",
+		      CS::Quote::Single (pluginName));
+	    return true;
+	  }
+
+	// Create the panel factory
+	csRef<PanelFactory> factory;
+	factory.AttachNew (new PanelFactory (editor));
+	factory->identifier = pluginName;
+	factory->space = space->GetContentsValue ();
+	csRef<iDocumentNode> label = klass->GetNode ("description");
+	if (label) factory->label = label->GetContentsValue ();
+
+	spaceData[i].panelFactories.Push (factory);
+
+	csReport (editor->manager->object_reg, CS_REPORTER_SEVERITY_NOTIFY,
+		  "crystalspace.editor.core.componentmanager",
+		  "Editor panel %s registered",
+		  CS::Quote::Single (pluginName));
+
+	return true;
+      }
+
+    csReport (editor->manager->object_reg, CS_REPORTER_SEVERITY_ERROR,
+	      "crystalspace.editor.core.componentmanager",
+	      "The space defined in the plugin metadata of the header %s is not valid (%s)",
+	      CS::Quote::Single (pluginName), CS::Quote::Single (space->GetContentsValue ()));
+    return false;
   }
 
-  csReport (editor->manager->object_reg, CS_REPORTER_SEVERITY_ERROR,
-	    "crystalspace.editor.core.spacemanager",
-	    "Failed to register panel");
+  // Report for the missing plugin metadata node
+  if (!iSCF::SCF->ClassRegistered  (pluginName))
+    csReport (editor->manager->object_reg, CS_REPORTER_SEVERITY_ERROR,
+	      "crystalspace.editor.core.componentmanager",
+	      "The panel component %s is not registered to SCF",
+	      CS::Quote::Single (pluginName));
 
+  else csReport (editor->manager->object_reg, CS_REPORTER_SEVERITY_ERROR,
+		 "crystalspace.editor.core.componentmanager",
+		 "No SCF metadata found for the panel component %s",
+		 CS::Quote::Single (pluginName));
+
+  return false;
+}
+
+bool ComponentManager::RegisterPanel (iPanelFactory* panelFactory)
+{
+  // Search for the associated space factory
+  for (size_t i = 0; i < spaceData.GetSize (); i++)
+    if (spaceData[i].factory->identifier == panelFactory->GetSpace ())
+    {
+      spaceData[i].panelFactories.Push (panelFactory);
+
+      // Add a panel to all active spaces
+      SpaceFactory* factory = spaceData[i].factory;
+      for (size_t j = 0; j < factory->spaces.GetSize (); j++)
+      {
+	SpaceFactory::PanelEntry panelEntry;
+	panelEntry.panel = panelFactory->CreateInstance ();
+	factory->spaces[j].panels.Push (panelEntry);
+      }
+
+      return true;
+    }
+
+  csReport (editor->manager->object_reg, CS_REPORTER_SEVERITY_ERROR,
+	    "crystalspace.editor.core.componentmanager",
+	    "The space defined in the panel factory %s is not valid (%s)",
+	    CS::Quote::Single (panelFactory->GetLabel ()), CS::Quote::Single (panelFactory->GetSpace ()));
+  return false;
+}
+
+bool ComponentManager::UnregisterPanel (iPanelFactory* panel)
+{
+  // Search for the associated space factory
+  for (size_t i = 0; i < spaceData.GetSize (); i++)
+    if (spaceData[i].factory->identifier == panel->GetSpace ())
+    {
+      size_t index = spaceData[i].panelFactories.Find (panel);
+      if (index == csArrayItemNotFound) return false;
+      spaceData[i].panelFactories.DeleteIndexFast (index);
+
+      // Remove the existing panels on all active spaces
+      SpaceFactory* factory = spaceData[i].factory;
+      for (size_t j = 0; j < factory->spaces.GetSize (); j++)
+      {
+	SpaceFactory::PanelEntry& panelEntry = factory->spaces[j].panels[index];
+
+	// Remove the associated widget from the GUI
+	if (panelEntry.collapsiblePane)
+	{
+	  wxWindow* window = factory->spaces[j].space->GetwxWindow ();
+	  if (window && window->GetSizer ())
+	    window->GetSizer ()->Detach (panelEntry.collapsiblePane);
+	  delete panelEntry.collapsiblePane;
+	}
+
+	// Delete the panel
+	factory->spaces[j].panels.DeleteIndexFast (index);
+      }
+
+      return true;
+    }
+
+  csReport (editor->manager->object_reg, CS_REPORTER_SEVERITY_ERROR,
+	    "crystalspace.editor.core.componentmanager",
+	    "The space defined in the panel factory %s is not valid (%s)",
+	    CS::Quote::Single (panel->GetLabel ()), CS::Quote::Single (panel->GetSpace ()));
   return false;
 }
 
 iSpaceFactory* ComponentManager::FindSpaceFactory (const char* pluginName, size_t& index) const
 {
-  index = 0;
-  for (csRefArray<SpaceFactory>::ConstIterator it =
-	 spaceFactories.GetIterator (); it.HasNext (); index++)
-  {
-    iSpaceFactory* n = it.Next ();
-    SpaceFactory* factory = static_cast<SpaceFactory*> (n);
-    if (factory->identifier == pluginName) return factory;
-  }
+  for (index = 0; index < spaceData.GetSize (); index++)
+    if (spaceData[index].factory->identifier == pluginName)
+      return spaceData[index].factory;
 
   return nullptr;
 }
@@ -382,92 +557,127 @@ iEditorComponent* ComponentManager::FindComponent (const char* pluginName) const
 
 bool ComponentManager::HandleEvent (iEvent &event)
 {
-  for (csRefArray<SpaceFactory>::Iterator it =
-	 spaceFactories.GetIterator (); it.HasNext (); )
+  // Redraw all spaces
+  for (size_t i = 0; i < spaceData.GetSize (); i++)
   {
-    iSpaceFactory* n = it.Next ();
-    SpaceFactory* f = static_cast<SpaceFactory*> (n);
-    if (!f) continue;
-
-    for (csWeakRefArray<iSpace>::Iterator spaces =
-	   f->spaces.GetIterator (); spaces.HasNext (); )
+    SpaceFactory* f = spaceData[i].factory;
+    for (size_t j = 0; j < f->spaces.GetSize (); j++)
     {
-      iSpace* space = spaces.Next ();
-      if (space && space->GetEnabled ()) ReDraw (space);
+      iSpace* space = f->spaces[j].space;
+      if (space && space->GetEnabled ()) ReDraw (&f->spaces[j], &spaceData[i]);
     }
   }
 
   return false;
 }
 
-const csRefArray<SpaceFactory>& ComponentManager::GetSpaceFactories ()
-{
-  return spaceFactories;
-}
-
-
 void ComponentManager::ReDraw (iSpace* space)
 {
   if (!space || !space->GetFactory ()) return;
-  const char* id = space->GetFactory ()->GetIdentifier ();
 
-  // Draw header
-  csRef<iHeader> header = headers.Get (id, csRef<iHeader>());
-  if (header)
+  for (size_t i = 0; i < spaceData.GetSize (); i++)
   {
-    wxWindow* win = space->GetwxWindow ();
-    if (win && win->GetParent ())
+    SpaceFactory* f = spaceData[i].factory;
+    if (f->identifier == space->GetFactory ()->GetIdentifier ())
     {
-      ViewControl* ctrl = static_cast<ViewControl*>(win->GetParent ());
+      for (size_t j = 0; j < f->spaces.GetSize (); j++)
+	if (f->spaces[j].space == space)
+	{
+	  ReDraw (&f->spaces[j], &spaceData[i]);
+	  return;
+	}
+
+      csReport (editor->manager->object_reg, CS_REPORTER_SEVERITY_ERROR,
+		"crystalspace.editor.core.spacefactory",
+		"The space %s is no longer active",
+		CS::Quote::Single (space->GetFactory ()->GetIdentifier ()));
+    }
+  }
+
+  csReport (editor->manager->object_reg, CS_REPORTER_SEVERITY_ERROR,
+	    "crystalspace.editor.core.spacefactory",
+	    "Could not find the factory of the space %s",
+	    CS::Quote::Single (space->GetFactory ()->GetIdentifier ()));
+}
+
+void ComponentManager::ReDraw (SpaceFactory::SpaceEntry* entry, SpaceData* spaceData)
+{
+  wxWindow* window = entry->space->GetwxWindow ();
+
+  // Draw the header
+  if (spaceData->header)
+  {
+    if (window && window->GetParent ())
+    {
+      ViewControl* ctrl = static_cast<ViewControl*> (window->GetParent ());
       if (ctrl)
       {
-        ctrl->SetLayout (0);
+        ctrl->SetLayout (nullptr);
         csRef<iLayout> layout;
         layout.AttachNew (new HeaderLayout (editor->manager->object_reg,
 					    editor, ctrl->GetRegion ()));
         ctrl->SetLayout (layout);
-        header->Draw (editor->context, layout);
+        spaceData->header->Draw (editor->context, layout);
         ctrl->GetRegion ()->GetParent ()->Layout ();
       }
     }
   }
-  
-  // Draw panels
-  wxWindow* win = space->GetwxWindow ();
-  if (win)
+
+  // Draw the panels
+  if (window)
   {
-    csHash<csRef<iPanel>, csString>::Iterator panelsit = panels.GetIterator (id);
-
-    if (panelsit.HasNext ())
+    if (entry->panels.GetSize ())
     {
-      wxSizer* sz = new wxBoxSizer (wxVERTICAL);
-      if (win->GetSizer ())
-        win->GetSizer ()->Clear (true);
-      
-      while (panelsit.HasNext ())
+      // Create the size if needed
+      wxSizer* sizer = window->GetSizer ();
+      if (!sizer)
       {
-        iPanel* panel = panelsit.Next ();
-        if (panel && panel->Poll (editor->context))
-        {
-          csRef<iLayout> layout;
-          
-          csRef<iFactory> fact = scfQueryInterface<iFactory> (panel);
-          
-          CollapsiblePane* collpane = new CollapsiblePane
-	    (editor->manager->object_reg, win, fact->QueryDescription ());
-
-          layout.AttachNew (new PanelLayout (editor->manager->object_reg,
-					     editor, collpane->GetPane ()));
-          collpane->SetLayout (layout);
-          panel->Draw (editor->context, layout);
-
-	  collpane->Expand ();
-          sz->Add (collpane, 0, wxGROW|wxALL, 10);
-        }
+	sizer = new wxBoxSizer (wxVERTICAL);
+	window->SetSizer (sizer, true);
       }
 
-      win->SetSizer (sz, true);
-      sz->Layout ();
+      // Update the state of each panel
+      for (size_t i = 0; i < entry->panels.GetSize (); i++)
+      {
+	SpaceFactory::PanelEntry& panelEntry = entry->panels[i];
+
+	// Check if the panel is visible
+        if (panelEntry.panel->PollVisible (editor->context))
+        {
+	  // Check if the panel needs to be redrawn
+	  if (!panelEntry.collapsiblePane
+	      || panelEntry.panel->PollRedraw (editor->context))
+	  {
+	    panelEntry.collapsiblePane = new CollapsiblePane
+	      (editor->manager->object_reg, window, panelEntry.panel->GetFactory ()->GetLabel ());
+
+	    csRef<iLayout> layout;
+	    layout.AttachNew (new PanelLayout (editor->manager->object_reg,
+					       editor, panelEntry.collapsiblePane->GetPane ()));
+	    panelEntry.collapsiblePane->SetLayout (layout);
+	    panelEntry.panel->Draw (editor->context, layout);
+
+	    panelEntry.collapsiblePane->Expand ();
+	    // TODO: insert at index
+	    //sizer->Add (panelEntry.collapsiblePane, 0, wxGROW | wxALL, 10);
+	    sizer->Add (panelEntry.collapsiblePane, 0, wxGROW | wxALL, 10);
+	  }
+
+	  else if (panelEntry.collapsiblePane)
+	  {
+	    // Make the panel visible
+	    panelEntry.collapsiblePane->Show ();
+	  }
+        }
+
+	else if (panelEntry.collapsiblePane)
+	{
+	  // Hide the panel
+	  panelEntry.collapsiblePane->Hide ();
+	}
+      }
+
+      sizer->Layout ();
     }
   }
 }
@@ -483,19 +693,11 @@ void ComponentManager::Update ()
   }
 
   // Update the spaces
-  for (csRefArray<SpaceFactory>::Iterator it =
-	 spaceFactories.GetIterator (); it.HasNext (); )
+  for (size_t i = 0; i < spaceData.GetSize (); i++)
   {
-    iSpaceFactory* n = it.Next ();
-    SpaceFactory* f = static_cast<SpaceFactory*> (n);
-    if (!f) continue;
-
-    for (csWeakRefArray<iSpace>::Iterator spaces =
-	   f->spaces.GetIterator (); spaces.HasNext (); )
-    {
-      iSpace* space = spaces.Next ();
-      if (space) space->Update ();
-    }
+    SpaceFactory* f = spaceData[i].factory;
+    for (size_t j = 0; j < f->spaces.GetSize (); j++)
+      if (f->spaces[j].space) f->spaces[j].space->Update ();
   }
 }
 

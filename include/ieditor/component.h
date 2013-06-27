@@ -41,11 +41,12 @@ namespace Core {
 struct iEditor;
 struct iEditorComponent;
 struct iHeader;
-struct iPanel;
+struct iPanelFactory;
 struct iSpaceFactory;
 
 /**
- * A component of the cseditor that is active but not visible.
+ * A component of the cseditor that is active but not visible within
+ * the graphical user interface.
  */
 struct iEditorComponent : public virtual iBase
 {
@@ -80,6 +81,12 @@ struct iComponentManager : public virtual iBase
 
   /// \todo
   virtual bool RegisterPanel (const char* pluginName) = 0;
+
+  /// \todo
+  virtual bool RegisterPanel (iPanelFactory* panel) = 0;
+
+  /// \todo
+  virtual bool UnregisterPanel (iPanelFactory* panel) = 0;
 
   /// \todo
   virtual iEditorComponent* FindComponent (const char* pluginName) const = 0;

@@ -50,12 +50,12 @@ struct BaseLayout
   BaseLayout (iObjectRegistry* obj_reg, Editor* editor);
  
   void OnOperator (wxCommandEvent& event);
-  
   void OnMenu (wxCommandEvent& event);
   
   iOperator* GetOperator (const char* id);
   iMenu* GetMenu (const char* id);
-  virtual wxWindow* GetwxWindow () = 0;
+
+  virtual wxWindow* GetwxWindow () const = 0;
 
 protected:
   iObjectRegistry* object_reg;
@@ -77,12 +77,13 @@ struct HeaderLayout : public BaseLayout
     (const char* id, const char* label, const char* icon);
   virtual iMenu* AppendMenu (const char* id, const char* label);
   virtual void AppendLabel (const char* label);
+  virtual void AppendWindow (wxWindow* window);
   virtual void AppendSeparator ();
 
   virtual iLayout* Row ();
   virtual iLayout* Column ();
   
-  virtual wxWindow* GetwxWindow ();
+  virtual wxWindow* GetwxWindow () const;
   
 private:
   wxToolBar* tb;
@@ -100,12 +101,13 @@ struct MenuLayout : public BaseLayout
     (const char* id, const char* label, const char* icon);
   virtual iMenu* AppendMenu (const char* id, const char* label);
   virtual void AppendLabel (const char* label);
+  virtual void AppendWindow (wxWindow* window);
   virtual void AppendSeparator ();
 
   virtual iLayout* Row ();
   virtual iLayout* Column ();
 
-  virtual wxWindow* GetwxWindow ();
+  virtual wxWindow* GetwxWindow () const;
 
 private:
   wxWindow* parent;
@@ -123,12 +125,13 @@ struct PanelLayout : public BaseLayout
     (const char* id, const char* label, const char* icon);
   virtual iMenu* AppendMenu (const char* id, const char* label);
   virtual void AppendLabel (const char* label);
+  virtual void AppendWindow (wxWindow* window);
   virtual void AppendSeparator ();
 
   virtual iLayout* Row ();
   virtual iLayout* Column ();
   
-  virtual wxWindow* GetwxWindow ();
+  virtual wxWindow* GetwxWindow () const;
   
 private:
   wxWindow* parent;
