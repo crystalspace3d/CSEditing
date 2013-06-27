@@ -414,12 +414,24 @@ void SceneTreeCtrl::OnSelChanged (wxTreeEvent& event)
     
     SceneTreeItemData* data =
       static_cast<SceneTreeItemData*> (GetItemData (itemId));
-    if (!data) continue;
+    if (!data)
+    {
+      if (i == 0)
+	objectSelectionContext->SetActiveObject (nullptr);
+       continue;
+    }
 
     iObject* object = data->GetObject ();
-    if (!object) continue;
+    if (!object)
+    {
+      if (i == 0)
+	objectSelectionContext->SetActiveObject (nullptr);
+       continue;
+    }
 
     objectSelectionContext->AddSelectedObject (object);
+    if (i == 0)
+      objectSelectionContext->SetActiveObject (object);
   }
 
   selecting = false;
