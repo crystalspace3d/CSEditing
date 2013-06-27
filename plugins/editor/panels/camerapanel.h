@@ -29,12 +29,19 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 
 class CameraPanel : public scfImplementation1<CameraPanel, iPanel>
 {
+  iPanelFactory* factory;
+
 public:
   CameraPanel (iBase* parent);
   virtual ~CameraPanel ();
   
   //-- iPanel
+  virtual bool Initialize (iObjectRegistry* obj_reg, iEditor* editor,
+			   iPanelFactory* factory);
+  virtual iPanelFactory* GetFactory () const { return factory; }
   virtual bool Poll (iContext* context);
+  virtual bool PollVisible (iContext* context) const;
+  virtual bool PollRedraw (iContext* context) const;
   virtual void Draw (iContext* context, iLayout* layout);
 };
 

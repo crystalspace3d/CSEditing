@@ -45,10 +45,28 @@ CameraPanel::~CameraPanel ()
 {
 }
 
+bool CameraPanel::Initialize (iObjectRegistry* obj_reg, iEditor* editor,
+			      iPanelFactory* factory)
+{
+  this->factory = factory;
+  return true;
+}
+
 bool CameraPanel::Poll (iContext* context)
 {
   csRef<iContextCamera> cameraContext = scfQueryInterface<iContextCamera> (context);
   return cameraContext->GetCamera ();
+}
+
+bool CameraPanel::PollVisible (iContext* context) const
+{
+  csRef<iContextCamera> cameraContext = scfQueryInterface<iContextCamera> (context);
+  return cameraContext->GetCamera ();
+}
+
+bool CameraPanel::PollRedraw (iContext* context) const
+{
+  return false;
 }
 
 void CameraPanel::Draw (iContext* context, iLayout* layout)
@@ -59,12 +77,11 @@ void CameraPanel::Draw (iContext* context, iLayout* layout)
   ori.Format ("Origin: X:%f Y:%f Z:%f", origin[0], origin[1], origin[2]);
   layout->AppendLabel (ori.GetData ());
 
+  csString sect;
   if (cameraContext->GetCamera ()->GetSector ())
-  {
-    csString sect;
     sect.Format ("Sector: %s", cameraContext->GetCamera ()->GetSector ()->QueryObject ()->GetName ());
-    layout->AppendLabel (sect.GetData ());
-  }
+  else sect = "Sector: none";
+  layout->AppendLabel (sect.GetData ());
 }
 
 }
