@@ -198,6 +198,8 @@ using namespace CSE::Editor::Utility;
 BEGIN_EVENT_TABLE (ModifiableEditor, wxPanel)
 EVT_PG_CHANGING (pageId, ModifiableEditor::OnPropertyGridChanging)
 EVT_PG_CHANGED (pageId, ModifiableEditor::OnPropertyGridChanged)
+EVT_PG_ITEM_COLLAPSED (pageId, ModifiableEditor::OnPropertyGridItemChanged)
+EVT_PG_ITEM_EXPANDED (pageId, ModifiableEditor::OnPropertyGridItemChanged)
 EVT_SIZE (ModifiableEditor::OnSize)
 END_EVENT_TABLE ()
 
@@ -216,7 +218,7 @@ ModifiableEditor::ModifiableEditor
 (iObjectRegistry* objectRegistry, wxWindow* parent, wxWindowID id, const wxPoint& position,
  const wxSize& size, long style, const wxString& name)
 : wxPanel (parent, id, position, size, style, name), objectRegistry (objectRegistry),
-resourcePath ("")
+  resourcePath (""), descriptionEnabled (true)
 {
   pluginManager = csQueryRegistry<iPluginManager> (objectRegistry);
   if (!pluginManager) ReportError ("Could not find the plugin manager!");
@@ -229,18 +231,17 @@ resourcePath ("")
 #endif
 
   // Prepare the property grid
-  pgMananager = new wxPropertyGridManager (this, pageId,
-					   wxDefaultPosition, size,
-					   // These and other similar styles are automatically
-					   // passed to the embedded wxPropertyGrid.
-					   wxPG_SPLITTER_AUTO_CENTER|
-					   // Include description box.
-					   wxPG_DESCRIPTION |
-					   // Plus defaults.
-					   wxPG_EX_HELP_AS_TOOLTIPS);
+  long pgstyle = wxPG_SPLITTER_AUTO_CENTER |
+    wxPG_EX_HELP_AS_TOOLTIPS;
+  if (descriptionEnabled)
+    pgstyle |= wxPG_DESCRIPTION;
+
+  pgMananager = new wxPropertyGridManager
+    (this, pageId, wxDefaultPosition, size, pgstyle);
 
   pgMananager->SetPropertyAttributeAll (wxPG_BOOL_USE_CHECKBOX, true);
-  pgMananager->SetDescBoxHeight (56, true);
+  if (descriptionEnabled)
+    pgMananager->SetDescBoxHeight (56, true);
 
   // Load the translator loader plugin
   translatorLoader = csLoadPlugin<iLoaderPlugin>
@@ -253,8 +254,28 @@ void ModifiableEditor::SetResourcePath (const char* path)
   resourcePath = path;
 }
 
+void ModifiableEditor::SetDescriptionEnabled (bool enabled)
+{
+  descriptionEnabled = enabled;
+
+  // Update the style of the property grid manager
+  long style = pgMananager->GetWindowStyle ();
+  if (enabled)
+    style |= wxPG_DESCRIPTION;
+  else
+    style &= ~wxPG_DESCRIPTION;
+  pgMananager->SetWindowStyle (style);
+}
+
+bool ModifiableEditor::GetDescriptionEnabled () const
+{
+  return descriptionEnabled;
+}
+
 void ModifiableEditor::SetModifiable (iModifiable* modifiable) 
 {
+  // TODO: Use Freeze() and Thaw() respectively to disable and enable drawing
+
   this->modifiable = modifiable;
   description = modifiable->GetDescription (objectRegistry);
 
@@ -279,11 +300,14 @@ void ModifiableEditor::SetModifiable (iModifiable* modifiable)
   indexes.DeleteAll ();
   uint id = pgMananager->AddPage ();
   page = pgMananager->GetPage (id);
-  //pgMananager->SetExtraStyle (wxPG_EX_HELP_AS_TOOLTIPS);
+  pgMananager->SetExtraStyle (wxPG_EX_HELP_AS_TOOLTIPS);
 
   // Append the main item as the root
   size_t offset = 0;
   Append (nullptr, description, offset);
+
+  // Update the height of this panel
+  UpdateSize ();
 }
 
 iModifiable* ModifiableEditor::GetModifiable () const 
@@ -525,6 +549,19 @@ void ModifiableEditor::AppendVariant
 		 CS::Quote::Single (label.mb_str (wxConvUTF8)));
 }
 
+void ModifiableEditor::UpdateSize ()
+{
+  // Update the height of the panel in order to include all child widgets
+  wxSize size (-1, -1);
+  // TODO: this computation is rough, the exact value might be found differently.
+  int height = pgMananager->GetVirtualSize ().GetHeight () + page->GetVirtualHeight ();
+  if (descriptionEnabled)
+    height += pgMananager->GetDescBoxHeight () + 5;
+  size.SetHeight (height);
+  SetMinSize (size);
+  //GetParent ()->GetParent ()->Layout ();
+}
+
 void ModifiableEditor::OnSize (wxSizeEvent& event)
 {
   pgMananager->SetSize (event.GetSize ());
@@ -565,11 +602,16 @@ void ModifiableEditor::OnPropertyGridChanged (wxPropertyGridEvent& event)
   modifiable->SetParameterValue (index, variant);
 }
 
+void ModifiableEditor::OnPropertyGridItemChanged (wxPropertyGridEvent& event)
+{
+  UpdateSize ();
+}
+/*
 void ModifiableEditor::SetMessage (const wxString& title, const wxString& message)
 {
   pgMananager->SetDescription (title, message);
 }
-
+*/
 void ModifiableEditor::Clear ()
 {
   pgMananager->Clear ();
