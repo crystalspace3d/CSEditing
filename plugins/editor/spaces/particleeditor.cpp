@@ -258,7 +258,7 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     emitterList->Clear ();
     effectorList->Clear ();
 
-    mainEditor->SetMessage (wxString (wxT ("Notice:")), message);
+    //mainEditor->SetMessage (wxString (wxT ("Notice:")), message);
   }
 
   wxWindow* CSPartEditSpace::GetwxWindow ()

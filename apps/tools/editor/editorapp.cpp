@@ -159,6 +159,7 @@ bool EditorApplication::OnInit (void)
   if (!componentManager->RegisterComponent ("crystalspace.editor.component.perspectives")) return false;
   if (!componentManager->RegisterComponent ("crystalspace.editor.component.maploader")) return false;
   if (!componentManager->RegisterComponent ("crystalspace.editor.component.scenemanager")) return false;
+  if (!componentManager->RegisterComponent ("crystalspace.editor.component.modifiable")) return false;
   if (!componentManager->RegisterComponent ("crystalspace.editor.component.2dinfo")) return false;
   if (!componentManager->RegisterComponent ("crystalspace.editor.component.exit")) return false;
 

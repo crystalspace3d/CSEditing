@@ -29,6 +29,11 @@
         <description>Default map and library loader</description>
       </class>
       <class>
+        <name>crystalspace.editor.component.modifiable</name>
+        <implementation>ModifiableManager</implementation>
+        <description>Automated generation of GUI for iModibale objects</description>
+      </class>
+      <class>
         <name>crystalspace.editor.component.perspectives</name>
         <implementation>Perspectives</implementation>
         <description>Perspective management</description>
