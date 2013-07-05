@@ -95,13 +95,13 @@ public:
   MODIF_GETDESCRIPTION (BOOL, "AWESOME", "Awesome", "Am I awesome, or what?");
   MODIF_GETDESCRIPTION_CHILD_BEGIN ("STATS_OTHER", "Other stats");
     MODIF_GETDESCRIPTION_C (FLOAT, "FLOATY", "FloatThingy", "Some float",
-			    csConstraintBounded (csVariant (-100.0f), csVariant (500.0f)));
+			    ModifiableConstraintBounded (csVariant (-100.0f), csVariant (500.0f)));
     MODIF_GETDESCRIPTION (VECTOR2, "POSITION", "Position", "Spatial position of the unit");
     MODIF_GETDESCRIPTION (COLOR, "COLOR", "Color", "My color");
     MODIF_GETDESCRIPTION_CHILD_BEGIN ("STATS_SUBOTHER", "Sub-other stats");
-      MODIF_GETDESCRIPTION_C (STRING, "FILE", "VFS file", "A VFS file name", csConstraintVfsFile);
-      MODIF_GETDESCRIPTION_C (STRING, "DIR", "VFS dir", "A VFS dir name", csConstraintVfsDir);
-      MODIF_GETDESCRIPTION_C (STRING, "PATH", "VFS path", "A VFS path name", csConstraintVfsPath);
+      MODIF_GETDESCRIPTION_C (STRING, "FILE", "VFS file", "A VFS file name", ModifiableConstraintVFSFile);
+      MODIF_GETDESCRIPTION_C (STRING, "DIR", "VFS dir", "A VFS dir name", ModifiableConstraintVFSDir);
+      MODIF_GETDESCRIPTION_C (STRING, "PATH", "VFS path", "A VFS path name", ModifiableConstraintVFSPath);
     MODIF_GETDESCRIPTION_CHILD_END ();
   MODIF_GETDESCRIPTION_CHILD_END ();
   MODIF_GETDESCRIPTION_CHILD_BEGIN ("STATS_OTHER2", "Other stats (cont'd)");
