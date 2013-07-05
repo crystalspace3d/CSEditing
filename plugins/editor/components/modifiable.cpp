@@ -18,6 +18,8 @@
 */
 #include <cssysdef.h>
 #include <csutil/scf.h>
+#include <csutil/stringquote.h>
+#include <iengine/engine.h>
 #include <iengine/mesh.h>
 #include <iutil/modifiable.h>
 #include <iutil/object.h>
@@ -38,12 +40,14 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 SCF_IMPLEMENT_FACTORY (ModifiableManager)
 
 ModifiableManager::ModifiableManager (iBase* parent)
-  : scfImplementationType (this, parent), activeObject (nullptr)
+  : scfImplementationType (this, parent), activeObject (nullptr), listening (false)
 {
 }
 
 ModifiableManager::~ModifiableManager()
 {
+  // Unregister all panel factories
+  if (modifiable) Unregister ();
 }
 
 bool ModifiableManager::Initialize (iEditor* editor)
@@ -74,47 +78,151 @@ bool ModifiableManager::Load (iDocumentNode* node)
 
 bool ModifiableManager::HandleEvent (iEvent &event)
 {
+  // Check if there is an active object
   csRef<iContextObjectSelection> objectSelection =
     scfQueryInterface<iContextObjectSelection> (editor->GetContext ());
   if (!objectSelection) return false;
 
-  // Check that the active object of the context has changed
+  if (!objectSelection->GetActiveObject ()) return false;
+
   if (activeObject == objectSelection->GetActiveObject ())
     return false;
+  activeObject = objectSelection->GetActiveObject ();
 
-  // Unregister the previous panels
-  if (activeObject) Unregister ();
+  // Unregister and delete the previous panel factories
+  if (modifiable) Unregister ();
 
   // Search for a iModifiable interface on the active object
-  activeObject = objectSelection->GetActiveObject ();
-  if (!activeObject) return false;
-
-  csRef<CS::Utility::iModifiable> modifiable =
-    scfQueryInterface<CS::Utility::iModifiable> (activeObject);
-
-  csRef<iMeshFactoryWrapper> meshFactory =
-    scfQueryInterface<iMeshFactoryWrapper> (activeObject);
-  if (meshFactory)
-    modifiable = scfQueryInterface<CS::Utility::iModifiable>
-      (meshFactory->GetMeshObjectFactory ());
+  modifiable = FindModifiable (activeObject);
   if (!modifiable) return false;
 
-  factory.AttachNew (new ModifiablePanelFactory (this, modifiable, "Test"));
+  // Create an editor for the modifiable
+  description = modifiable->GetDescription (editor->GetContext ()->GetObjectRegistry ());
+  // TODO: why an IncRef() here?
+  description->IncRef ();
+
+  csRef<ModifiablePanelFactory> factory;
+  factory.AttachNew (new ModifiablePanelFactory (this, description, 0));
   editor->GetComponentManager ()->RegisterPanel (factory);
+  factories.Push (factory);
+
+  // Create an editor for all child modifiable
+  size_t offset = description->GetParameterCount ();
+  for (size_t i = 0; i < description->GetChildrenCount (); i++)
+  {
+    iModifiableDescription* childDescription = description->GetChild (i);
+    // TODO: why an IncRef() here?
+    childDescription->IncRef ();
+    factory.AttachNew
+      (new ModifiablePanelFactory (this, childDescription, offset));
+    editor->GetComponentManager ()->RegisterPanel (factory);
+    factories.Push (factory);
+    offset += childDescription->GetParameterCount ();
+  }
+
+  // If we are in 'viewmesh' mode, then attempt to find the iMovable of the child
+  // mesh
+  csRef<iMeshFactoryWrapper> meshFactory =
+    scfQueryInterface<iMeshFactoryWrapper> (activeObject);
+  if (!meshFactory) return false;
+
+  csRef<iEngine> engine = csQueryRegistry<iEngine>
+    (editor->GetContext ()->GetObjectRegistry ());
+  iMeshWrapper* mesh = engine->FindMeshObject ("viewmesh");
+  if (!mesh) return false;
+
+  if (mesh->GetMeshObject ()->GetFactory ()
+      != meshFactory->GetMeshObjectFactory ())
+    return false;
+
+  viewmeshModifiable = scfQueryInterface<iModifiable> (mesh->GetMeshObject ());
+  if (!viewmeshModifiable) return false;
+
+  viewmeshDescription = viewmeshModifiable->GetDescription
+    (editor->GetContext ()->GetObjectRegistry ());
+
+  // Listen to the state changes of this modifiable
+  modifiable->AddListener (this);
+  listening = true;
 
   return false;
 }
 
+void ModifiableManager::ValueChanged (iModifiable* modifiable, size_t parameterIndex)
+{
+  // Apply the value change to the child mesh
+  if (!viewmeshModifiable) return;
+
+  csStringID id = description->GetParameter (parameterIndex)->GetID ();
+  size_t index = viewmeshDescription->FindParameter (id);
+  if (index == (size_t) ~0)
+  {
+#ifdef CS_DEBUG
+    csReport (editor->GetContext ()->GetObjectRegistry (),
+	      CS_REPORTER_SEVERITY_WARNING,
+	      "crystalspace.editor.component.modifiable",
+	      "Could not find a parameter %s in the child mesh",
+	      CS::Quote::Single (description->GetParameter (parameterIndex)->GetLabel ()));
+#endif
+    return;
+  }
+
+  csVariant value;
+  modifiable->GetParameterValue (parameterIndex, value);
+  viewmeshModifiable->SetParameterValue (index, value);
+}
+
 void ModifiableManager::Unregister ()
 {
-  if (factory) editor->GetComponentManager ()->UnregisterPanel (factory);
+  // Unregister and delete the panel factories
+  for (size_t i = 0; i < factories.GetSize (); i++)
+    editor->GetComponentManager ()->UnregisterPanel (factories[i]);
+  factories.DeleteAll ();
+
+  // Invalidate the viewmesh modifiable
+  viewmeshModifiable.Invalidate ();
+  viewmeshDescription.Invalidate ();
+
+  // Unregister the modifiable listener
+  if (listening)
+  {
+    modifiable->RemoveListener (this);
+    listening = false;
+  }
+}
+
+iModifiable* ModifiableManager::FindModifiable (iObject* object)
+{
+  csRef<iModifiable> modifiable = 
+    scfQueryInterface<iModifiable> (object);
+  if (modifiable) return modifiable;
+
+  csRef<iMeshFactoryWrapper> meshFactory =
+    scfQueryInterface<iMeshFactoryWrapper> (object);
+  if (meshFactory)
+    modifiable = scfQueryInterface<iModifiable>
+      (meshFactory->GetMeshObjectFactory ());
+  if (modifiable) return modifiable;
+
+  csRef<iMeshWrapper> mesh =
+    scfQueryInterface<iMeshWrapper> (object);
+  if (mesh)
+    modifiable = scfQueryInterface<iModifiable>
+      (mesh->GetMeshObject ());
+  if (modifiable) return modifiable;
+
+  return nullptr;
 }
 
 //------------------------------------  ModifiablePanelFactory  ------------------------------------
 
 ModifiablePanelFactory::ModifiablePanelFactory
-(ModifiableManager* manager, CS::Utility::iModifiable* modifiable, const char* label)
-  : scfImplementationType (this), manager (manager), modifiable (modifiable), label (label)
+(ModifiableManager* manager, iModifiableDescription* description, size_t offset)
+  : scfImplementationType (this), manager (manager), description (description),
+  offset (offset)
+{}
+
+ModifiablePanelFactory::~ModifiablePanelFactory ()
 {}
 
 csPtr<iPanel> ModifiablePanelFactory::CreateInstance ()
@@ -129,7 +237,7 @@ const char* ModifiablePanelFactory::GetIdentifier () const
 
 const char* ModifiablePanelFactory::GetLabel () const
 {
-  return label;
+  return description->GetName ();
 }
 
 const char* ModifiablePanelFactory::GetSpace () const
@@ -171,7 +279,9 @@ void ModifiablePanel::Draw (iContext* context, iLayout* layout)
      layout->GetwxWindow (), wxID_ANY, wxDefaultPosition,
      layout->GetwxWindow ()->GetSize (), 0L, wxT ("Modifiable editor"));
   modifiableEditor->SetDescriptionEnabled (false);
-  modifiableEditor->SetModifiable (factory->modifiable);
+  modifiableEditor->SetRecursive (false);
+  modifiableEditor->SetModifiable
+    (factory->manager->modifiable, factory->offset, factory->description);
   layout->AppendWindow (modifiableEditor);
 }
 

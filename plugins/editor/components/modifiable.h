@@ -29,6 +29,7 @@
 #include "ieditor/component.h"
 #include "ieditor/panel.h"
 
+using namespace CS::Utility;
 using namespace CSE::Editor::Core;
 using namespace CSE::Editor::Context;
 using namespace CSE::Editor::Utility;
@@ -40,8 +41,9 @@ class ModifiablePanelFactory;
 
 class ModifiableManager
   : public wxEvtHandler,
-    public scfImplementation1<ModifiableManager, iEditorComponent>,
-    public csBaseEventHandler
+  public scfImplementation2<ModifiableManager, iEditorComponent,
+  iModifiableListener>,
+  public csBaseEventHandler
 {
 public:
   ModifiableManager (iBase* parent);
@@ -56,22 +58,34 @@ public:
   //-- iEventHandler
   virtual bool HandleEvent (iEvent &event);
 
+  //-- iModifiableListener
+  virtual void ValueChanged (iModifiable* modifiable, size_t parameterIndex);
+
 private:
   void Unregister ();
+  iModifiable* FindModifiable (iObject* object);
 
 private:
   iEditor* editor;
   iObject* activeObject;
-  csRef<ModifiablePanelFactory> factory;
+  csRef<iModifiable> modifiable;
+  csRefArray<ModifiablePanelFactory> factories;
+  csRef<iModifiableDescription> description;
+  csRef<iModifiable> viewmeshModifiable;
+  csRef<iModifiableDescription> viewmeshDescription;
+  bool listening;
 
   friend class ModifiablePanel;
+  friend class ModifiablePanelFactory;
 };
 
 class ModifiablePanelFactory
   : public scfImplementation1<ModifiablePanelFactory, iPanelFactory>
 {
 public:
-  ModifiablePanelFactory (ModifiableManager* manager, CS::Utility::iModifiable* modifiable, const char* label);
+  ModifiablePanelFactory
+    (ModifiableManager* manager, iModifiableDescription* description, size_t offset);
+  ~ModifiablePanelFactory ();
 
   //-- iPanelFactory
   virtual csPtr<iPanel> CreateInstance ();
@@ -81,8 +95,8 @@ public:
 
 private:
   ModifiableManager* manager;
-  CS::Utility::iModifiable* modifiable;
-  csString label;
+  iModifiableDescription* description;
+  size_t offset;
 
   friend class ModifiablePanel;
 };
