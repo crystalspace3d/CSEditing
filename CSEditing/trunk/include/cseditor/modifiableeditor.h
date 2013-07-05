@@ -92,16 +92,23 @@ public:
    */
   virtual bool GetDescriptionEnabled () const;
 
-  /// Sets the current active modifiable entity to be edited
-  virtual void SetModifiable (CS::Utility::iModifiable* modifiable);
+  virtual void SetRecursive (bool recursive);
+  virtual bool GetRecursive () const;
 
-  /// Gets the currently active modifiable entity being edited
+  /// Set the current active modifiable entity to be edited
+  virtual void SetModifiable (CS::Utility::iModifiable* modifiable, size_t offset = 0,
+			      CS::Utility::iModifiableDescription* description = nullptr);
+
+  /// Get the currently active modifiable entity being edited
   virtual CS::Utility::iModifiable* GetModifiable () const;
 
-  /// Sets the property grid's message
+  /// Get the description of the modifiable entity that is currently active
+  virtual CS::Utility::iModifiableDescription* GetModifiableDescription () const;
+
+  /// Set the property grid's message
   //void SetMessage (const wxString& title, const wxString& message);
 
-  // Clears all the data from the editor
+  // Clear all data from the editor
   void Clear ();
 
 private:
@@ -133,12 +140,14 @@ private:
   iObjectRegistry* objectRegistry;
   csRef<CS::Utility::iModifiable> modifiable;
   csRef<CS::Utility::iModifiableDescription> description;
+  size_t globalOffset;
 
   csRef<iPluginManager> pluginManager;
   csRef<iTranslator> translator;
   csRef<iLoaderPlugin> translatorLoader;
   csString resourcePath;
   bool descriptionEnabled;
+  bool recursive;
 
   enum
   {

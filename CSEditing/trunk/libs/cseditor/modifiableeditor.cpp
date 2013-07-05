@@ -218,7 +218,7 @@ ModifiableEditor::ModifiableEditor
 (iObjectRegistry* objectRegistry, wxWindow* parent, wxWindowID id, const wxPoint& position,
  const wxSize& size, long style, const wxString& name)
 : wxPanel (parent, id, position, size, style, name), objectRegistry (objectRegistry),
-  resourcePath (""), descriptionEnabled (true)
+  resourcePath (""), descriptionEnabled (true), recursive (true)
 {
   pluginManager = csQueryRegistry<iPluginManager> (objectRegistry);
   if (!pluginManager) ReportError ("Could not find the plugin manager!");
@@ -226,7 +226,8 @@ ModifiableEditor::ModifiableEditor
   // Since the PG components are being dynamically loaded, this function never gets
   // to be run and initialize the wxpg resource module, causing some pretty nasty
   // errors (on Windows, at least)
-#ifndef wxPG_USE_WXMODULE
+#if wxPG_USE_WXMODULE
+#else
   wxPGInitResourceModule ();
 #endif
 
@@ -272,12 +273,32 @@ bool ModifiableEditor::GetDescriptionEnabled () const
   return descriptionEnabled;
 }
 
-void ModifiableEditor::SetModifiable (iModifiable* modifiable) 
+void ModifiableEditor::SetRecursive (bool recursive)
+{
+  this->recursive = recursive;
+
+  // Update the style of the property grid manager
+  long style = pgMananager->GetWindowStyle ();
+  if (!recursive)
+    style |= wxPG_HIDE_CATEGORIES;
+  else
+    style &= ~wxPG_HIDE_CATEGORIES;
+  pgMananager->SetWindowStyle (style);
+}
+
+bool ModifiableEditor::GetRecursive () const
+{
+  return recursive;
+}
+
+void ModifiableEditor::SetModifiable (iModifiable* modifiable, size_t offset,
+				      CS::Utility::iModifiableDescription* descr) 
 {
   // TODO: Use Freeze() and Thaw() respectively to disable and enable drawing
 
   this->modifiable = modifiable;
-  description = modifiable->GetDescription (objectRegistry);
+  description = descr ? descr : modifiable->GetDescription (objectRegistry);
+  globalOffset = offset;
 
   // Create a new translator and parse the translation data of the given modifiable
   translator = csLoadPlugin<iTranslator>
@@ -303,16 +324,22 @@ void ModifiableEditor::SetModifiable (iModifiable* modifiable)
   pgMananager->SetExtraStyle (wxPG_EX_HELP_AS_TOOLTIPS);
 
   // Append the main item as the root
-  size_t offset = 0;
   Append (nullptr, description, offset);
 
   // Update the height of this panel
   UpdateSize ();
+
+  // TODO: listen for modifiable state change events in order to update the GUI
 }
 
 iModifiable* ModifiableEditor::GetModifiable () const 
 {
   return modifiable;
+}
+
+iModifiableDescription* ModifiableEditor::GetModifiableDescription () const
+{
+  return description;
 }
 
 void ModifiableEditor::Append
@@ -360,23 +387,26 @@ void ModifiableEditor::Append
 		   label, name, description);
   }
 
-  // Add all children
-  offset += description->GetParameterCount ();
-  for (size_t i = 0; i < description->GetChildrenCount (); i++)
+  // Add all children if we are in recursive mode
+  if (recursive)
   {
-    iModifiableDescription* child = description->GetChild (i);
+    offset += description->GetParameterCount ();
+    for (size_t i = 0; i < description->GetChildrenCount (); i++)
+    {
+      iModifiableDescription* child = description->GetChild (i);
 
-    csString key = child->GetLabel ();
-    csString value = translator->GetMsg (key, false);
-    if (!value) value = child->GetName ();
+      csString key = child->GetLabel ();
+      csString value = translator->GetMsg (key, false);
+      if (!value) value = child->GetName ();
  
-    wxString name (value, wxConvUTF8);
-    wxPropertyCategory* childCategory = new wxPropertyCategory (name);
+      wxString name (value, wxConvUTF8);
+      wxPropertyCategory* childCategory = new wxPropertyCategory (name);
 
-    if (root) page->Append (childCategory);
-    else category->AppendChild (childCategory);
+      if (root) page->Append (childCategory);
+      else category->AppendChild (childCategory);
 
-    Append (childCategory, child, offset);
+      Append (childCategory, child, offset);
+    }
   }
 
   pgMananager->Refresh ();
@@ -401,6 +431,7 @@ void ModifiableEditor::AppendVariant
 
   case CSVAR_LONG :
   {
+    // TODO: handle the BOUNDED constraint too
     if (constraint != nullptr
 	&& constraint->GetType () == MODIFIABLE_CONSTRAINT_ENUM)
     {
@@ -523,25 +554,22 @@ void ModifiableEditor::AppendVariant
     indexes.Put (vector4P, index);
   }
   break;
-
-  /*
-    case CSVAR_IBASE:
-    {
+/*
+  case CSVAR_IBASE:
+  {
+    // Search for a iModifiable interface
     iBase* object = variant->GetIBase ();
-    csRef<iModifiable> modifiable = scfQueryInterface<iModifiable>(object);
-    if (modifiable.IsValid ()) {
-    //Append (modifiable, csString ("Nested modifiable"));
-    }
-
-    }
-    break;
-  //*/
-
+    csRef<iModifiable> modifiable = scfQueryInterface<iModifiable> (object);
+    if (modifiable)
+      Append (modifiable, csString ("Nested modifiable"));
+  }
+  break;
+*/
   default:
     pgMananager->SetDescription (wxT ("Page Manager :"), wxT ("Select a property to add a new value"));
 
   } // end switch
-      
+
   if (page->GetProperty (label))
     page->SetPropertyHelpString (label, description);
   else
@@ -573,7 +601,7 @@ void ModifiableEditor::OnPropertyGridChanging (wxPropertyGridEvent& event)
   wxVariant newValue = event.GetValue ();
   
   size_t index = *indexes.GetElementPointer (event.GetProperty ());
-  iModifiableParameter* parameter = description->GetParameter (index);
+  iModifiableParameter* parameter = description->GetParameter (index - globalOffset);
   iModifiableConstraint* constraint = parameter->GetConstraint ();
 
   if (constraint != nullptr) {
@@ -596,7 +624,7 @@ void ModifiableEditor::OnPropertyGridChanged (wxPropertyGridEvent& event)
     return;
 
   size_t index = *indexes.GetElementPointer (event.GetProperty ());
-  iModifiableParameter* parameter = description->GetParameter (index);
+  iModifiableParameter* parameter = description->GetParameter (index - globalOffset);
   csVariant variant;
   wxToCS (parameter->GetType (), newValue, variant);
   modifiable->SetParameterValue (index, variant);
