@@ -101,8 +101,8 @@ if $(WX.AVAILABLE) = "yes"
   ExternalLibs csediting_gui : CRYSTAL WX ;
   CFlags csediting_gui :
     [ FDefines CS_CSEDITING_GUI_LIB ]
-    [ FDefines WXMAKINGDLL_PROPGRID ]
-    [ FDefines wxPG_USE_WXMODULE=0 ] ;
+    [ FDefines WXMAKINGDLL_PROPGRID ] ;
+#    [ FDefines wxPG_USE_WXMODULE=0 ] ;
   MsvcDefine csediting_gui : CS_CSEDITING_GUI_LIB ;
   MsvcDefine csediting_gui :
     CS_COMPILER_NAME_AND_VERSION : "\"VC_$(MSVC_VERSION)\"" ;
