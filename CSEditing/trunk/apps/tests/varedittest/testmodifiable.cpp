@@ -51,10 +51,12 @@ const csStringID RawModifiable::GetID () const
 }
 */
 
-csPtr<iModifiableDescription> RawModifiable::GetDescription (iObjectRegistry* object_reg) const 
+csPtr<iModifiableDescription> RawModifiable::GetDescription
+(iObjectRegistry* object_reg) const 
 {
-  csBasicModifiableDescription* description = new csBasicModifiableDescription ("STATS_PLAYER", "Player stats");
-  csRef<csBasicModifiableParameter> parameter;
+  BaseModifiableDescription* description =
+    new BaseModifiableDescription ("STATS_PLAYER", "Player stats");
+  csRef<BaseModifiableParameter> parameter;
   csRef<iModifiableConstraint> constraint;
   csRef<iStringSet> strings =
     csQueryRegistryTagInterface<iStringSet> (object_reg, "crystalspace.shared.stringset");
@@ -63,64 +65,77 @@ csPtr<iModifiableDescription> RawModifiable::GetDescription (iObjectRegistry* ob
 
   label = "NAME";
   id = strings->Request (label);
-  parameter.AttachNew (new csBasicModifiableParameter (CSVAR_STRING, id, label, "Name", "The dude's name"));
+  parameter.AttachNew (new BaseModifiableParameter
+		       (CSVAR_STRING, id, label, "Name", "The dude's name"));
   description->Push (parameter);
 
   label = "JOB";
   id = strings->Request (label);
-  parameter.AttachNew (new csBasicModifiableParameter (CSVAR_STRING, id, label, "Job", "The dude's jawb"));
+  parameter.AttachNew (new BaseModifiableParameter
+		       (CSVAR_STRING, id, label, "Job", "The dude's jawb"));
   description->Push (parameter);
 
   label = "ITEMS";
   id = strings->Request (label);
-  parameter.AttachNew (new csBasicModifiableParameter (CSVAR_LONG, id, label, "Item count", "How many items this guy has"));
+  parameter.AttachNew (new BaseModifiableParameter
+		       (CSVAR_LONG, id, label, "Item count", "How many items this guy has"));
   description->Push (parameter);
 
   label = "AWESOME";
   id = strings->Request (label);
-  parameter.AttachNew (new csBasicModifiableParameter (CSVAR_BOOL, id, label, "Awesome", "Am I awesome, or what?"));
+  parameter.AttachNew (new BaseModifiableParameter
+		       (CSVAR_BOOL, id, label, "Awesome", "Am I awesome, or what?"));
   description->Push (parameter);
 
-  csRef<csBasicModifiableDescription> child;
-  child.AttachNew (new csBasicModifiableDescription ("STATS_OTHER", "Other stats"));
+  csRef<BaseModifiableDescription> child;
+  child.AttachNew (new BaseModifiableDescription
+		   ("STATS_OTHER", "Other stats"));
   description->Push (child);
 
   label = "FLOATY";
   id = strings->Request (label);
-  constraint.AttachNew (new csConstraintBounded (csVariant (-100.0f), csVariant (500.0f)));
-  parameter.AttachNew (new csBasicModifiableParameter (CSVAR_FLOAT, id, label, "FloatThingy", "Some float", constraint));
+  constraint.AttachNew (new ModifiableConstraintBounded
+			(csVariant (-100.0f), csVariant (500.0f)));
+  parameter.AttachNew (new BaseModifiableParameter
+		       (CSVAR_FLOAT, id, label, "FloatThingy", "Some float", constraint));
   child->Push (parameter);
 
   label = "POSITION";
   id = strings->Request (label);
-  parameter.AttachNew (new csBasicModifiableParameter (CSVAR_VECTOR2, id, label, "Position", "Spatial position of the guy"));
+  parameter.AttachNew (new BaseModifiableParameter
+		       (CSVAR_VECTOR2, id, label, "Position", "Spatial position of the guy"));
   child->Push (parameter);
 
   label = "COLOR";
   id = strings->Request (label);
-  parameter.AttachNew (new csBasicModifiableParameter (CSVAR_COLOR, id, label, "Color", "My color"));
+  parameter.AttachNew (new BaseModifiableParameter
+		       (CSVAR_COLOR, id, label, "Color", "My color"));
   child->Push (parameter);
 
-  csRef<csBasicModifiableDescription> subChild;
-  subChild.AttachNew (new csBasicModifiableDescription ("STATS_SUBOTHER", "Sub-other stats"));
+  csRef<BaseModifiableDescription> subChild;
+  subChild.AttachNew (new BaseModifiableDescription
+		      ("STATS_SUBOTHER", "Sub-other stats"));
   child->Push (subChild);
 
   label = "FILE";
   id = strings->Request (label);
-  constraint.AttachNew (new csConstraintVfsFile);
-  parameter.AttachNew (new csBasicModifiableParameter (CSVAR_STRING, id, label, "VFS file", "A VFS file name", constraint));
+  constraint.AttachNew (new ModifiableConstraintVFSFile);
+  parameter.AttachNew (new BaseModifiableParameter
+		       (CSVAR_STRING, id, label, "VFS file", "A VFS file name", constraint));
   subChild->Push (parameter);
 
   label = "DIR";
   id = strings->Request (label);
-  constraint.AttachNew (new csConstraintVfsDir);
-  parameter.AttachNew (new csBasicModifiableParameter (CSVAR_STRING, id, label, "VFS dir", "A VFS dir name", constraint));
+  constraint.AttachNew (new ModifiableConstraintVFSDir);
+  parameter.AttachNew (new BaseModifiableParameter
+		       (CSVAR_STRING, id, label, "VFS dir", "A VFS dir name", constraint));
   subChild->Push (parameter);
 
   label = "PATH";
   id = strings->Request (label);
-  constraint.AttachNew (new csConstraintVfsPath);
-  parameter.AttachNew (new csBasicModifiableParameter (CSVAR_STRING, id, label, "VFS path", "A VFS path name", constraint));
+  constraint.AttachNew (new ModifiableConstraintVFSPath);
+  parameter.AttachNew (new BaseModifiableParameter
+		       (CSVAR_STRING, id, label, "VFS path", "A VFS path name", constraint));
   subChild->Push (parameter);
 
   description->Push ("rawtest");
