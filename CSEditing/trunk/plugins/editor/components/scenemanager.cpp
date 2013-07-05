@@ -50,7 +50,8 @@ CS_PLUGIN_NAMESPACE_BEGIN(CSEditor)
 SCF_IMPLEMENT_FACTORY (SceneManager)
 
 SceneManager::SceneManager (iBase* parent)
-  : scfImplementationType (this, parent), internalChange (false)
+  : scfImplementationType (this, parent), activeObject (nullptr),
+  internalChange (false)
 {
 
 }
@@ -163,6 +164,8 @@ void SceneManager::OnSetActiveObject (iCamera* camera)
     scfQueryInterface<iContextObjectSelection> (editor->GetContext ());
   iObject* object = objectSelectionContext->GetActiveObject ();
   if (!object) return;
+  if (activeObject == object) return;
+  activeObject = object;
 
   // Search the type of the object
 
@@ -347,6 +350,7 @@ void SceneManager::OnSetCollection (iCamera* camera)
     CreateViewmeshScene (firstMeshFactory, camera);
     internalChange = true;
     objectSelectionContext->SetActiveObject (firstMeshFactory->QueryObject ());
+    activeObject = firstMeshFactory->QueryObject ();
     internalChange = false;
     return;
   }
@@ -355,6 +359,8 @@ void SceneManager::OnSetCollection (iCamera* camera)
 void SceneManager::CreateViewmeshScene (iMeshFactoryWrapper* meshFactory,
 					iCamera* camera)
 {
+  // TODO: use a context for viewmesh state changes
+
   // Create a temporary sector
   meshSector = engine->CreateSector ("viewmesh");
 
@@ -409,7 +415,7 @@ void SceneManager::CreateViewmeshScene (iMeshFactoryWrapper* meshFactory,
   ll->Get (0)->GetMovable()->SetPosition
     (csVector3 (-roomSize / 2.0f, roomSize / 2.0f, 0.0f));
   ll->Get (1)->GetMovable()->SetPosition
-    (csVector3 (roomSize / 2.0f,  -roomSize / 2.0f, 0.0f));
+    (csVector3 (roomSize / 2.0f, -roomSize / 2.0f, 0.0f));
   ll->Get (2)->GetMovable()->SetPosition
     (csVector3 (0.0f, 0.0f, -roomSize / 2.0f));
 
