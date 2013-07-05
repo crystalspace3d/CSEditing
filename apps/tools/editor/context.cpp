@@ -145,6 +145,7 @@ void Context::PostEvent (csEventID eventID)
 
 void Context::SetActiveObject (iObject* object)
 {
+  if (active == object) return;
   active = object;
   PostEvent (eventSetActiveObject);
 }

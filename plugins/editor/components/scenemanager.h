@@ -84,6 +84,7 @@ private:
   iEditor* editor;
 
   csRef<iEngine> engine;
+  iObject* activeObject;
   csRef<CS::Utility::iCameraManager> cameraManager;
   csRef<iSector> meshSector;
 
