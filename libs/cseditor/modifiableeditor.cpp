@@ -432,6 +432,7 @@ void ModifiableEditor::AppendVariant
   case CSVAR_LONG :
   {
     // TODO: handle the BOUNDED constraint too
+    // TODO: handle other enum types than LONG
     if (constraint != nullptr
 	&& constraint->GetType () == MODIFIABLE_CONSTRAINT_ENUM)
     {
@@ -445,7 +446,7 @@ void ModifiableEditor::AppendVariant
       wxArrayString labels;
       for (size_t i = 0; i < ec->GetValueCount (); i++)
       {
-	values.Add (ec->GetValue (i));
+	values.Add (ec->GetValue (i).GetLong ());
 	labels.Add (wxString (ec->GetLabel (i), wxConvUTF8));
       }
 
@@ -555,7 +556,7 @@ void ModifiableEditor::AppendVariant
   }
   break;
 /*
-  case CSVAR_IBASE:
+  case CSVAR_BASE:
   {
     // Search for a iModifiable interface
     iBase* object = variant->GetIBase ();
