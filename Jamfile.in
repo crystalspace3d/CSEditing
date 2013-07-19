@@ -47,3 +47,4 @@ SubInclude TOP apps ;
 SubInclude TOP docs ;
 SubInclude TOP include ;
 SubInclude TOP bin ;
+SubInclude TOP scripts ;
