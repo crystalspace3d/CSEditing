@@ -3,9 +3,9 @@
 libdir=""
 lflags=""
 
-for libname in lib${libscsediting_gui}.so \
-	       lib${libscsediting_gui}.dylib \
-	       lib${libscsediting_gui}.a \
+for libname in lib${libcsediting_gui}.so \
+	       lib${libcsediting_gui}.dylib \
+	       lib${libcsediting_gui}.a \
 	       ; do
     if test -r "$prefix/Jamfile" && \
 	test -r "$prefix/$makeout/libs/$libname"; then
