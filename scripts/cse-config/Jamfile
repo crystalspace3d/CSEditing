@@ -78,10 +78,10 @@ if test "\${PATH_SEPARATOR+set}" != set; then
   rm -f conf\$\$.sh
 fi
 
-CSEDITING="\${CSEDITING-$(prefix)\$PATH_SEPARATOR.}"
-CSEDITING_$(ENV_VERSION)="\${CSEDITING_$(ENV_VERSION)-\$CSEDITING}"
+CSE="\${CSE-$(prefix)\$PATH_SEPARATOR.}"
+CSE_$(ENV_VERSION)="\${CSE_$(ENV_VERSION)-\$CSE}"
 my_IFS=\$IFS; IFS=\$PATH_SEPARATOR
-for p in \$CSEDITING_$(ENV_VERSION)
+for p in \$CSE_$(ENV_VERSION)
 do
   prefix="\${p}"
   exec_prefix="\${prefix}"
@@ -89,7 +89,7 @@ do
   version="$(PACKAGE_VERSION)"
   longversion="$(PACKAGE_STRING)"
   newincdir=""
-  # try to determine if we're in a source or installed CSEDITING version
+  # try to determine if we're in a source or installed CSE version
   if test "x\$includedir_main" = "x"
   then
     if [ -r \${prefix}/include/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/cseversion.h ] ; then
@@ -131,7 +131,7 @@ common_cflags=" $(COMPILER.CFLAGS.MANDATORY) "
 common_cxxflags=" $(COMPILER.CFLAGS.MANDATORY) $(COMPILER.C++FLAGS.MANDATORY) "
 staticdeps="$(STATICPLUGINS.DEPENDENCIES)"
 
-# dependencies of CSEDITING
+# dependencies of CSE
 depends()
 {
     case \$1 in
@@ -175,18 +175,18 @@ __END__
   cat $(>) >> $(<)
 }
 
-CSEDITINGCONFIGNAME = cse-config-$(PACKAGE_VERSION_SIGNIFICANT) ;
-ShellScript $(CSEDITINGCONFIGNAME) : CseConfigGen : nohelp ;
+CSECONFIGNAME = cse-config-$(PACKAGE_VERSION_SIGNIFICANT) ;
+ShellScript $(CSECONFIGNAME) : CseConfigGen : nohelp ;
 
-Depends cse-config : $(CSEDITINGCONFIGNAME) ;
-CSEDITING_CONFIG_GRISTED = [ DoSourceGrist cse-config ] ;
-SEARCH on $(CSEDITING_CONFIG_GRISTED) = $(SUBDIR) ;
+Depends cse-config : $(CSECONFIGNAME) ;
+CSE_CONFIG_GRISTED = [ DoSourceGrist cse-config ] ;
+SEARCH on $(CSE_CONFIG_GRISTED) = $(SUBDIR) ;
 MakeLocate cse-config : $(LOCATE.TARGETS) ;
-Depends cse-config : $(CSEDITING_CONFIG_GRISTED) ;
-Copy cse-config : $(CSEDITING_CONFIG_GRISTED) ;
+Depends cse-config : $(CSE_CONFIG_GRISTED) ;
+Copy cse-config : $(CSE_CONFIG_GRISTED) ;
 Always cse-configclean ;
 NotFile cse-configclean ;
-Clean cse-configclean : cse-config $(CSEDITINGCONFIGNAME) ;
+Clean cse-configclean : cse-config $(CSECONFIGNAME) ;
 Depends clean : cse-configclean ;
 Help cse-config : "Build the cse-config script" ;
 Depends install_bin : [ DoInstall cse-config : $(bindir) : $(INSTALL_PROGRAM) ] ;
