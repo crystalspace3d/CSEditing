@@ -17,5 +17,9 @@ COMPILER.CFLAGS.optimize = -O3 -fomit-frame-pointer -ffast-math ;
 COMPILER.CFLAGS.debug = -g3 -DCS_DEBUG ;
 COMPILER.CFLAGS.profile = -gp -O3 ;
 
+# Some CSE-specific customizations of vars
+PACKAGE_VERSION_SIGNIFICANT = "$(PACKAGE_VERSION_LIST[1]).$(PACKAGE_VERSION_LIST[2])" ;
+APPLICATION_SUFFIX = $(PACKAGE_VERSION_SIGNIFICANT) ;
+
 # Include CS build rules
 include $(TOP)/mk/jam/build.jam ;
