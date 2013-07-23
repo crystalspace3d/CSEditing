@@ -16,7 +16,7 @@ for libname in lib${libcsediting_gui}.so \
 	lflags="-L${exec_prefix}/lib"
     else
 	my_IFS=$IFS; IFS=$PATH_SEPARATOR
-	for p in $CEL
+	for p in $CSE
 	  do
 	  if test -r "$p/Jamfile" && \
 	      test -r "$p/$makeout/libs/$libname"; then
@@ -174,21 +174,24 @@ staticdeps()
   fi
 }
 
+# Name of the plugin we use to detect the plugin dir
+sentinel_plugin=cseditorcore
 my_IFS=$IFS; IFS=$PATH_SEPARATOR
-for p in $CEL
+for p in $CSE
 do
-    # If CEL is set and pointing at build directory, then prefer it over installed
-    # version; else if CEL is set and pointing at installed location, then use it;
+    # If CSE is set and pointing at build directory, then prefer it over installed
+    # version; else if CSE is set and pointing at installed location, then use it;
     # else use configure-time installation directory.
-    if test -f "${p}/stdphyslayer.so" ||
-       test -f "${p}/stdphyslayer.dll" ||
-       test -f "${p}/stdphyslayer.csbundle"; then
+    installed_plugins="${p}/lib/CSEditing"
+    if test -f "${p}/${sentinel_plugin}.so" ||
+       test -f "${p}/${sentinel_plugin}.dll" ||
+       test -f "${p}/${sentinel_plugin}.csbundle"; then
 	plugindir="${p}"
 	break
-    elif test -f "${p}/lib/cel/stdphyslayer.so" ||
-       test -f "${p}/lib/cel/stdphyslayer.dll" ||
-       test -f "${p}/lib/cel/stdphyslayer.csbundle"; then
-	plugindir="${p}/lib/cel"
+    elif test -f "${installed_plugins}/${sentinel_plugin}.so" ||
+       test -f "${installed_plugins}/${sentinel_plugin}.dll" ||
+       test -f "${installed_plugins}/${sentinel_plugin}.csbundle"; then
+	plugindir="${installed_plugins}"
 	break
     fi
 done
