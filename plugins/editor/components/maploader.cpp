@@ -58,14 +58,14 @@ bool MapLoader::Initialize (iEditor* editor)
   object_reg = editor->GetContext ()->GetObjectRegistry ();
 
   // Request the main loader plugins of Crystal Space
-  csRef<iThreadedLoader> threadedLoader =
+  threadedLoader =
     csQueryRegistryOrLoad<iThreadedLoader> (object_reg, "crystalspace.level.threadedloader");
   if (!threadedLoader) return ReportError ("Failed to initialize the iThreadedloader plugin!");
   csRef<iLoader> loader = csQueryRegistryOrLoad<iLoader> (object_reg, "crystalspace.level.loader");
   if (!loader) return ReportError ("Failed to initialize the iLoader plugin!");
 
   // Setup the saveable flag of the engine
-  csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
+  engine = csQueryRegistry<iEngine> (object_reg);
   if (!engine) return ReportError ("Failed to locate 3D engine!");
   engine->SetSaveableFlag (true);
 
@@ -117,8 +117,21 @@ bool MapLoader::Initialize (iEditor* editor)
     if (!vfs->Mount ("/tmp/cseditor", tempPath))
       ReportError ("Cannot mount real path %s\n", CS::Quote::Single (realPath));
 
-    //vfs->ChDir ("/tmp/cseditor");
-    else realPath = "/tmp/cseditor";
+    else
+    {
+      vfs->ChDir ("/tmp/cseditor");
+      realPath = "/tmp/cseditor";
+    }
+  }
+
+  // Load library files
+  const char* libname;
+  for (int i=0; (libname = cmdline->GetOption ("L",i)); i++)
+  {
+    if (!loader->LoadLibraryFile (libname))
+    {
+      ReportError ("Cannot load library file %s.\n", CS::Quote::Single (libname));
+    }
   }
 
   // Check for a path and filename provided by the user
@@ -162,12 +175,17 @@ void MapLoader::Update ()
 
     if (loadingReturn->WasSuccessful ())
     {
+      // Make sure all objects are really loaded
+      engine->SyncEngineListsNow (threadedLoader);
+
+      // Report the file being loaded
       csString text;
       text.Format ("File %s%s was loaded successfully",
 		   CS::Quote::SingleLeft (loadingResource->path.GetData ()),
 		   CS::Quote::SingleRight (loadingResource->file.GetData ()));
       editor->ReportStatus (text.GetData ());
 
+      // Update the context
       csRef<iContextFileLoader> fileLoaderContext =
 	scfQueryInterface<iContextFileLoader> (editor->GetContext ());
       fileLoaderContext->SetPath (loadingResource->path);
@@ -177,6 +195,7 @@ void MapLoader::Update ()
 
     else
     {
+      // Report the file failed to be loaded
       csString text;
       text.Format ("Failed to load file %s%s",
 		   CS::Quote::SingleLeft (loadingResource->path.GetData ()),
