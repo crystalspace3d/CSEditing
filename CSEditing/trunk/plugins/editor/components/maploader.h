@@ -74,7 +74,10 @@ private:
 private:
   iObjectRegistry* object_reg;
   iEditor* editor;
+
   csRef<iVFS> vfs;
+  csRef<iThreadedLoader> threadedLoader;
+  csRef<iEngine> engine;
 
   csRef<iSubMenu> fileMenu;
   csRef<iMenuItem> openItem;
