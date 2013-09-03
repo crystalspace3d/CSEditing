@@ -152,12 +152,7 @@ bool EditorApplication::OnInit (void)
 
   // Load the specific plugins for the Crystal Space editor
   iComponentManager* componentManager = editor->GetComponentManager ();
-/*
-  if (!componentManager->RegisterComponent ("crystalspace.editor.component.logger")) return false;
-  if (!componentManager->RegisterComponent ("crystalspace.editor.component.engine")) return false;
-  if (!componentManager->RegisterComponent ("crystalspace.editor.component.scenemanager")) return false;
-  if (!componentManager->RegisterComponent ("crystalspace.editor.component.exit")) return false;
-*/
+
   if (!componentManager->RegisterComponent ("crystalspace.editor.component.logger")) return false;
   if (!componentManager->RegisterComponent ("crystalspace.editor.component.engine")) return false;
   if (!componentManager->RegisterComponent ("crystalspace.editor.component.undoredo")) return false;
@@ -193,8 +188,7 @@ bool EditorApplication::OnInit (void)
   window2->SetSplitPosition (550);
 
   window2->GetChild1 ()->SetSpace ("crystalspace.editor.space.3dview");
-  //window2->GetChild2 ()->SetSpace ("crystalspace.editor.space.partedit");
-  window2->GetChild2 ()->SetSpace ("crystalspace.editor.space.properties");
+  window2->GetChild2 ()->SetSpace ("crystalspace.editor.space.partedit");
 
   // Create a 'Terrain' pespective
   perspective = perspectiveManager->CreatePerspective ("Terrain");
