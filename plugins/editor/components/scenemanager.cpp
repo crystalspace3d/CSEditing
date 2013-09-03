@@ -53,7 +53,6 @@ SceneManager::SceneManager (iBase* parent)
   : scfImplementationType (this, parent), activeObject (nullptr),
   internalChange (false)
 {
-
 }
 
 SceneManager::~SceneManager()

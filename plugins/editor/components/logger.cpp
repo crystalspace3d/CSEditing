@@ -81,6 +81,7 @@ size_t Logger::GetMaximumReportCount () const
   return maxReportCount;
 }
 
+// TODO: using context changes would be cleaner
 wxTextCtrl* Logger::CreateTextCtrl (wxWindow* parent)
 {
   wxTextCtrl* textCtrl = new Logger::LogTextCtrl (parent, this);
