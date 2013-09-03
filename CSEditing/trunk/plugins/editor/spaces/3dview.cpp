@@ -65,6 +65,13 @@ bool CS3DSpace::Initialize (iObjectRegistry* obj_reg, iEditor* editor,
   factory = fact;
 
   g3d = csQueryRegistry<iGraphics3D> (object_reg);
+  if (!g3d)
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+              "crystalspace.editor.space.3dview",
+              "Could not find the Crystal Space engine!");
+    return false;
+  }
   csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
 
   // Setup the 2D canvas
