@@ -99,11 +99,14 @@ bool CS3DSpace::Initialize (iObjectRegistry* obj_reg, iEditor* editor,
   // Setup the view and the camera context
   view = csPtr<iView> (new csView (engine, g3d));
   view->SetAutoResize (false);
+  view->SetWidth (g2d->GetWidth ());
+  view->SetHeight (g2d->GetHeight ());
   view->SetRectangle (0, 0, g2d->GetWidth (), g2d->GetHeight (), false);
 
   csRef<iContextCamera> cameraContext =
     scfQueryInterface<iContextCamera> (editor->GetContext ());
   cameraContext->SetCamera (view->GetCamera ());
+  cameraContext->SetView (view);
 
   // Register frame listeners to the global event queue
   frameBegin3DDraw = new CS3DSpace::FrameBegin3DDraw (this);
@@ -184,10 +187,21 @@ void CS3DSpace::OnSize (wxSizeEvent& event)
   
   wxwin->GetWindow()->SetSize (size);
   
-  // Update the view ratio
   if (view->GetPerspectiveCamera ())
-    view->GetPerspectiveCamera ()->SetFOV
-      ((float) (size.y) / (float) (size.x), 1.0f);
+  {
+    // Update the FOV and view ratio. The FOV is computed in order
+    // to have a 90 degree vertical view of 500 pixels.
+    float defaultHeight = 500.f;
+    float fov = 90.f * (float) (size.y) / defaultHeight;
+    fov = csMin (fov, 120.f);
+
+    view->GetPerspectiveCamera ()->SetVerticalFOVAngle (fov);
+    view->GetPerspectiveCamera ()->SetAspectRatio
+      ((float) (size.x) / (float) (size.y));
+  }
+
+  view->SetWidth (size.x);
+  view->SetHeight (size.y);
   view->SetRectangle (0, 0, size.x, size.y, false);
 
   event.Skip ();
