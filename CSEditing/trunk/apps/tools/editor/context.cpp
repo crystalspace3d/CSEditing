@@ -26,6 +26,7 @@
 #include "iutil/eventq.h"
 #include "iutil/object.h"
 #include "ivaria/reporter.h"
+#include "ivaria/view.h"
 
 #include "context.h"
 
@@ -216,6 +217,16 @@ void Context::SetCamera (iCamera* cam)
 iCamera* Context::GetCamera ()
 {
   return camera;
+}
+
+void Context::SetView (iView* view)
+{
+  this->view = view;
+}
+
+iView* Context::GetView ()
+{
+  return view;
 }
 
 void Context::SetPath (const char* path)

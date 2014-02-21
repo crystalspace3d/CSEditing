@@ -30,6 +30,7 @@
 #include <csutil/scf_interface.h>
 
 struct iCamera;
+struct iView;
 
 namespace CSE {
 namespace Editor {
@@ -47,6 +48,12 @@ struct iContextCamera : public virtual iBase
 
   /// Get the active camera that is displaying the main CS view
   virtual iCamera* GetCamera () = 0; // const?
+  
+  /// Set the main CS view
+  virtual void SetView (iView* view) = 0;
+
+  /// Get the main CS view
+  virtual iView* GetView () = 0; // const?
 };
 
 } // namespace Context
