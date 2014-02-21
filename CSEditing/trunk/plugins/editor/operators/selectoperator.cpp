@@ -69,7 +69,7 @@ SelectOperator::~SelectOperator ()
 bool SelectOperator::Poll (iContext* context)
 {
   csRef<iContextCamera> cameraContext = scfQueryInterface<iContextCamera> (context);
-  return cameraContext->GetCamera ();
+  return cameraContext->GetView ();
 }
 
 OperatorState SelectOperator::Execute (iContext* context)
@@ -84,19 +84,16 @@ OperatorState SelectOperator::Invoke (iContext* context, iEvent* event)
   {
     int mouse_x = csMouseEventHelper::GetX (event);
     int mouse_y = csMouseEventHelper::GetY (event);
-    csScreenTargetResult result =
-      csEngineTools::FindScreenTarget (csVector2 (mouse_x, mouse_y),
-				       100000.0f, cameraContext->GetCamera ());
-    if (result.mesh)
-    {
-      csRef<iKeyboardDriver> kbd =
-	csQueryRegistry<iKeyboardDriver> (object_reg);
-      csRef<iAction> action;
-      action.AttachNew (new SelectObjectAction
-			(object_reg, result.mesh->QueryObject (),
-			 kbd->GetKeyState (CSKEY_SHIFT)));
-      editor->GetActionManager ()->Do (action);
-    }
+
+    csScreenTargetResult result = csEngineTools::FindScreenTarget
+      (csVector2 (mouse_x, mouse_y), 1000.0f, cameraContext->GetView ());
+
+    csRef<iKeyboardDriver> kbd = csQueryRegistry<iKeyboardDriver> (object_reg);
+    csRef<iAction> action;
+    action.AttachNew (new SelectObjectAction
+		      (object_reg, result.mesh ? result.mesh->QueryObject () : nullptr,
+		       kbd->GetKeyState (CSKEY_SHIFT)));
+    editor->GetActionManager ()->Do (action);
   }
   return OperatorFinished;
 }
@@ -116,52 +113,44 @@ SelectObjectAction::SelectObjectAction (iObjectRegistry* object_reg,
 
 bool SelectObjectAction::Do (iContext* context)
 {
-  if (object)
+  csRef<iContextObjectSelection> objectSelectionContext =
+    scfQueryInterface<iContextObjectSelection> (context);
+
+  if (!multiple)
   {
-    csRef<iContextObjectSelection> objectSelectionContext =
-      scfQueryInterface<iContextObjectSelection> (context);
-
-    if (!multiple)
-    {
-      selection = objectSelectionContext->GetSelectedObjects ();
-      objectSelectionContext->ClearSelectedObjects ();
-      objectSelectionContext->AddSelectedObject (object);
-    }
-
-    else
-    {
-      if (objectSelectionContext->ContainsSelectedObject (object))
-	objectSelectionContext->DeleteSelectedObject (object);
-      else
-	objectSelectionContext->AddSelectedObject (object);
-    }
-
-    return true; 
+    selection = objectSelectionContext->GetSelectedObjects ();
+    objectSelectionContext->ClearSelectedObjects ();
+    if (object) objectSelectionContext->AddSelectedObject (object);
   }
-  return false; 
+
+  else if (object)
+  {
+    if (objectSelectionContext->ContainsSelectedObject (object))
+      objectSelectionContext->DeleteSelectedObject (object);
+    else
+      objectSelectionContext->AddSelectedObject (object);
+  }
+
+  return true; 
 }
 
 bool SelectObjectAction::Undo (iContext* context)
 {
-  if (object)
+  csRef<iContextObjectSelection> objectSelectionContext =
+    scfQueryInterface<iContextObjectSelection> (context);
+
+  if (!multiple)
+    objectSelectionContext->SetSelectedObjects (selection);
+
+  else if (object)
   {
-    csRef<iContextObjectSelection> objectSelectionContext =
-      scfQueryInterface<iContextObjectSelection> (context);
-
-    if (!multiple)
-      objectSelectionContext->SetSelectedObjects (selection);
-
+    if (objectSelectionContext->ContainsSelectedObject (object))
+      objectSelectionContext->DeleteSelectedObject (object);
     else
-    {
-      if (objectSelectionContext->ContainsSelectedObject (object))
-	objectSelectionContext->DeleteSelectedObject (object);
-      else
-	objectSelectionContext->AddSelectedObject (object);
-    }
-
-    return true; 
+      objectSelectionContext->AddSelectedObject (object);
   }
-  return false; 
+
+  return true; 
 }
 
 }
