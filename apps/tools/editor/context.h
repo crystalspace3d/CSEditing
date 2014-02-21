@@ -68,6 +68,8 @@ public:
   //-- iContextCamera
   virtual void SetCamera (iCamera*);
   virtual iCamera* GetCamera ();
+  virtual void SetView (iView* view);
+  virtual iView* GetView ();
   
   //-- iContextFileLoader
   virtual void SetPath (const char* path);
@@ -112,6 +114,7 @@ private:
 
   //-- iContextCamera
   csWeakRef<iCamera> camera;
+  csWeakRef<iView> view;
 
   csEventID eventSetCamera;
 
