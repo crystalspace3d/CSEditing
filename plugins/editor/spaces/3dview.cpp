@@ -103,6 +103,11 @@ bool CS3DSpace::Initialize (iObjectRegistry* obj_reg, iEditor* editor,
   view->SetHeight (g2d->GetHeight ());
   view->SetRectangle (0, 0, g2d->GetWidth (), g2d->GetHeight (), false);
 
+  // Set a background color
+  float value = 0.298f;
+  csColor4 color (value, value, value, 1.f);
+  view->SetBackgroundColor (&color);
+
   csRef<iContextCamera> cameraContext =
     scfQueryInterface<iContextCamera> (editor->GetContext ());
   cameraContext->SetCamera (view->GetCamera ());
