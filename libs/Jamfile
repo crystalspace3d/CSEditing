@@ -97,7 +97,7 @@ if $(WX.AVAILABLE) = "yes"
   SubDir TOP libs ;
 
   Description csediting_gui : "Crystal Space Graphical User Interface library" ;
-  Library csediting_gui : $(CSLIB.SOURCES) : notest ;
+  Library csediting_gui : $(CSLIB.SOURCES) : shared notest ;
   ExternalLibs csediting_gui : CRYSTAL WX ;
   CFlags csediting_gui :
     [ FDefines CS_CSEDITING_GUI_LIB ]
