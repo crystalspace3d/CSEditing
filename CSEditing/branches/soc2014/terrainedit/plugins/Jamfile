@@ -1,0 +1,18 @@
+SubDir TOP plugins ;
+
+SubInclude TOP plugins editor ;
+
+# Assemble big static plugins lib
+if [ Property build : projgen ] = msvc
+{
+  StaticPluginLibrary csediting_staticplugins : 
+    cspython
+  ;
+}
+else
+{
+  StaticPluginLibrary csediting_staticplugins ;
+}
+# Enable compiler-provided multithreading.
+# This makes sense here since the static plugins lib is usually built alone.
+MsvcParallelCompile csediting_staticplugins ;

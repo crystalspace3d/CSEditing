@@ -1,0 +1,9 @@
+SubDir TOP plugins editor headers ;
+
+if $(WX.AVAILABLE) = "yes"
+{
+  Description cseditorheaders : "CSEditor headers" ;
+
+  Plugin cseditorheaders : [ Wildcard *.cpp *.h ] ;
+  ExternalLibs cseditorheaders : CRYSTAL WX ;
+}

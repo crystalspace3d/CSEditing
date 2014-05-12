@@ -1,0 +1,60 @@
+/*
+    Copyright (C) 1998-2001 by Jorrit Tyberghein
+
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Library General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Library General Public License for more details.
+
+    You should have received a copy of the GNU Library General Public
+    License along with this library; if not, write to the Free
+    Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+*/
+
+/**
+ * \mainpage
+ *
+ * This is the Application Programmer's Interface (API) reference for
+ * CSEditing. This manual documents the abstract interfaces, classes, and
+ * functions available to clients of the CSEditing library.
+ *
+ * The CSEditing user manual is also available for this release online at:
+ * http://www.crystalspace3d.org/docs/online/manual/
+ *
+ * This public developer API is also available online for this release at:
+ * http://www.crystalspace3d.org/docs/online/api/
+ *
+ * The Crystal Space home page is at: http://www.crystalspace3d.org/
+ *
+ * \htmlonly
+ The API reference consists of the following sections:
+ 
+ <ul>
+ <li><a href="classes.html">Alphabetical List</a></li>
+ <li><a href="hierarchy.html">Class Hierarchy</a></li>
+ <li><a href="annotated.html">Compound List</a></li>
+ <li><a href="functions.html">Compound Members</a></li>
+ <li><a href="files.html">File List</a></li>
+ <li><a href="globals.html">File Members</a></li>
+ <li><a href="modules.html">Module List</a></li>
+ <li><a href="pages.html">Related Pages</a></li>
+ </ul>
+ \endhtmlonly
+ */
+
+/*
+ * Doxygen group(aka "Module") definitions.
+ * These are here, in their own file, rather than the includes because:
+ *  a) Module names aren't sorted; so we can do that here
+ *  b) It's easier to see what Modules there are and what identifiers they
+ *     have.
+ *  c) It's easier to change a description.
+ *
+ * Not much else interesting here.
+ */
+ 

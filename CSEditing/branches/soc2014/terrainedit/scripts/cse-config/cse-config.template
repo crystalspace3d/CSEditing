@@ -1,0 +1,316 @@
+# Detect type of the installation and the directories where the library files
+# reside in.
+libdir=""
+lflags=""
+
+for libname in lib${libcsediting_gui}.so \
+	       lib${libcsediting_gui}.dylib \
+	       lib${libcsediting_gui}.a \
+	       ; do
+    if test -r "$prefix/Jamfile" && \
+	test -r "$prefix/$makeout/libs/$libname"; then
+	libdir="$prefix/$makeout/libs"
+	lflags="-L$libdir"
+    elif test -z "$libdir" && test -r "${exec_prefix}/lib/$libname"; then
+	libdir="${exec_prefix}/lib"
+	lflags="-L${exec_prefix}/lib"
+    else
+	my_IFS=$IFS; IFS=$PATH_SEPARATOR
+	for p in $CSE
+	  do
+	  if test -r "$p/Jamfile" && \
+	      test -r "$p/$makeout/libs/$libname"; then
+	      libdir="$p/$makeout/libs"
+	      lflags="-L$libdir"
+	      break
+	  elif test -z "$libdir" && test -r "${p}/lib/$libname"; then
+	      libdir="${p}/lib"
+	      lflags="-L$libdir"
+	      break
+	  fi
+	done
+	IFS=$my_IFS
+    fi
+    if test -n "$lflags" ; then
+        break
+    fi
+done
+
+# Check for optional libs, add to list if present.
+
+for l in $libs_opt
+do
+  give_libbase $l
+  if test -r "$libdir/lib$libbase.so" \
+    || test -r "$libdir/lib$libbase.dylib" \
+    || test -r "$libdir/lib$libbase.a" ; then
+    libs="$libs $l"
+  fi
+done
+
+showlibs ()
+{
+  echo "Libraries:"
+  for lib in $libs; do
+    echo "  $lib"
+  done
+  [ -z "$libs" ] && echo "No libraries available."
+}
+
+usage()
+{
+  cat <<__EOF__
+Usage: cel-config [OPTIONS]
+Options:
+	[--prefix]
+	[--exec-prefix]
+	[--version]
+	[--libs]
+	[--cflags]
+	[--lflags]
+	[--plugindir]
+	[--includedir]
+	[--available-libs]
+	[--static-deps]
+	[--help]
+
+__EOF__
+  showlibs
+  cat <<__EOF__
+
+Note that you must also utilize the output of cs-config when compiling
+CEL-using projects.
+__EOF__
+}
+
+includedeps()
+{
+#we have to remember vars here because on older shells $1,$2... are global
+    id_first=$1
+    id_all=$@
+    shift
+    id_second=$1
+    id_rest=$@
+
+# already had all dependencies of this lib? then exit
+    case " $ALREADY_TESTED " in
+    	*\ ${id_first}\ *) return 0;;
+    	*) ;;
+    esac
+
+# if not add 1 dependency
+    depends ${id_first}
+    ALREADY_TESTED="$ALREADY_TESTED ${id_first}"
+    for a in $DEPS; do
+	case " ${id_all} " in
+	    *\ $a\ *) ;;
+    	    *)  
+		the_libs="${the_libs} $a"
+	    	return 1
+	    ;;
+	esac
+    done
+    if test -n "${id_second}"; then
+	if includedeps ${id_rest}; then
+	    return 0
+	else
+	    return 1
+	fi
+    else
+	return 0
+    fi
+}
+
+addlib()
+{
+    # Lib already in list?
+    case " $the_libs " in
+	*\ $1\ *) return;;
+	*) ;;
+    esac
+
+    the_libs="$1 $the_libs"
+
+    # loop till all dependencies are resolved
+    loop=true
+    while $loop; do
+	includedeps $the_libs
+	if test $? -eq 0; then
+	    loop=false
+	else
+	    ALREADY_TESTED=""
+	fi
+    done
+}
+
+staticdeps()
+{
+  local staticsearch=""
+  local result=""
+  
+  my_IFS=$IFS; IFS=$PATH_SEPARATOR
+  for p in $CEL
+  do
+    staticsearch="$staticsearch $p/$makeout/libs"
+  done
+  IFS=$my_IFS
+  staticsearch="$staticsearch $libdir"
+  
+  for p in $staticsearch
+  do
+    if test -r "$p/$staticdeps"; then
+      result="$p/$staticdeps"
+      break
+    fi
+  done
+  
+  if test -n "${result}"; then
+    # Prepare path returned by --static-deps - it'll be a MSYS style path, but
+    # Jam needs a native Win32 path.
+    if test "`uname -s | sed -e 's+\(.*\)_.*+\1+'`" = "MINGW32" ; then
+      result=`echo $result | sed -e 's+^/\(.\)\(.*\)+\1:\2+'`
+    fi
+    echo "${result}"
+  fi
+}
+
+# Name of the plugin we use to detect the plugin dir
+sentinel_plugin=cseditorcore
+my_IFS=$IFS; IFS=$PATH_SEPARATOR
+for p in $CSE
+do
+    # If CSE is set and pointing at build directory, then prefer it over installed
+    # version; else if CSE is set and pointing at installed location, then use it;
+    # else use configure-time installation directory.
+    installed_plugins="${p}/lib/CSEditing"
+    if test -f "${p}/${sentinel_plugin}.so" ||
+       test -f "${p}/${sentinel_plugin}.dll" ||
+       test -f "${p}/${sentinel_plugin}.csbundle"; then
+	plugindir="${p}"
+	break
+    elif test -f "${installed_plugins}/${sentinel_plugin}.so" ||
+       test -f "${installed_plugins}/${sentinel_plugin}.dll" ||
+       test -f "${installed_plugins}/${sentinel_plugin}.csbundle"; then
+	plugindir="${installed_plugins}"
+	break
+    fi
+done
+IFS=$my_IFS
+
+if test $# -eq 0; then
+    usage 1>&2
+    exit 1
+fi
+
+show_cflags=""
+show_exec_prefix=""
+show_includedir=""
+show_lflags=""
+show_libs=""
+show_plugindir=""
+show_prefix=""
+show_version=""
+while test $# -gt 0; do
+  case $1 in
+    --help)
+	usage
+	exit 0
+	;;
+    --prefix)
+	show_prefix="yes"
+	;;
+    --exec-prefix)
+	show_exec_prefix="yes"
+	;;
+    --version)
+        show_version="yes"
+        ;;
+    --plugindir)
+	show_plugindir="yes"
+	;;
+    --includedir)
+	show_includedir="yes"
+	;;
+    --libs)
+	show_libs="yes"
+	;;
+    --cflags)
+        show_cflags="yes"
+        ;;
+    --lflags)
+        show_lflags="yes"
+        ;;
+    --available-libs)
+	show_availlibs=true
+	;;
+    --static-deps)
+	staticdeps
+	exit 0
+	;;
+    *)
+	raw_names="$raw_names $1"
+        ;;
+  esac
+  shift
+done
+
+inc_dir_shown=""
+my_IFS=$IFS; IFS=$PATH_SEPARATOR
+for p in $includedir
+do
+  inc_dir_shown="$inc_dir_shown -I$p"
+done
+IFS=$my_IFS
+
+if test -n "$show_prefix"; then
+    echo "$prefix"
+fi
+if test -n "$show_exec_prefix"; then
+    echo "$exec_prefix"
+fi
+if test -n "$show_version"; then
+    echo "$version"
+fi
+if test -n "$show_plugindir"; then
+    echo "$plugindir"
+fi
+if test -n "$show_includedir"; then
+    echo "$includedir_main"
+fi
+if test -n "$show_cflags"; then
+    echo "$inc_dir_shown $cflags"
+fi
+if test -n "$show_libs"; then
+    echo "$libs"
+fi
+if test -n "$show_lflags"; then
+    # If user specified no libraries, then emit commonly needed ones.
+    if test -z "$raw_names"; then
+	raw_names="$libs"
+    fi
+    for do_lib in $raw_names; do
+	checklibname $do_lib
+    done
+    echo "$lflags $the_libs $syslibs"
+fi
+
+if test -n "$show_availlibs"; then
+    # If user specified no libraries, then emit all.
+    if test -z "$raw_names"; then
+	for x in $libs; do
+	    echo $x
+	done
+    else
+	# Filter the user-supplied list down to valid entries. 
+	for x in $raw_names; do
+	    for z in $libs; do
+		if test "_$x" = "_$z"; then
+		    echo $x
+		    break
+		fi
+	    done
+        done
+    fi
+fi
+
+exit 0

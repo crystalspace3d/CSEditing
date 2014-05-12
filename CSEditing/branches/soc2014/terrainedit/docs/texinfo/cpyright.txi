@@ -1,0 +1,10 @@
+@c -*-texinfo-*-
+@noindent
+Copyright @copyright{} 2011-2013 by Jorrit Tyberghein@*
+Copyright @copyright{} 2011-2013 by Jelle Hellemans@*
+Copyright @copyright{} 2011-2013 by Christian Van Brussel@*
+Copyright @copyright{} 2013 by Frank Richter@*
+Copyright @copyright{} 2013 by Eric Sunshine@*
+Copyright @copyright{} 2013 by Philip Wyett@*
+Copyright @copyright{} 2012 by Andrei Barsan@*
+Copyright @copyright{} 2007 by Seth Yastrov@*

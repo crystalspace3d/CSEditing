@@ -1,0 +1,9 @@
+SubDir TOP plugins editor operators ;
+
+if $(WX.AVAILABLE) = "yes"
+{
+  Description cseditoroperators : "CSEditor operators" ;
+
+  Plugin cseditoroperators : [ Wildcard *.cpp *.h ] ;
+  ExternalLibs cseditoroperators : CRYSTAL WX ;
+}

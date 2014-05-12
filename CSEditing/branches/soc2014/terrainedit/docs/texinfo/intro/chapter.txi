@@ -1,0 +1,14 @@
+@c -*-texinfo-*-
+@node CSEditing Introduction, Using CSEditing, Top, Top
+@chapter Introduction
+@cindex Introduction
+
+// TODO
+
+CSEditing is free and will remain free.  CSEditing falls under the
+@sc{gnu} copyleft license for libraries @sc{lgpl}.  A copy of the @sc{lgpl}
+is included in this manual for your perusal (@pxref{Licenses}). In short, the
+@sc{lgpl} allows you to use CSEditing as a library in your products, even 
+commercial products, but modifications to the library or derivative
+works incorporating parts of the library must be made freely available
+to everyone, under the @sc{lgpl}'s terms.

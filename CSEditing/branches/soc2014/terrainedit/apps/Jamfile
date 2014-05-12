@@ -1,0 +1,4 @@
+SubDir TOP apps ;
+
+SubInclude TOP apps tests ;
+SubInclude TOP apps tools ;

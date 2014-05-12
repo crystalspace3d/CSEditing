@@ -1,0 +1,9 @@
+SubDir TOP plugins editor core ;
+
+if $(WX.AVAILABLE) = "yes"
+{
+  Description cseditorcore : "Crystal Space Editor Core System" ;
+
+  Plugin cseditorcore : [ Wildcard *.cpp *.h ] ;
+  ExternalLibs cseditorcore : CRYSTAL WX ;
+}

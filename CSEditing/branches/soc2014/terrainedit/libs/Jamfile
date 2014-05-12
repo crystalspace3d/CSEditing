@@ -1,0 +1,116 @@
+SubDir TOP libs ;
+
+CSLIB.SOURCES = ;
+CSLIB.TESTS = ;
+CSLIB.ROOT = $(SUBDIR_TOKENS) ;
+CSLIB.DECLARED = no ;
+
+## CsLibAddTestDirs dirs, reparent
+##   Convenience rule for use by subdirectories of this directory and their
+##   children.  Adds a list of test directories within the child directory to
+##   the list of directories containing unit tests for the master
+##   csediting.lib target.  `reparent' is a list of tokens representing the
+##   relative path from this directory down to the child directory.
+rule CsLibAddTestDirs
+{
+  local dirs = $(1) ;
+  local testname = "csediting" ;
+  for d in $(2)
+  {
+    testname = "$(testname)_$(d)" ;
+  }
+  UnitTest $(testname) : $(dirs) ;
+  CSLIB.TESTS += $(testname) ;
+}
+
+## CsLibAddFiles files, reparent
+##   Convenience rule for use by subdirectories of this directory and their
+##   children.  Adds raw filenames from `files' to the master csediting.lib
+##   target.  `reparent' is a list of tokens representing the relative path
+##   from this directory down to the child directory.
+rule CsLibAddFiles
+{
+  local files = $(1) ;
+  local reparent = [ ConcatDirs $(2) ] ;
+  CSLIB.SOURCES += $(files:R=$(reparent)) ;
+}
+
+## CsLibAddWild patterns, reparent, [ rejects ]
+##   Convenience rule for use by subdirectories of this directory and their
+##   children.  Performs a wildcard for sources on behalf of the directory.
+##   Adds all discovered files to the master csediting.lib target.
+##   `patterns' is a list of wildcard patterns to fuel the search.  `reparent'
+##   is a list of tokens representing the relative path from this directory
+##   down to the child directory.  `rejects' is a list of files (rooted at this
+##   directory) which should not be given citizenship in csediting.lib.
+rule CsLibAddWild
+{
+  local patterns = $(1) ;
+  local reparent = $(2) ;
+  local rejects = $(3) ;
+
+  local files = [ Wildcard $(patterns) ] ;
+  if $(rejects)
+  {
+    files = [ Filter $(files) : $(rejects) ] ;
+  }
+  CsLibAddFiles $(files) : $(reparent) ;
+}
+
+## CsLibAddModule [ rejects ]
+##   Convenience rule for use by subdirectories of this directory and their
+##   children.  Performs a wildcard for sources on behalf of the directory, and
+##   for a like-named directory in the public header tree. Adds all discovered
+##   files to the master csediting.lib target. Most child directories can
+##   simply invoke this rule with no arguments in order to become citizens of
+##   csediting.lib. `rejects' is a list of files (rooted at this directory)
+##   which should not be given citizenship in csediting.lib. If the child
+##   directory contains a unit-testing subdirectory named `t/', then it is
+##   incorporated into the unit tests for the master csediting.lib.
+rule CsLibAddModule
+{
+  local rejects = $(1) ;
+  local modname = [ StripCommon $(SUBDIR_TOKENS) : $(CSLIB.ROOT) ] ;
+  local incbase = $(DOTDOT) include $(modname) ;
+  local srcpat = *.c *.cc *.cpp *.cxx *.C *.m *.mm *.M ;
+  local incpat = *.h *.hpp *.hxx *.H ;
+
+  CsLibAddWild $(srcpat) $(incpat) : $(modname) : $(rejects) ;
+  CsLibAddTestDirs t : $(modname) ;
+
+  local oldsubdir = $(SUBDIR_TOKENS) ;
+  SubDir TOP include $(modname) ;
+  CsLibAddWild $(incpat) : $(incbase) : $(rejects) ;
+  SubDir TOP $(oldsubdir) ;
+}
+
+SubInclude TOP libs cseditor ;
+
+if $(WX.AVAILABLE) = "yes"
+{
+  CSLIB.SOURCES = ;
+  CSLIB.TESTS = ;
+  CSLIB.ROOT = $(SUBDIR_TOKENS) ;
+
+  SubInclude TOP libs cseditor ;
+
+  SubDir TOP libs ;
+
+  Description csediting_gui : "Crystal Space Graphical User Interface library" ;
+  Library csediting_gui : $(CSLIB.SOURCES) : shared notest ;
+  ExternalLibs csediting_gui : CRYSTAL WX ;
+  CFlags csediting_gui :
+    [ FDefines CS_CSEDITING_GUI_LIB ]
+    [ FDefines WXMAKINGDLL_PROPGRID ] ;
+#    [ FDefines wxPG_USE_WXMODULE=0 ] ;
+  MsvcDefine csediting_gui : CS_CSEDITING_GUI_LIB ;
+  MsvcDefine csediting_gui :
+    CS_COMPILER_NAME_AND_VERSION : "\"VC_$(MSVC_VERSION)\"" ;
+  {
+    local def ;
+    for def in $(CSLIB.MSVC_DEFINES)
+    {
+      MsvcDefine csediting_gui : $(def) ;
+    }
+  }
+}

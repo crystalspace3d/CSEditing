@@ -1,0 +1,3 @@
+SubDir TOP apps tests ;
+
+SubInclude TOP apps tests varedittest ;

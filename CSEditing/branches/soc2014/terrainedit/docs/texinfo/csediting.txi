@@ -1,0 +1,119 @@
+@c -*-texinfo-*-
+@c %**start of header
+@setfilename csediting
+@import{version.txi}
+@settitle CSEditing @value{VERSION}
+@setchapternewpage odd
+@tex
+\global\hbadness = 8000
+\global\tolerance = 8000
+@end tex
+@finalout
+@c %**end of header
+
+@dircategory CSEditing
+@direntry
+* CSEditing: (cse). Crystal Space Editing Environment
+@end direntry
+
+@ifinfo
+This file documents CSEditing, an open-source library for editing and
+pre-processing data for the
+@uref{http://www.crystalspace3d.org, Crystal Space 3D software development kit}.
+It provides both usage instructions and informative technical discussions.
+
+This manual, edition @value{EDITION}, is for CSEditing version
+@value{VERSION}, and was last updated on @value{UPDATED}.
+
+@import{cpyright.txi}
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+@ignore
+Permission is granted to process this file through TeX and print the
+results, provided the printed document carries copying permission
+notice identical to this one except for the removal of this paragraph
+(this paragraph not being relevant to the printed manual).
+
+@end ignore
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions,
+except that this permission notice may be stated in a translation approved
+by the copyright holders.
+@end ifinfo
+
+@titlepage
+@title Crystal Space Editing Environment
+@subtitle Tools for the edition and the pre-processing of data content for
+the Crystal Space 3D software development kit.
+@subtitle Edition @value{EDITION} for CSEditing @value{VERSION}
+@subtitle Last updated @value{UPDATED}
+@author Jorrit Tyberghein
+@author Jelle Hellemans
+@author Frank Richter
+@author Christian Van Brussel
+
+@page
+@vskip 0pt plus 1filll
+@import{cpyright.txi}
+
+This manual, edition @value{EDITION}, is for CSEditing version
+@value{VERSION}, and was last updated on @value{UPDATED}.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions,
+except that this permission notice may be stated in a translation approved
+by the copyright holders.
+@end titlepage
+
+@shortcontents
+@contents
+
+@ifnottex
+@node Top, CSEditing Introduction, , (dir)
+@top Crystal Space Editing Environment
+
+The CSEditing library is a set of tools and applications dedicated to the editing
+and the pre-processing of data content for the Crystal Space open-source 3D software
+development kit (@sc{sdk}).
+
+This document includes usage instructions, conceptual material, and detailed
+technical information.
+
+This is edition @value{EDITION} of the CSEditing manual for CSEditing
+version @value{VERSION}, last updated @value{UPDATED}.
+
+@menu
+* CSEditing Introduction:: Introduction
+* Using CSEditing::
+* Licenses::
+* Index::
+@end menu
+
+@import{cpyright.txi}
+@end ifnottex
+
+@imports{intro,chapter.txi}
+@imports{content,chapter.txi}
+@imports{appendix,appendix.txi}
+
+@node Index, , Licenses, Top
+@unnumbered Index
+
+@printindex cp

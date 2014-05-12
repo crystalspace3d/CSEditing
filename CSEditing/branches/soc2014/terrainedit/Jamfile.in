@@ -1,0 +1,50 @@
+TOP ?= "@CS_TOP_SRCDIR@" ;
+BUILDTOP ?= "@CS_TOP_BUILDDIR@" ;
+
+SubDir TOP ;
+
+IncludeDir ;
+IncludeDir $(BUILDTOP) include : : literal transient ;
+IncludeDir "include" ;
+
+CleanDir clean :
+    out ;
+Clean distclean :
+    aclocal.m4
+    config.h
+    config.h.in~
+    config.log
+    config.status
+    config.status.lineno
+    config.cache
+    configure.lineno
+    Jamconfig
+    Jamfile ;
+CleanDir distclean :
+    autom4te.cache ;
+Depends distclean : clean ;
+
+Clean maintainerclean :
+  config.h.in
+  configure ;
+Depends maintainerclean : distclean ;
+
+Help distclean : "Remove built targets and configuration" ;
+Help maintainerclean :
+    "Remove built targets, configuration, and generated files." ;
+
+# msvcgen setup must occur before compile group registration.
+SubInclude TOP mk ;
+
+# Process subdirectories.  NOTE: Unfortunately, Jam rules are presently
+# order-sensitive; Library targets must be seen by Jam before Application and
+# Plugin targets, thus ordering of these SubInclude invocations is dictated by
+# this limitation.
+SubInclude TOP data ;
+SubInclude TOP libs ;
+SubInclude TOP plugins ;
+SubInclude TOP apps ;
+SubInclude TOP docs ;
+SubInclude TOP include ;
+SubInclude TOP bin ;
+SubInclude TOP scripts ;

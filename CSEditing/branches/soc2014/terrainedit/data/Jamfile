@@ -1,0 +1,35 @@
+SubDir TOP data ;
+
+RUNTIME_DATA = 
+  ;
+DEMO_DATA =
+  ;
+
+InstallData
+  $(DEMO_DATA)
+  $(RUNTIME_DATA)
+  : data ;
+
+FileListEntriesData $(DEMO_DATA) : : data-demo ;
+FileListEntriesData $(RUNTIME_DATA) : : data-runtime ;
+
+maps =
+ ;
+for map in $(maps)
+{
+  local files =
+    [ Wildcard $(map) : *.cslib *.lib *.dae *.layout *.xsd *.looknfeel *.jpg *.png *.map *.tga *.dds *.xpm *.spr *.zip *.txt world ] ;
+  local lmfiles =
+    [ Wildcard $(map) lightmaps : *.png ] ;
+  local mffiles =
+    [ Wildcard $(map) factories : *.cslib *.meshfact ] ;
+  InstallData $(files) : data maps $(map) ;
+  InstallData $(lmfiles) : data maps $(map) lightmaps ;
+  InstallData $(mffiles) : data maps $(map) factories ;
+
+  FileListEntriesData $(files) : $(map) : data-demo-maps ;
+  FileListEntriesData $(lmfiles) : $(map) lightmaps : data-demo-maps ;
+  FileListEntriesData $(mffiles) : $(map) factories : data-demo-maps ;
+}
+
+SubInclude TOP data editor ;

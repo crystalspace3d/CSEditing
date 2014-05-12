@@ -1,0 +1,9 @@
+SubDir TOP plugins editor components ;
+
+if $(WX.AVAILABLE) = "yes"
+{
+  Description cseditorcomponents : "CSEditor components" ;
+  Plugin cseditorcomponents : [ Wildcard *.cpp *.h ] ;
+  LinkWith cseditorcomponents : csediting_gui ;
+  ExternalLibs cseditorcomponents : CRYSTAL WX ;
+}
