@@ -35,7 +35,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{961E97A8-ED54-CEAC-9A25-813BD8AD0CAA}</ProjectGuid>
+    <ProjectGuid>{47FD9669-0B87-5FF6-A5C7-DBD1D4B9E84E}</ProjectGuid>
     <SccProjectName />
     <SccLocalPath />
   </PropertyGroup>
@@ -86,9 +86,9 @@
       <BufferSecurityCheck>false</BufferSecurityCheck>      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PrecompiledHeaderOutputFile>..\..\out\release10\build\grpall_CSEditing\grpall_CSEditing.pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>..\..\out\release10\build\grpall_CSEditing\</AssemblerListingLocation>
-      <ObjectFileName>..\..\out\release10\build\grpall_CSEditing\</ObjectFileName>
+      <PrecompiledHeaderOutputFile>..\..\out\release10\build\grpapps_CSEditing\grpapps_CSEditing.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>..\..\out\release10\build\grpapps_CSEditing\</AssemblerListingLocation>
+      <ObjectFileName>..\..\out\release10\build\grpapps_CSEditing\</ObjectFileName>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
@@ -108,7 +108,7 @@
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
     <Lib>
-      <OutputFile>..\..\out\release10\libs\grpall_CSEditing.lib</OutputFile>
+      <OutputFile>..\..\out\release10\libs\grpapps_CSEditing.lib</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TargetMachine>MachineX86</TargetMachine>
     </Lib>
@@ -116,7 +116,7 @@
     </PostBuildEvent>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\libs\cseditor;..\..;..\..\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\apps\tests\varedittest;..\..;..\..\include</AdditionalIncludeDirectories>
       <Culture>0x0409</Culture>
     </ResourceCompile>
   </ItemDefinitionGroup>
@@ -129,9 +129,9 @@
       <BufferSecurityCheck>false</BufferSecurityCheck>      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_USE_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PrecompiledHeaderOutputFile>..\..\out\release10\build\grpall_CSEditing\grpall_CSEditing.pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>..\..\out\release10\build\grpall_CSEditing\</AssemblerListingLocation>
-      <ObjectFileName>..\..\out\release10\build\grpall_CSEditing\</ObjectFileName>
+      <PrecompiledHeaderOutputFile>..\..\out\release10\build\grpapps_CSEditing\grpapps_CSEditing.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>..\..\out\release10\build\grpapps_CSEditing\</AssemblerListingLocation>
+      <ObjectFileName>..\..\out\release10\build\grpapps_CSEditing\</ObjectFileName>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
@@ -151,7 +151,7 @@
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
     <Lib>
-      <OutputFile>..\..\out\release10\libs\grpall_CSEditing.lib</OutputFile>
+      <OutputFile>..\..\out\release10\libs\grpapps_CSEditing.lib</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TargetMachine>MachineX86</TargetMachine>
     </Lib>
@@ -159,7 +159,7 @@
     </PostBuildEvent>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\libs\cseditor;..\..;..\..\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\apps\tests\varedittest;..\..;..\..\include</AdditionalIncludeDirectories>
       <Culture>0x0409</Culture>
     </ResourceCompile>
   </ItemDefinitionGroup>
@@ -171,9 +171,9 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PrecompiledHeaderOutputFile>..\..\out\debug10\build\grpall_CSEditing\grpall_CSEditing.pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>..\..\out\debug10\build\grpall_CSEditing\</AssemblerListingLocation>
-      <ObjectFileName>..\..\out\debug10\build\grpall_CSEditing\</ObjectFileName>
+      <PrecompiledHeaderOutputFile>..\..\out\debug10\build\grpapps_CSEditing\grpapps_CSEditing.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>..\..\out\debug10\build\grpapps_CSEditing\</AssemblerListingLocation>
+      <ObjectFileName>..\..\out\debug10\build\grpapps_CSEditing\</ObjectFileName>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
@@ -191,7 +191,7 @@
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
     <Lib>
-      <OutputFile>..\..\out\debug10\libs\grpall_CSEditing.lib</OutputFile>
+      <OutputFile>..\..\out\debug10\libs\grpapps_CSEditing.lib</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TargetMachine>MachineX86</TargetMachine>
     </Lib>
@@ -199,7 +199,7 @@
     </PostBuildEvent>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\libs\cseditor;..\..;..\..\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\apps\tests\varedittest;..\..;..\..\include</AdditionalIncludeDirectories>
       <Culture>0x0409</Culture>
     </ResourceCompile>
   </ItemDefinitionGroup>
@@ -211,9 +211,9 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_USE_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PrecompiledHeaderOutputFile>..\..\out\debug10\build\grpall_CSEditing\grpall_CSEditing.pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>..\..\out\debug10\build\grpall_CSEditing\</AssemblerListingLocation>
-      <ObjectFileName>..\..\out\debug10\build\grpall_CSEditing\</ObjectFileName>
+      <PrecompiledHeaderOutputFile>..\..\out\debug10\build\grpapps_CSEditing\grpapps_CSEditing.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>..\..\out\debug10\build\grpapps_CSEditing\</AssemblerListingLocation>
+      <ObjectFileName>..\..\out\debug10\build\grpapps_CSEditing\</ObjectFileName>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
@@ -231,7 +231,7 @@
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
     <Lib>
-      <OutputFile>..\..\out\debug10\libs\grpall_CSEditing.lib</OutputFile>
+      <OutputFile>..\..\out\debug10\libs\grpapps_CSEditing.lib</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TargetMachine>MachineX86</TargetMachine>
     </Lib>
@@ -239,7 +239,7 @@
     </PostBuildEvent>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\libs\cseditor;..\..;..\..\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\apps\tests\varedittest;..\..;..\..\include</AdditionalIncludeDirectories>
       <Culture>0x0409</Culture>
     </ResourceCompile>
   </ItemDefinitionGroup>
@@ -252,9 +252,9 @@
       <BufferSecurityCheck>false</BufferSecurityCheck>      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PrecompiledHeaderOutputFile>..\..\out\release10-x64\build\grpall_CSEditing\grpall_CSEditing.pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>..\..\out\release10-x64\build\grpall_CSEditing\</AssemblerListingLocation>
-      <ObjectFileName>..\..\out\release10-x64\build\grpall_CSEditing\</ObjectFileName>
+      <PrecompiledHeaderOutputFile>..\..\out\release10-x64\build\grpapps_CSEditing\grpapps_CSEditing.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>..\..\out\release10-x64\build\grpapps_CSEditing\</AssemblerListingLocation>
+      <ObjectFileName>..\..\out\release10-x64\build\grpapps_CSEditing\</ObjectFileName>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
@@ -274,7 +274,7 @@
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
     <Lib>
-      <OutputFile>..\..\out\release10-x64\libs\grpall_CSEditing.lib</OutputFile>
+      <OutputFile>..\..\out\release10-x64\libs\grpapps_CSEditing.lib</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TargetMachine>MachineX64</TargetMachine>
     </Lib>
@@ -282,7 +282,7 @@
     </PostBuildEvent>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WIN64;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\libs\cseditor;..\..;..\..\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\apps\tests\varedittest;..\..;..\..\include</AdditionalIncludeDirectories>
       <Culture>0x0409</Culture>
     </ResourceCompile>
   </ItemDefinitionGroup>
@@ -295,9 +295,9 @@
       <BufferSecurityCheck>false</BufferSecurityCheck>      <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_USE_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PrecompiledHeaderOutputFile>..\..\out\release10-x64\build\grpall_CSEditing\grpall_CSEditing.pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>..\..\out\release10-x64\build\grpall_CSEditing\</AssemblerListingLocation>
-      <ObjectFileName>..\..\out\release10-x64\build\grpall_CSEditing\</ObjectFileName>
+      <PrecompiledHeaderOutputFile>..\..\out\release10-x64\build\grpapps_CSEditing\grpapps_CSEditing.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>..\..\out\release10-x64\build\grpapps_CSEditing\</AssemblerListingLocation>
+      <ObjectFileName>..\..\out\release10-x64\build\grpapps_CSEditing\</ObjectFileName>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
@@ -317,7 +317,7 @@
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
     <Lib>
-      <OutputFile>..\..\out\release10-x64\libs\grpall_CSEditing.lib</OutputFile>
+      <OutputFile>..\..\out\release10-x64\libs\grpapps_CSEditing.lib</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TargetMachine>MachineX64</TargetMachine>
     </Lib>
@@ -325,7 +325,7 @@
     </PostBuildEvent>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WIN64;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\libs\cseditor;..\..;..\..\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\apps\tests\varedittest;..\..;..\..\include</AdditionalIncludeDirectories>
       <Culture>0x0409</Culture>
     </ResourceCompile>
   </ItemDefinitionGroup>
@@ -337,9 +337,9 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_USE_STATIC_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PrecompiledHeaderOutputFile>..\..\out\debug10-x64\build\grpall_CSEditing\grpall_CSEditing.pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>..\..\out\debug10-x64\build\grpall_CSEditing\</AssemblerListingLocation>
-      <ObjectFileName>..\..\out\debug10-x64\build\grpall_CSEditing\</ObjectFileName>
+      <PrecompiledHeaderOutputFile>..\..\out\debug10-x64\build\grpapps_CSEditing\grpapps_CSEditing.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>..\..\out\debug10-x64\build\grpapps_CSEditing\</AssemblerListingLocation>
+      <ObjectFileName>..\..\out\debug10-x64\build\grpapps_CSEditing\</ObjectFileName>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
@@ -357,7 +357,7 @@
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
     <Lib>
-      <OutputFile>..\..\out\debug10-x64\libs\grpall_CSEditing.lib</OutputFile>
+      <OutputFile>..\..\out\debug10-x64\libs\grpapps_CSEditing.lib</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TargetMachine>MachineX64</TargetMachine>
     </Lib>
@@ -365,7 +365,7 @@
     </PostBuildEvent>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WIN64;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\libs\cseditor;..\..;..\..\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\apps\tests\varedittest;..\..;..\..\include</AdditionalIncludeDirectories>
       <Culture>0x0409</Culture>
     </ResourceCompile>
   </ItemDefinitionGroup>
@@ -377,9 +377,9 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>      <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_USE_SHARED_LIBS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>.;..\..;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PrecompiledHeaderOutputFile>..\..\out\debug10-x64\build\grpall_CSEditing\grpall_CSEditing.pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>..\..\out\debug10-x64\build\grpall_CSEditing\</AssemblerListingLocation>
-      <ObjectFileName>..\..\out\debug10-x64\build\grpall_CSEditing\</ObjectFileName>
+      <PrecompiledHeaderOutputFile>..\..\out\debug10-x64\build\grpapps_CSEditing\grpapps_CSEditing.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>..\..\out\debug10-x64\build\grpapps_CSEditing\</AssemblerListingLocation>
+      <ObjectFileName>..\..\out\debug10-x64\build\grpapps_CSEditing\</ObjectFileName>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
@@ -397,7 +397,7 @@
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
     <Lib>
-      <OutputFile>..\..\out\debug10-x64\libs\grpall_CSEditing.lib</OutputFile>
+      <OutputFile>..\..\out\debug10-x64\libs\grpapps_CSEditing.lib</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TargetMachine>MachineX64</TargetMachine>
     </Lib>
@@ -405,7 +405,7 @@
     </PostBuildEvent>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WIN64;PROJECTGEN_VERSION=10;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\libs\cseditor;..\..;..\..\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\apps\tests\varedittest;..\..;..\..\include</AdditionalIncludeDirectories>
       <Culture>0x0409</Culture>
     </ResourceCompile>
   </ItemDefinitionGroup>

@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="grpall_CSEditing"
-	ProjectGUID="{961E97A8-ED54-CEAC-9A25-813BD8AD0CAA}"
+	Name="grpapps_CSEditing"
+	ProjectGUID="{47FD9669-0B87-5FF6-A5C7-DBD1D4B9E84E}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -13,8 +13,8 @@
 	<Configurations>
             		<Configuration
 			Name="ReleaseWithStaticLibs|Win32"
-			OutputDirectory="..\..\out\release8\build\grpall_CSEditing\"
-			IntermediateDirectory="..\..\out\release8\build\grpall_CSEditing\"
+			OutputDirectory="..\..\out\release8\build\grpapps_CSEditing\"
+			IntermediateDirectory="..\..\out\release8\build\grpapps_CSEditing\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -29,9 +29,9 @@
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include"
-				PrecompiledHeaderFile="..\..\out\release8\build\grpall_CSEditing\grpall_CSEditing.pch"
-				AssemblerListingLocation="..\..\out\release8\build\grpall_CSEditing\"
-				ObjectFile="..\..\out\release8\build\grpall_CSEditing\"
+				PrecompiledHeaderFile="..\..\out\release8\build\grpapps_CSEditing\grpapps_CSEditing.pch"
+				AssemblerListingLocation="..\..\out\release8\build\grpapps_CSEditing\"
+				ObjectFile="..\..\out\release8\build\grpapps_CSEditing\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -56,7 +56,7 @@
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\release8\libs\grpall_CSEditing.lib"
+				OutputFile="..\..\out\release8\libs\grpapps_CSEditing.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -64,7 +64,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release8\build\grpall_CSEditing\grpall_CSEditing.tlb"/>
+				TypeLibraryName="..\..\out\release8\build\grpapps_CSEditing\grpapps_CSEditing.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release8\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release8\bin\&#x0D;&#x0A;"
@@ -76,7 +76,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\libs\cseditor;..\..;..\..\include"
+				AdditionalIncludeDirectories=".;..\..\apps\tests\varedittest;..\..;..\..\include"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -85,8 +85,8 @@
 		</Configuration>
       		<Configuration
 			Name="ReleaseWithDlls|Win32"
-			OutputDirectory="..\..\out\release8\build\grpall_CSEditing\"
-			IntermediateDirectory="..\..\out\release8\build\grpall_CSEditing\"
+			OutputDirectory="..\..\out\release8\build\grpapps_CSEditing\"
+			IntermediateDirectory="..\..\out\release8\build\grpapps_CSEditing\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -101,9 +101,9 @@
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include"
-				PrecompiledHeaderFile="..\..\out\release8\build\grpall_CSEditing\grpall_CSEditing.pch"
-				AssemblerListingLocation="..\..\out\release8\build\grpall_CSEditing\"
-				ObjectFile="..\..\out\release8\build\grpall_CSEditing\"
+				PrecompiledHeaderFile="..\..\out\release8\build\grpapps_CSEditing\grpapps_CSEditing.pch"
+				AssemblerListingLocation="..\..\out\release8\build\grpapps_CSEditing\"
+				ObjectFile="..\..\out\release8\build\grpapps_CSEditing\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -128,7 +128,7 @@
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\release8\libs\grpall_CSEditing.lib"
+				OutputFile="..\..\out\release8\libs\grpapps_CSEditing.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -136,7 +136,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release8\build\grpall_CSEditing\grpall_CSEditing.tlb"/>
+				TypeLibraryName="..\..\out\release8\build\grpapps_CSEditing\grpapps_CSEditing.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release8\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release8\bin\&#x0D;&#x0A;"
@@ -148,7 +148,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\libs\cseditor;..\..;..\..\include"
+				AdditionalIncludeDirectories=".;..\..\apps\tests\varedittest;..\..;..\..\include"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -157,8 +157,8 @@
 		</Configuration>
                 		<Configuration
 			Name="DebugWithStaticLibs|Win32"
-			OutputDirectory="..\..\out\debug8\build\grpall_CSEditing\"
-			IntermediateDirectory="..\..\out\debug8\build\grpall_CSEditing\"
+			OutputDirectory="..\..\out\debug8\build\grpapps_CSEditing\"
+			IntermediateDirectory="..\..\out\debug8\build\grpapps_CSEditing\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -173,9 +173,9 @@
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include"
-				PrecompiledHeaderFile="..\..\out\debug8\build\grpall_CSEditing\grpall_CSEditing.pch"
-				AssemblerListingLocation="..\..\out\debug8\build\grpall_CSEditing\"
-				ObjectFile="..\..\out\debug8\build\grpall_CSEditing\"
+				PrecompiledHeaderFile="..\..\out\debug8\build\grpapps_CSEditing\grpapps_CSEditing.pch"
+				AssemblerListingLocation="..\..\out\debug8\build\grpapps_CSEditing\"
+				ObjectFile="..\..\out\debug8\build\grpapps_CSEditing\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -198,7 +198,7 @@
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\debug8\libs\grpall_CSEditing.lib"
+				OutputFile="..\..\out\debug8\libs\grpapps_CSEditing.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -206,7 +206,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug8\build\grpall_CSEditing\grpall_CSEditing.tlb"/>
+				TypeLibraryName="..\..\out\debug8\build\grpapps_CSEditing\grpapps_CSEditing.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug8\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug8\bin\&#x0D;&#x0A;"
@@ -218,7 +218,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\libs\cseditor;..\..;..\..\include"
+				AdditionalIncludeDirectories=".;..\..\apps\tests\varedittest;..\..;..\..\include"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -227,8 +227,8 @@
 		</Configuration>
       		<Configuration
 			Name="DebugWithDlls|Win32"
-			OutputDirectory="..\..\out\debug8\build\grpall_CSEditing\"
-			IntermediateDirectory="..\..\out\debug8\build\grpall_CSEditing\"
+			OutputDirectory="..\..\out\debug8\build\grpapps_CSEditing\"
+			IntermediateDirectory="..\..\out\debug8\build\grpapps_CSEditing\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -243,9 +243,9 @@
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include"
-				PrecompiledHeaderFile="..\..\out\debug8\build\grpall_CSEditing\grpall_CSEditing.pch"
-				AssemblerListingLocation="..\..\out\debug8\build\grpall_CSEditing\"
-				ObjectFile="..\..\out\debug8\build\grpall_CSEditing\"
+				PrecompiledHeaderFile="..\..\out\debug8\build\grpapps_CSEditing\grpapps_CSEditing.pch"
+				AssemblerListingLocation="..\..\out\debug8\build\grpapps_CSEditing\"
+				ObjectFile="..\..\out\debug8\build\grpapps_CSEditing\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -268,7 +268,7 @@
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\debug8\libs\grpall_CSEditing.lib"
+				OutputFile="..\..\out\debug8\libs\grpapps_CSEditing.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -276,7 +276,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug8\build\grpall_CSEditing\grpall_CSEditing.tlb"/>
+				TypeLibraryName="..\..\out\debug8\build\grpapps_CSEditing\grpapps_CSEditing.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug8\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug8\bin\&#x0D;&#x0A;"
@@ -288,7 +288,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\libs\cseditor;..\..;..\..\include"
+				AdditionalIncludeDirectories=".;..\..\apps\tests\varedittest;..\..;..\..\include"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -297,8 +297,8 @@
 		</Configuration>
                         		<Configuration
 			Name="ReleaseWithStaticLibs|x64"
-			OutputDirectory="..\..\out\release8-x64\build\grpall_CSEditing\"
-			IntermediateDirectory="..\..\out\release8-x64\build\grpall_CSEditing\"
+			OutputDirectory="..\..\out\release8-x64\build\grpapps_CSEditing\"
+			IntermediateDirectory="..\..\out\release8-x64\build\grpapps_CSEditing\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -313,9 +313,9 @@
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include"
-				PrecompiledHeaderFile="..\..\out\release8-x64\build\grpall_CSEditing\grpall_CSEditing.pch"
-				AssemblerListingLocation="..\..\out\release8-x64\build\grpall_CSEditing\"
-				ObjectFile="..\..\out\release8-x64\build\grpall_CSEditing\"
+				PrecompiledHeaderFile="..\..\out\release8-x64\build\grpapps_CSEditing\grpapps_CSEditing.pch"
+				AssemblerListingLocation="..\..\out\release8-x64\build\grpapps_CSEditing\"
+				ObjectFile="..\..\out\release8-x64\build\grpapps_CSEditing\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -340,7 +340,7 @@
 				TargetMachine="17"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\release8-x64\libs\grpall_CSEditing.lib"
+				OutputFile="..\..\out\release8-x64\libs\grpapps_CSEditing.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -348,7 +348,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release8-x64\build\grpall_CSEditing\grpall_CSEditing.tlb"/>
+				TypeLibraryName="..\..\out\release8-x64\build\grpapps_CSEditing\grpapps_CSEditing.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release8-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release8-x64\bin\&#x0D;&#x0A;"
@@ -360,7 +360,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WIN64;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\libs\cseditor;..\..;..\..\include"
+				AdditionalIncludeDirectories=".;..\..\apps\tests\varedittest;..\..;..\..\include"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -369,8 +369,8 @@
 		</Configuration>
       		<Configuration
 			Name="ReleaseWithDlls|x64"
-			OutputDirectory="..\..\out\release8-x64\build\grpall_CSEditing\"
-			IntermediateDirectory="..\..\out\release8-x64\build\grpall_CSEditing\"
+			OutputDirectory="..\..\out\release8-x64\build\grpapps_CSEditing\"
+			IntermediateDirectory="..\..\out\release8-x64\build\grpapps_CSEditing\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -385,9 +385,9 @@
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include"
-				PrecompiledHeaderFile="..\..\out\release8-x64\build\grpall_CSEditing\grpall_CSEditing.pch"
-				AssemblerListingLocation="..\..\out\release8-x64\build\grpall_CSEditing\"
-				ObjectFile="..\..\out\release8-x64\build\grpall_CSEditing\"
+				PrecompiledHeaderFile="..\..\out\release8-x64\build\grpapps_CSEditing\grpapps_CSEditing.pch"
+				AssemblerListingLocation="..\..\out\release8-x64\build\grpapps_CSEditing\"
+				ObjectFile="..\..\out\release8-x64\build\grpapps_CSEditing\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -412,7 +412,7 @@
 				TargetMachine="17"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\release8-x64\libs\grpall_CSEditing.lib"
+				OutputFile="..\..\out\release8-x64\libs\grpapps_CSEditing.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -420,7 +420,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release8-x64\build\grpall_CSEditing\grpall_CSEditing.tlb"/>
+				TypeLibraryName="..\..\out\release8-x64\build\grpapps_CSEditing\grpapps_CSEditing.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release8-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release8-x64\bin\&#x0D;&#x0A;"
@@ -432,7 +432,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WIN64;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\libs\cseditor;..\..;..\..\include"
+				AdditionalIncludeDirectories=".;..\..\apps\tests\varedittest;..\..;..\..\include"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -441,8 +441,8 @@
 		</Configuration>
                 		<Configuration
 			Name="DebugWithStaticLibs|x64"
-			OutputDirectory="..\..\out\debug8-x64\build\grpall_CSEditing\"
-			IntermediateDirectory="..\..\out\debug8-x64\build\grpall_CSEditing\"
+			OutputDirectory="..\..\out\debug8-x64\build\grpapps_CSEditing\"
+			IntermediateDirectory="..\..\out\debug8-x64\build\grpapps_CSEditing\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -457,9 +457,9 @@
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include"
-				PrecompiledHeaderFile="..\..\out\debug8-x64\build\grpall_CSEditing\grpall_CSEditing.pch"
-				AssemblerListingLocation="..\..\out\debug8-x64\build\grpall_CSEditing\"
-				ObjectFile="..\..\out\debug8-x64\build\grpall_CSEditing\"
+				PrecompiledHeaderFile="..\..\out\debug8-x64\build\grpapps_CSEditing\grpapps_CSEditing.pch"
+				AssemblerListingLocation="..\..\out\debug8-x64\build\grpapps_CSEditing\"
+				ObjectFile="..\..\out\debug8-x64\build\grpapps_CSEditing\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -482,7 +482,7 @@
 				TargetMachine="17"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\debug8-x64\libs\grpall_CSEditing.lib"
+				OutputFile="..\..\out\debug8-x64\libs\grpapps_CSEditing.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -490,7 +490,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug8-x64\build\grpall_CSEditing\grpall_CSEditing.tlb"/>
+				TypeLibraryName="..\..\out\debug8-x64\build\grpapps_CSEditing\grpapps_CSEditing.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug8-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug8-x64\bin\&#x0D;&#x0A;"
@@ -502,7 +502,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WIN64;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\libs\cseditor;..\..;..\..\include"
+				AdditionalIncludeDirectories=".;..\..\apps\tests\varedittest;..\..;..\..\include"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -511,8 +511,8 @@
 		</Configuration>
       		<Configuration
 			Name="DebugWithDlls|x64"
-			OutputDirectory="..\..\out\debug8-x64\build\grpall_CSEditing\"
-			IntermediateDirectory="..\..\out\debug8-x64\build\grpall_CSEditing\"
+			OutputDirectory="..\..\out\debug8-x64\build\grpapps_CSEditing\"
+			IntermediateDirectory="..\..\out\debug8-x64\build\grpapps_CSEditing\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -527,9 +527,9 @@
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include"
-				PrecompiledHeaderFile="..\..\out\debug8-x64\build\grpall_CSEditing\grpall_CSEditing.pch"
-				AssemblerListingLocation="..\..\out\debug8-x64\build\grpall_CSEditing\"
-				ObjectFile="..\..\out\debug8-x64\build\grpall_CSEditing\"
+				PrecompiledHeaderFile="..\..\out\debug8-x64\build\grpapps_CSEditing\grpapps_CSEditing.pch"
+				AssemblerListingLocation="..\..\out\debug8-x64\build\grpapps_CSEditing\"
+				ObjectFile="..\..\out\debug8-x64\build\grpapps_CSEditing\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -552,7 +552,7 @@
 				TargetMachine="17"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\debug8-x64\libs\grpall_CSEditing.lib"
+				OutputFile="..\..\out\debug8-x64\libs\grpapps_CSEditing.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -560,7 +560,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug8-x64\build\grpall_CSEditing\grpall_CSEditing.tlb"/>
+				TypeLibraryName="..\..\out\debug8-x64\build\grpapps_CSEditing\grpapps_CSEditing.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug8-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug8-x64\bin\&#x0D;&#x0A;"
@@ -572,7 +572,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WIN64;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\libs\cseditor;..\..;..\..\include"
+				AdditionalIncludeDirectories=".;..\..\apps\tests\varedittest;..\..;..\..\include"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
