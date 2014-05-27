@@ -28,8 +28,8 @@
 				ProgramDataBaseFileName="..\..\out\release9\build\libcsediting_staticplugins\Win32\csediting_staticplugins.pdb"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions="-I\usr\lib\x86_64-linux-gnu\wx\include\gtk2-unicode-release-2.8 -I\usr\include\wx-2.8 -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -D__WXGTK__ -pthread /MP "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\win32libs\include"
+				AdditionalOptions="/MP "
+				AdditionalIncludeDirectories=".;..\..;..\..\include"
 				PrecompiledHeaderFile="..\..\out\release9\build\libcsediting_staticplugins\libcsediting_staticplugins.pch"
 				AssemblerListingLocation="..\..\out\release9\build\libcsediting_staticplugins\"
 				ObjectFile="..\..\out\release9\build\libcsediting_staticplugins\"
@@ -77,7 +77,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\plugins;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\win32libs\include"
+				AdditionalIncludeDirectories=".;..\..\plugins;..\..;..\..\include"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -101,8 +101,8 @@
 				ProgramDataBaseFileName="..\..\out\release9\build\libcsediting_staticplugins\Win32\csediting_staticplugins.pdb"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;WIN32;CS_USE_SHARED_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions="-I\usr\lib\x86_64-linux-gnu\wx\include\gtk2-unicode-release-2.8 -I\usr\include\wx-2.8 -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -D__WXGTK__ -pthread /MP "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\win32libs\include"
+				AdditionalOptions="/MP "
+				AdditionalIncludeDirectories=".;..\..;..\..\include"
 				PrecompiledHeaderFile="..\..\out\release9\build\libcsediting_staticplugins\libcsediting_staticplugins.pch"
 				AssemblerListingLocation="..\..\out\release9\build\libcsediting_staticplugins\"
 				ObjectFile="..\..\out\release9\build\libcsediting_staticplugins\"
@@ -150,7 +150,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\plugins;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\win32libs\include"
+				AdditionalIncludeDirectories=".;..\..\plugins;..\..;..\..\include"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -174,8 +174,8 @@
 				ProgramDataBaseFileName="..\..\out\debug9\build\libcsediting_staticplugins\Win32\csediting_staticplugins.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions="-I\usr\lib\x86_64-linux-gnu\wx\include\gtk2-unicode-release-2.8 -I\usr\include\wx-2.8 -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -D__WXGTK__ -pthread "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\win32libs\include"
+				AdditionalOptions=" "
+				AdditionalIncludeDirectories=".;..\..;..\..\include"
 				PrecompiledHeaderFile="..\..\out\debug9\build\libcsediting_staticplugins\libcsediting_staticplugins.pch"
 				AssemblerListingLocation="..\..\out\debug9\build\libcsediting_staticplugins\"
 				ObjectFile="..\..\out\debug9\build\libcsediting_staticplugins\"
@@ -221,7 +221,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\plugins;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\win32libs\include"
+				AdditionalIncludeDirectories=".;..\..\plugins;..\..;..\..\include"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -245,8 +245,8 @@
 				ProgramDataBaseFileName="..\..\out\debug9\build\libcsediting_staticplugins\Win32\csediting_staticplugins.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;WIN32;CS_USE_SHARED_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions="-I\usr\lib\x86_64-linux-gnu\wx\include\gtk2-unicode-release-2.8 -I\usr\include\wx-2.8 -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -D__WXGTK__ -pthread "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\win32libs\include"
+				AdditionalOptions=" "
+				AdditionalIncludeDirectories=".;..\..;..\..\include"
 				PrecompiledHeaderFile="..\..\out\debug9\build\libcsediting_staticplugins\libcsediting_staticplugins.pch"
 				AssemblerListingLocation="..\..\out\debug9\build\libcsediting_staticplugins\"
 				ObjectFile="..\..\out\debug9\build\libcsediting_staticplugins\"
@@ -292,7 +292,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\plugins;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\win32libs\include"
+				AdditionalIncludeDirectories=".;..\..\plugins;..\..;..\..\include"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -316,8 +316,8 @@
 				ProgramDataBaseFileName="..\..\out\release9-x64\build\libcsediting_staticplugins\x64\csediting_staticplugins.pdb"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions="-I\usr\lib\x86_64-linux-gnu\wx\include\gtk2-unicode-release-2.8 -I\usr\include\wx-2.8 -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -D__WXGTK__ -pthread /MP "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\win32libs\include"
+				AdditionalOptions="/MP "
+				AdditionalIncludeDirectories=".;..\..;..\..\include"
 				PrecompiledHeaderFile="..\..\out\release9-x64\build\libcsediting_staticplugins\libcsediting_staticplugins.pch"
 				AssemblerListingLocation="..\..\out\release9-x64\build\libcsediting_staticplugins\"
 				ObjectFile="..\..\out\release9-x64\build\libcsediting_staticplugins\"
@@ -365,7 +365,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;_WIN64;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\plugins;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\win32libs\include"
+				AdditionalIncludeDirectories=".;..\..\plugins;..\..;..\..\include"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -389,8 +389,8 @@
 				ProgramDataBaseFileName="..\..\out\release9-x64\build\libcsediting_staticplugins\x64\csediting_staticplugins.pdb"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;WIN32;CS_USE_SHARED_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions="-I\usr\lib\x86_64-linux-gnu\wx\include\gtk2-unicode-release-2.8 -I\usr\include\wx-2.8 -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -D__WXGTK__ -pthread /MP "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\win32libs\include"
+				AdditionalOptions="/MP "
+				AdditionalIncludeDirectories=".;..\..;..\..\include"
 				PrecompiledHeaderFile="..\..\out\release9-x64\build\libcsediting_staticplugins\libcsediting_staticplugins.pch"
 				AssemblerListingLocation="..\..\out\release9-x64\build\libcsediting_staticplugins\"
 				ObjectFile="..\..\out\release9-x64\build\libcsediting_staticplugins\"
@@ -438,7 +438,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;_WIN64;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\plugins;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\win32libs\include"
+				AdditionalIncludeDirectories=".;..\..\plugins;..\..;..\..\include"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -462,8 +462,8 @@
 				ProgramDataBaseFileName="..\..\out\debug9-x64\build\libcsediting_staticplugins\x64\csediting_staticplugins.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions="-I\usr\lib\x86_64-linux-gnu\wx\include\gtk2-unicode-release-2.8 -I\usr\include\wx-2.8 -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -D__WXGTK__ -pthread "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\win32libs\include"
+				AdditionalOptions=" "
+				AdditionalIncludeDirectories=".;..\..;..\..\include"
 				PrecompiledHeaderFile="..\..\out\debug9-x64\build\libcsediting_staticplugins\libcsediting_staticplugins.pch"
 				AssemblerListingLocation="..\..\out\debug9-x64\build\libcsediting_staticplugins\"
 				ObjectFile="..\..\out\debug9-x64\build\libcsediting_staticplugins\"
@@ -509,7 +509,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;_WIN64;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\plugins;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\win32libs\include"
+				AdditionalIncludeDirectories=".;..\..\plugins;..\..;..\..\include"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -533,8 +533,8 @@
 				ProgramDataBaseFileName="..\..\out\debug9-x64\build\libcsediting_staticplugins\x64\csediting_staticplugins.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;WIN32;CS_USE_SHARED_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions="-I\usr\lib\x86_64-linux-gnu\wx\include\gtk2-unicode-release-2.8 -I\usr\include\wx-2.8 -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -D__WXGTK__ -pthread "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\win32libs\include"
+				AdditionalOptions=" "
+				AdditionalIncludeDirectories=".;..\..;..\..\include"
 				PrecompiledHeaderFile="..\..\out\debug9-x64\build\libcsediting_staticplugins\libcsediting_staticplugins.pch"
 				AssemblerListingLocation="..\..\out\debug9-x64\build\libcsediting_staticplugins\"
 				ObjectFile="..\..\out\debug9-x64\build\libcsediting_staticplugins\"
@@ -580,7 +580,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;_WIN64;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\plugins;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\win32libs\include"
+				AdditionalIncludeDirectories=".;..\..\plugins;..\..;..\..\include"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -589,209 +589,6 @@
 		</Configuration>
             	</Configurations>
 	<Files>
-		<Filter
-			Name="Source Files"
-			Filter="">
-			<File
-				RelativePath="..\..\mk\msvc\libcseditorcomponents_staticreg.cpp">
-			</File>
-			<File
-				RelativePath="..\..\mk\msvc\libcseditorcore_staticreg.cpp">
-			</File>
-			<File
-				RelativePath="..\..\mk\msvc\libcseditorheaders_staticreg.cpp">
-			</File>
-			<File
-				RelativePath="..\..\mk\msvc\libcseditormenus_staticreg.cpp">
-			</File>
-			<File
-				RelativePath="..\..\mk\msvc\libcseditoroperators_staticreg.cpp">
-			</File>
-			<File
-				RelativePath="..\..\mk\msvc\libcseditorpanels_staticreg.cpp">
-			</File>
-			<File
-				RelativePath="..\..\mk\msvc\libcseditorspaces_staticreg.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\components\2dinfo.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\components\cs3dengine.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\components\exit.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\components\logger.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\components\maploader.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\components\modifiable.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\components\perspectives.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\components\scenemanager.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\components\translation.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\components\undoredo.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\core\actionmanager.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\core\editor.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\core\layouts.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\core\menubar.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\core\operatormanager.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\core\perspective.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\core\spacemanager.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\core\statusbar.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\core\window.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\headers\cs3dheader.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\menus\cs3dmenu.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\operators\moveoperator.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\operators\selectoperator.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\panels\camerapanel.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\spaces\3dview.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\spaces\particleeditor.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\spaces\properties.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\spaces\scenetree.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\spaces\textlog.cpp">
-			</File>
-		</Filter>
-		<Filter
-			Name="Header Files"
-			Filter="">
-			<File
-				RelativePath="..\..\plugins\editor\components\2dinfo.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\components\cs3dengine.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\components\exit.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\components\logger.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\components\maploader.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\components\modifiable.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\components\perspectives.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\components\scenemanager.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\components\translation.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\components\undoredo.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\core\actionmanager.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\core\editor.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\core\layouts.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\core\menubar.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\core\operatormanager.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\core\perspective.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\core\spacemanager.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\core\statusbar.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\core\window.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\headers\cs3dheader.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\menus\cs3dmenu.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\operators\moveoperator.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\operators\selectoperator.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\panels\camerapanel.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\spaces\3dview.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\spaces\particleeditor.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\spaces\properties.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\spaces\scenetree.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\editor\spaces\textlog.h">
-			</File>
-		</Filter>
 	</Files>
 	<Globals>
 	</Globals>
