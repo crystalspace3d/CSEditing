@@ -166,7 +166,6 @@ bool EditorApplication::OnInit (void)
   if (!componentManager->RegisterSpace ("crystalspace.editor.space.3dview")) return false;
   if (!componentManager->RegisterSpace ("crystalspace.editor.space.scenetree")) return false;
   if (!componentManager->RegisterSpace ("crystalspace.editor.space.partedit")) return false; 
-  if (!componentManager->RegisterSpace ("crystalspace.editor.space.terrainedit")) return false; 
   if (!componentManager->RegisterSpace ("crystalspace.editor.space.textlog")) return false;
   if (!componentManager->RegisterSpace ("crystalspace.editor.space.properties")) return false;
 
@@ -182,7 +181,7 @@ bool EditorApplication::OnInit (void)
   window->SetSplitPosition (220);
 
   iPerspectiveWindow* window1 = window->GetChild1 ();
-  window1->SetSpace ("crystalspace.editor.space.terrainedit"); //Removed scenetree and added terrainedit
+  window1->SetSpace ("crystalspace.editor.space.scenetree");
 
   iPerspectiveWindow* window2 = window->GetChild2 ();
   window2->SetSplitMode (SPLIT_VERTICAL);
