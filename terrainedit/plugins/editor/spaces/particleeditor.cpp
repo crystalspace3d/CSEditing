@@ -187,7 +187,7 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 
     mainSizer->Add (secondaryEditor, 1, wxALL | wxEXPAND, borderWidth);
     enabled = true;
-    printf ("\nInitialized particle editing panel!\n");
+    printf ("\nParticle working\n");
 
     // Populate with the current active object 
     Populate (); 
