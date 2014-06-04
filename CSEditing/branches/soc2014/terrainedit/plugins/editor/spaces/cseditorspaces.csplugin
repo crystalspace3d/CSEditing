@@ -33,13 +33,6 @@
 	<description>Particles</description>
 	<allowMultiple>true</allowMultiple>
       </class>
-       <class>
-	<name>crystalspace.editor.space.terrainedit</name>
-	<implementation>CSTerrainEditSpace</implementation>
-	<description>Terrain</description>
-	<allowMultiple>true</allowMultiple>
-      </class>	
-	
     </classes>
   </scf>
 </plugin>
