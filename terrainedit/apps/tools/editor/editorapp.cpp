@@ -182,14 +182,14 @@ bool EditorApplication::OnInit (void)
   window->SetSplitPosition (220);
 
   iPerspectiveWindow* window1 = window->GetChild1 ();
-  window1->SetSpace ("crystalspace.editor.space.terrainedit"); //Removed scenetree and added terrainedit
+  window1->SetSpace ("crystalspace.editor.space.scenetree");
 
   iPerspectiveWindow* window2 = window->GetChild2 ();
   window2->SetSplitMode (SPLIT_VERTICAL);
   window2->SetSplitPosition (550);
 
   window2->GetChild1 ()->SetSpace ("crystalspace.editor.space.3dview");
-  window2->GetChild2 ()->SetSpace ("crystalspace.editor.space.partedit");
+  window2->GetChild2 ()->SetSpace ("crystalspace.editor.space.terrainedit");
 
   // Create a 'Terrain' pespective
   perspective = perspectiveManager->CreatePerspective ("Terrain");
