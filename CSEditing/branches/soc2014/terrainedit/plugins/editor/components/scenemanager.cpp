@@ -207,12 +207,6 @@ void SceneManager::OnSetActiveObject (iCamera* camera)
 
     camera->SetSector (sectorList->Get (0));
     csBox3 bbox = mesh->GetWorldBoundingBox ();
-
-    // Hack: set temporarily the height of the bbox since it currently appears
-    // to return a wrong one for terrains
-    bbox.SetMin (1, -100.f);
-    bbox.SetMax (1, 100.f);
-
     PositionCamera (camera, bbox);
     cameraManager->SetCameraMode (CS::Utility::CAMERA_ROTATE);
     cameraManager->SetMotionSpeed (5.0f);
