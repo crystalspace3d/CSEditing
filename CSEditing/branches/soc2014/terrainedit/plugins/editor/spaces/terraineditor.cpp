@@ -66,6 +66,8 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
   // shouldn't be any problems.
   BEGIN_EVENT_TABLE (CSTerrainEditSpace, wxPanel)
     EVT_SIZE  (CSTerrainEditSpace::OnSize)
+    EVT_LISTBOX (idCellList, CSTerrainEditSpace::OnCellSelect)
+    EVT_BUTTON (idButtonAddCell, CSTerrainEditSpace::OnButtonAddCell) 
   END_EVENT_TABLE ()
 
   SCF_IMPLEMENT_FACTORY (CSTerrainEditSpace)
@@ -124,14 +126,29 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     middleSizer->Add (middleLSizer, 1, wxEXPAND | wxALL, borderWidth);
     middleSizer->Add (middleRSizer, 1, wxEXPAND | wxALL, borderWidth);
     
-    
+    middleLSizer->Add (new wxStaticText (this, wxID_ANY, wxT ("Cells")));
+    cellList = new wxListBox (this,idCellList);
+    middleLSizer->Add ( cellList,
+                        1,
+                        wxALL | wxEXPAND,
+                        borderWidth );
+
+    wxButton* but = new wxButton (this, idButtonAddCell, wxT ("Add Cell"));
+    but->SetSize (-1, 32);
+    middleLSizer->Add ( but,
+                        0,
+                        wxALL | wxEXPAND,
+                        borderWidth );
+
+   
     secondaryEditor = new ModifiableEditor (object_reg, this, idSecondaryEditor,
       wxDefaultPosition, wxDefaultSize, 0L, wxT ("Secondary editor"));
 
     mainSizer->Add (secondaryEditor, 1, wxALL | wxEXPAND, borderWidth);
     enabled = true;
-    printf ("\nTerrain Editor working\n");
-    printf("Test");
+    printf ("\nTerrain Editor working and all\n");
+    
+    
     // Populate with the current active object 
     Populate (); 
 
@@ -149,13 +166,12 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 
   void CSTerrainEditSpace::Populate ()
   {
-    
-    printf("Test");
-
-    // Get the object from the context
+      	
+   	// Get the object from the context
     csRef<iContextObjectSelection> objectSelectionContext =
       scfQueryInterface<iContextObjectSelection> (editor->GetContext ());
-    
+       
+
     // Search for the iModifiable interface of the particle factory
     iObject* result = objectSelectionContext->GetActiveObject ();
     if (!result)
@@ -163,7 +179,7 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
       printf("No object selected.");
       return;
     }
-    
+      
     //csString entityName (result->GetName ());
 
     csRef<iMeshWrapper> mesh = scfQueryInterface<iMeshWrapper> (result);
@@ -188,20 +204,22 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
       printf("No terrain factory selected.");
       return;
     }
- 
-    /*
-    csRef<iModifiable> modifiable = scfQueryInterface<iModifiable> (fac->GetMeshObjectFactory ());  
+ 	factory = terrainFactory;
+    UpdateCellList ();
+
+
+    csRef<iModifiable> modifiable = scfQueryInterface<iModifiable> (mesh->GetMeshObject()->GetFactory());  
     if (!modifiable)
     {
-      Empty (wxT ("Selected particle system is non-standard and doesn't implement iModifiable. It cannot be edited."));
+      printf("Selected particle system is non-standard and doesn't implement iModifiable. It cannot be edited.");
       return;
     }
-    */
+    
     // Caches a casted pointer to the factory
-    factory = terrainFactory;
+    
    
     // Updates the GUI
-    //mainEditor->SetModifiable (modifiable);
+    mainEditor->SetModifiable (modifiable);
     
     }
 
@@ -209,6 +227,7 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
   {
     mainEditor->Clear ();
     secondaryEditor->Clear ();
+    cellList->Clear();
     
     //mainEditor->SetMessage (wxString (wxT ("Notice:")), message);
   }
@@ -243,6 +262,52 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 
     return false;
   }
+
+  void CSTerrainEditSpace::OnButtonAddCell ( wxCommandEvent &event )
+  {
+    // TODO: context menu to pick
+    iTerrainFactoryCell* cell = factory->AddCell();
+    UpdateCellList ();
+
+    // Add the effector to the actual previewed mesh
+    csRef<iContextObjectSelection> objectSelectionContext =
+      scfQueryInterface<iContextObjectSelection> (editor->GetContext ());
+
+    iObject* result = objectSelectionContext->GetActiveObject ();
+
+    csRef<iMeshWrapper> mesh = scfQueryInterface<iMeshWrapper> (result);
+
+    csRef<iTerrainSystem> terrainSystem = scfQueryInterface<iTerrainSystem> (mesh->GetMeshObject());
+    terrainSystem->AddCell(cell);
+  }
+
+  void CSTerrainEditSpace::OnCellSelect ( wxCommandEvent& event )
+  {
+    
+    iTerrainFactoryCell* cell = static_cast<iTerrainFactoryCell*> (cellList->GetClientData (event.GetSelection ()));
+    csRef<iModifiable> mod = scfQueryInterface<iModifiable> (cell);
+
+    if (mod.IsValid ()) {
+      secondaryEditor->SetModifiable (mod);
+    } else {
+      csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+        "crystalspace.editor.space.terrainedit",
+        "Tried to edit cell not implementing iModifiable.");
+
+      return;
+    }
+  }
+
+  void CSTerrainEditSpace::UpdateCellList ()
+  {
+    cellList->Clear ();
+    
+    for (size_t i = 0; i < factory->GetCellCount (); i++) {
+      iTerrainFactoryCell* cell = factory->GetCell (i);
+      cellList->Append (wxString::Format (wxT ("Cell #%u"), i), (void*)cell);
+    }
+  }
+
 
 
 }

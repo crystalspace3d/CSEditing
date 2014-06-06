@@ -72,21 +72,21 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
      */
     void Empty (const wxString& message);
 
-    //void OnButtonAddEmitter (wxCommandEvent &event);
-    //void OnButtonRemoveEmitter (wxCommandEvent &event);
+    void OnButtonAddCell (wxCommandEvent &event);
+    //void OnButtonRemoveCell (wxCommandEvent &event);
     //void OnButtonAddEffector (wxCommandEvent &event);
     //void OnButtonRemoveEffector (wxCommandEvent &event);
-    //void OnEmitterSelect (wxCommandEvent& event);
+    void OnCellSelect (wxCommandEvent& event);
     //void OnEffectorSelect (wxCommandEvent& event);
 
-    //void UpdateEmitterList  ();
+    void UpdateCellList  ();
     //void UpdateEffectorList ();
 
   private:
     static const int borderWidth = 4; 
     bool enabled;
     wxBoxSizer* mainSizer, *middleSizer, *middleLSizer, *middleRSizer;
-    //wxListBox *emitterList, *effectorList;
+    wxListBox *cellList;
     csRef<iEditor> editor;
     csRef<iEventQueue> queue;
 
@@ -109,6 +109,8 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     enum {
       idMainEditor = 42,
       idSecondaryEditor,
+      idButtonAddCell,
+      idCellList
       };
 
     DECLARE_EVENT_TABLE ();
