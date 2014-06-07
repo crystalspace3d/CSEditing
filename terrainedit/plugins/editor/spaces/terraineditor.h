@@ -65,6 +65,7 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
      * the GUI.
      */
     void Populate ();
+    
 
     /**
      * Called when the editor should be cleared, e.g. when the selected data isn't
@@ -94,6 +95,8 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     csRef<iSpaceFactory> spaceFactory;
     /// The terrain factory currently being edited
     csRef<iTerrainFactory> factory;
+
+    csRef<iTerrainSystem> terrain;
     
     /// Used to edit the general TS propertiees
     ModifiableEditor* mainEditor;

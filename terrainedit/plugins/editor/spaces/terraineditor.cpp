@@ -204,10 +204,12 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
       printf("No terrain factory selected.");
       return;
     }
+ 	
  	factory = terrainFactory;
+ 	terrain = terrainSys;
     UpdateCellList ();
 
-
+    
     csRef<iModifiable> modifiable = scfQueryInterface<iModifiable> (mesh->GetMeshObject()->GetFactory());  
     if (!modifiable)
     {
@@ -220,6 +222,8 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
    
     // Updates the GUI
     mainEditor->SetModifiable (modifiable);
+
+
     
     }
 
@@ -231,6 +235,8 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     
     //mainEditor->SetMessage (wxString (wxT ("Notice:")), message);
   }
+
+ 
 
   wxWindow* CSTerrainEditSpace::GetwxWindow ()
   {
@@ -266,19 +272,14 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
   void CSTerrainEditSpace::OnButtonAddCell ( wxCommandEvent &event )
   {
     // TODO: context menu to pick
-    iTerrainFactoryCell* cell = factory->AddCell();
-    UpdateCellList ();
-
-    // Add the effector to the actual previewed mesh
-    csRef<iContextObjectSelection> objectSelectionContext =
-      scfQueryInterface<iContextObjectSelection> (editor->GetContext ());
-
-    iObject* result = objectSelectionContext->GetActiveObject ();
-
-    csRef<iMeshWrapper> mesh = scfQueryInterface<iMeshWrapper> (result);
-
-    csRef<iTerrainSystem> terrainSystem = scfQueryInterface<iTerrainSystem> (mesh->GetMeshObject());
-    terrainSystem->AddCell(cell);
+    printf("Add Cell");
+    
+    size_t i = 0;
+    factory->AddCell();
+    iTerrainFactoryCell* cellf = factory->GetCell (i);
+    cellf->SetPosition (csVector2 (-128.0f + (factory->GetCellCount () - 1) * 256.0f, -128.0f));
+    csRef<iTerrainCell> cell (terrain->AddCell(cellf));
+    UpdateCellList();
   }
 
   void CSTerrainEditSpace::OnCellSelect ( wxCommandEvent& event )
