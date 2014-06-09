@@ -273,11 +273,29 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
   {
     // TODO: context menu to pick
     printf("Add Cell");
-    
-    size_t i = 0;
-    factory->AddCell();
-    iTerrainFactoryCell* cellf = factory->GetCell (i);
-    cellf->SetPosition (csVector2 (-128.0f + (factory->GetCellCount () - 1) * 256.0f, -128.0f));
+     csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
+     csRef<iMaterialWrapper> terrainmat = engine->CreateMaterial ("terrain", 0);
+
+  	csRef<iTerrainFactoryCell> cellf(factory->AddCell ());
+     //defining new cell properties 
+    	cellf->SetName ("2");    
+    	cellf->SetPosition (csVector2 (-128.0f + (factory->GetCellCount () - 1) * 256.0f, -128.0f));
+    	cellf->SetSize (csVector3 (256.0f, 16.0f, 256.0f));
+  		cellf->SetGridWidth (257);
+  		cellf->SetGridHeight (257);
+  		cellf->SetMaterialMapWidth (256);
+  		cellf->SetMaterialMapHeight (256);
+  		cellf->SetMaterialPersistent (false);
+
+  		cellf->SetBaseMaterial (terrainmat);
+
+  		cellf->GetRenderProperties ()->SetParameter ("block resolution", "16");
+  		cellf->GetRenderProperties ()->SetParameter ("lod splitcoeff", "16");
+
+  		cellf->GetFeederProperties ()->SetParameter("heightmap source", "/lev/terrain/heightmap.png");
+  		cellf->GetFeederProperties ()->SetParameter("materialmap source", "/lev/terrain/materialmap.png");
+  	//definition ends.	
+	
     csRef<iTerrainCell> cell (terrain->AddCell(cellf));
     UpdateCellList();
   }
