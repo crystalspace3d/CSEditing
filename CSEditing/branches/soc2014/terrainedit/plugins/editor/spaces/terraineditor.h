@@ -83,6 +83,8 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     void UpdateCellList  ();
     //void UpdateEffectorList ();
 
+    void OnButtonUpdateMesh (wxCommandEvent& event);
+
   private:
     static const int borderWidth = 4; 
     bool enabled;
@@ -113,12 +115,14 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
       idMainEditor = 42,
       idSecondaryEditor,
       idButtonAddCell,
-      idCellList
+      idCellList,
+      idButtonUpdateMesh
       };
 
     DECLARE_EVENT_TABLE ();
   };
 }
+
 CS_PLUGIN_NAMESPACE_END (CSEditor)
 
 #endif
