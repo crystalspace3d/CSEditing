@@ -67,7 +67,8 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
   BEGIN_EVENT_TABLE (CSTerrainEditSpace, wxPanel)
     EVT_SIZE  (CSTerrainEditSpace::OnSize)
     EVT_LISTBOX (idCellList, CSTerrainEditSpace::OnCellSelect)
-    EVT_BUTTON (idButtonAddCell, CSTerrainEditSpace::OnButtonAddCell) 
+    EVT_BUTTON (idButtonAddCell, CSTerrainEditSpace::OnButtonAddCell)
+    EVT_BUTTON (idButtonUpdateMesh , CSTerrainEditSpace::OnButtonUpdateMesh) 
   END_EVENT_TABLE ()
 
   SCF_IMPLEMENT_FACTORY (CSTerrainEditSpace)
@@ -140,6 +141,13 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
                         wxALL | wxEXPAND,
                         borderWidth );
 
+    wxButton* but2 = new wxButton (this, idButtonUpdateMesh, wxT ("UpdateMesh"));
+    but->SetSize (-1, 32);
+    middleRSizer->Add ( but2,
+                        0,
+                        wxALL | wxEXPAND,
+                        borderWidth );
+
    
     secondaryEditor = new ModifiableEditor (object_reg, this, idSecondaryEditor,
       wxDefaultPosition, wxDefaultSize, 0L, wxT ("Secondary editor"));
@@ -157,6 +165,8 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 
   void CSTerrainEditSpace::Update () {
   }
+
+
 
   void CSTerrainEditSpace::OnSize (wxSizeEvent& event)
   {
@@ -236,7 +246,6 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     //mainEditor->SetMessage (wxString (wxT ("Notice:")), message);
   }
 
- 
 
   wxWindow* CSTerrainEditSpace::GetwxWindow ()
   {
@@ -272,11 +281,12 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
   void CSTerrainEditSpace::OnButtonAddCell ( wxCommandEvent &event )
   {
     // TODO: context menu to pick
-    printf("Add Cell");
-     csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
-     csRef<iMaterialWrapper> terrainmat = engine->CreateMaterial ("terrain", 0);
+     printf("Add Cell");
 
-  	csRef<iTerrainFactoryCell> cellf(factory->AddCell ());
+      csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
+      csRef<iMaterialWrapper> terrainmat = engine->CreateMaterial ("terrain", 0);
+
+  	  csRef<iTerrainFactoryCell> cellf(factory->AddCell ());
      //defining new cell properties 
     	cellf->SetName ("2");    
     	cellf->SetPosition (csVector2 (-128.0f + (factory->GetCellCount () - 1) * 256.0f, -128.0f));
@@ -326,6 +336,19 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
       cellList->Append (wxString::Format (wxT ("Cell #%u"), i), (void*)cell);
     }
   }
+
+   void CSTerrainEditSpace::OnButtonUpdateMesh (wxCommandEvent &event ) 
+  {
+  	printf("UpdateMesh");
+  	size_t first_cell = 0;
+  	for (size_t i = 0; i < factory->GetCellCount(); i++) {
+  		iTerrainFactoryCell* cell = factory->GetCell (i);
+  		iTerrainCell* cell_sys = terrain->GetCell (first_cell);
+  		terrain->RemoveCell (cell_sys);
+  		terrain->AddCell (cell);
+
+  }
+}
 
 
 
