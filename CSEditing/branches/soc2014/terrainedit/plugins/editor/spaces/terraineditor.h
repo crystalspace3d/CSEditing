@@ -18,26 +18,30 @@
 #ifndef __SPACE_TERRAINEDITOR_H__
 #define __SPACE_TERRAINEDITOR_H__
 
+
+#include <iutil/modifiable.h>
+#include "cseditor/modifiableeditor.h"
+
+
 #include <csutil/csbaseeventh.h>
 #include <csutil/eventnames.h>
 #include <csutil/ref.h>
 #include <csutil/scf_implementation.h>
 #include <iutil/event.h>
 #include <iutil/comp.h>
-#include <iutil/modifiable.h>
-
-#include "cseditor/modifiableeditor.h"
 #include "ieditor/editor.h"
 #include "ieditor/space.h"
 
 using namespace CSE::Editor::Core;
 using namespace CSE::Editor::Utility;
+using namespace CS::Utility;
+
 
 CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 {
 
   class CSTerrainEditSpace : public wxPanel, public csBaseEventHandler,
-    public scfImplementation1<CSTerrainEditSpace, iSpace>
+    public scfImplementation2<CSTerrainEditSpace, iSpace , iModifiableListener>
   {
   public:
     CSTerrainEditSpace (iBase* parent);
@@ -85,6 +89,8 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 
     void OnButtonUpdateMesh (wxCommandEvent& event);
 
+    virtual void ValueChanged (iModifiable *modifiable, size_t parameterIndex);
+
   private:
     static const int borderWidth = 4; 
     bool enabled;
@@ -105,7 +111,11 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
   
     ModifiableEditor* secondaryEditor;
 
-    // Various event ids
+    csRef<iModifiableListener> listener;
+
+    csRef<iModifiable> mod;
+
+       // Various event ids
     iEventNameRegistry* nameRegistry;
     csStringID addObject;
     csStringID clearObjects;

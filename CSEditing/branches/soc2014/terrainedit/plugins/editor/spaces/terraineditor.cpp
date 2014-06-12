@@ -155,8 +155,7 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     mainSizer->Add (secondaryEditor, 1, wxALL | wxEXPAND, borderWidth);
     enabled = true;
     printf ("\nTerrain Editor working and all\n");
-    
-    
+       
     // Populate with the current active object 
     Populate (); 
 
@@ -215,8 +214,8 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
       return;
     }
  	
- 	factory = terrainFactory;
- 	terrain = terrainSys;
+ 	  factory = terrainFactory;
+ 	  terrain = terrainSys;
     UpdateCellList ();
 
     
@@ -232,9 +231,7 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
    
     // Updates the GUI
     mainEditor->SetModifiable (modifiable);
-
-
-    
+  
     }
 
   void CSTerrainEditSpace::Empty (const wxString& message)
@@ -314,11 +311,13 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
   {
     
     iTerrainFactoryCell* cell = static_cast<iTerrainFactoryCell*> (cellList->GetClientData (event.GetSelection ()));
-    csRef<iModifiable> mod = scfQueryInterface<iModifiable> (cell);
-
+    mod = scfQueryInterface<iModifiable> (cell);
+    
     if (mod.IsValid ()) {
       secondaryEditor->SetModifiable (mod);
-    } else {
+      mod->AddListener(listener);
+      } 
+      else {
       csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
         "crystalspace.editor.space.terrainedit",
         "Tried to edit cell not implementing iModifiable.");
@@ -350,7 +349,10 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
   }
 }
 
-
-
+  void CSTerrainEditSpace::ValueChanged (iModifiable *modifiable, size_t parameterIndex )
+  {
+    printf("UpdateMesh");
+   
+  }
 }
 CS_PLUGIN_NAMESPACE_END (CSEditor)
