@@ -51,6 +51,8 @@
 
 #include "terraineditor.h"
 
+
+
 using namespace CS::Utility;
 using namespace CSE::Editor::Context;
 
@@ -68,7 +70,7 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     EVT_SIZE  (CSTerrainEditSpace::OnSize)
     EVT_LISTBOX (idCellList, CSTerrainEditSpace::OnCellSelect)
     EVT_BUTTON (idButtonAddCell, CSTerrainEditSpace::OnButtonAddCell)
-    EVT_BUTTON (idButtonUpdateMesh , CSTerrainEditSpace::OnButtonUpdateMesh) 
+    EVT_BUTTON (idButtonDeleteCell , CSTerrainEditSpace::OnButtonDeleteCell) 
   END_EVENT_TABLE ()
 
   SCF_IMPLEMENT_FACTORY (CSTerrainEditSpace)
@@ -107,11 +109,12 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     //addObject = nameRegistry->GetID ("crystalspace.editor.context.selection.addselectedobject");
     //clearObjects = nameRegistry->GetID ("crystalspace.editor.context.selection.clearselectedobjects");
     activateObject = nameRegistry->GetID ("crystalspace.editor.context.selection.setactiveobject");
-
+       
+   
     // Respond to context events
     //csEventID contextSelect = nameRegistry->GetID ("crystalspace.editor.context");
     RegisterQueue (editor->GetContext ()->GetEventQueue (), activateObject);
-    
+       
     // Prepare modifiable editors
     mainEditor = new ModifiableEditor (object_reg, this, idMainEditor, wxDefaultPosition,
 				       parent->GetSize (), 0L, wxT ("Modifiable editor"));
@@ -136,12 +139,12 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 
     wxButton* but = new wxButton (this, idButtonAddCell, wxT ("Add Cell"));
     but->SetSize (-1, 32);
-    middleLSizer->Add ( but,
+    middleRSizer->Add ( but,
                         0,
                         wxALL | wxEXPAND,
                         borderWidth );
 
-    wxButton* but2 = new wxButton (this, idButtonUpdateMesh, wxT ("UpdateMesh"));
+    wxButton* but2 = new wxButton (this, idButtonDeleteCell, wxT ("DeleteCell"));
     but->SetSize (-1, 32);
     middleRSizer->Add ( but2,
                         0,
@@ -232,7 +235,7 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     // Updates the GUI
     mainEditor->SetModifiable (modifiable);
   
-    }
+  }
 
   void CSTerrainEditSpace::Empty (const wxString& message)
   {
@@ -278,31 +281,31 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
   void CSTerrainEditSpace::OnButtonAddCell ( wxCommandEvent &event )
   {
     // TODO: context menu to pick
-     printf("Add Cell");
+      printf("Add Cell");
 
       csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
       csRef<iMaterialWrapper> terrainmat = engine->CreateMaterial ("terrain", 0);
 
-  	  csRef<iTerrainFactoryCell> cellf(factory->AddCell ());
+      csRef<iTerrainFactoryCell> cellf(factory->AddCell ());
      //defining new cell properties 
-    	cellf->SetName ("2");    
-    	cellf->SetPosition (csVector2 (-128.0f + (factory->GetCellCount () - 1) * 256.0f, -128.0f));
-    	cellf->SetSize (csVector3 (256.0f, 16.0f, 256.0f));
-  		cellf->SetGridWidth (257);
-  		cellf->SetGridHeight (257);
-  		cellf->SetMaterialMapWidth (256);
-  		cellf->SetMaterialMapHeight (256);
-  		cellf->SetMaterialPersistent (false);
+      cellf->SetName ("2");    
+      cellf->SetPosition (csVector2 (-128.0f + (factory->GetCellCount () - 1) * 256.0f, -128.0f));
+      cellf->SetSize (csVector3 (256.0f, 16.0f, 256.0f));
+      cellf->SetGridWidth (257);
+      cellf->SetGridHeight (257);
+      cellf->SetMaterialMapWidth (256);
+      cellf->SetMaterialMapHeight (256);
+      cellf->SetMaterialPersistent (false);
 
-  		cellf->SetBaseMaterial (terrainmat);
+      cellf->SetBaseMaterial (terrainmat);
 
-  		cellf->GetRenderProperties ()->SetParameter ("block resolution", "16");
-  		cellf->GetRenderProperties ()->SetParameter ("lod splitcoeff", "16");
+      cellf->GetRenderProperties ()->SetParameter ("block resolution", "16");
+      cellf->GetRenderProperties ()->SetParameter ("lod splitcoeff", "16");
 
-  		cellf->GetFeederProperties ()->SetParameter("heightmap source", "/lev/terrain/heightmap.png");
-  		cellf->GetFeederProperties ()->SetParameter("materialmap source", "/lev/terrain/materialmap.png");
-  	//definition ends.	
-	
+      cellf->GetFeederProperties ()->SetParameter("heightmap source", "/lev/terrain/heightmap.png");
+      cellf->GetFeederProperties ()->SetParameter("materialmap source", "/lev/terrain/materialmap.png");
+    //definition ends.  
+  
     csRef<iTerrainCell> cell (terrain->AddCell(cellf));
     UpdateCellList();
   }
@@ -312,10 +315,14 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     
     iTerrainFactoryCell* cell = static_cast<iTerrainFactoryCell*> (cellList->GetClientData (event.GetSelection ()));
     mod = scfQueryInterface<iModifiable> (cell);
+
+    csRef<CS::Utility::iModifiableListener> listener;
+    listener.AttachNew (new ModifiableListener ());
+    
     
     if (mod.IsValid ()) {
       secondaryEditor->SetModifiable (mod);
-      mod->AddListener(listener);
+      mod->AddListener(listener);     
       } 
       else {
       csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -336,23 +343,31 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     }
   }
 
-   void CSTerrainEditSpace::OnButtonUpdateMesh (wxCommandEvent &event ) 
+   void CSTerrainEditSpace::OnButtonDeleteCell (wxCommandEvent &event ) 
   {
-  	printf("UpdateMesh");
-  	size_t first_cell = 0;
-  	for (size_t i = 0; i < factory->GetCellCount(); i++) {
-  		iTerrainFactoryCell* cell = factory->GetCell (i);
-  		iTerrainCell* cell_sys = terrain->GetCell (first_cell);
-  		terrain->RemoveCell (cell_sys);
-  		terrain->AddCell (cell);
-
+  	csRef<iTerrainCell> cell (terrain->GetCell (terrain->GetCellCount () - 1));
+    terrain->RemoveCell (cell);
+    csRef<iTerrainFactoryCell> cellf (factory->GetCell (factory->GetCellCount () - 1));
+    factory->RemoveCell (cellf);
+    UpdateCellList();
+    
   }
-}
 
-  void CSTerrainEditSpace::ValueChanged (iModifiable *modifiable, size_t parameterIndex )
+  void ModifiableListener::ValueChanged (CS::Utility::iModifiable* modifiable, size_t parameterIndex)
   {
-    printf("UpdateMesh");
-   
+    csVariant value;
+    modifiable->GetParameterValue (parameterIndex, value);
+    csPrintf ("New value set for parameter %zu: %s\n", parameterIndex, value.Description ().GetData ());
+
+    size_t first_cell = 0;
+    for (size_t i = 0; i < factory->GetCellCount(); i++) 
+    {
+      iTerrainFactoryCell* cell = factory->GetCell (i);
+      iTerrainCell* cell_sys = terrain->GetCell (first_cell);
+      terrain->RemoveCell (cell_sys);
+      terrain->AddCell (cell);
+    }
   }
+ 
 }
 CS_PLUGIN_NAMESPACE_END (CSEditor)

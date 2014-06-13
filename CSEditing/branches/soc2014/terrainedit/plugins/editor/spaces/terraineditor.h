@@ -32,6 +32,7 @@
 #include "ieditor/editor.h"
 #include "ieditor/space.h"
 
+
 using namespace CSE::Editor::Core;
 using namespace CSE::Editor::Utility;
 using namespace CS::Utility;
@@ -39,9 +40,14 @@ using namespace CS::Utility;
 
 CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 {
+   
+  /// The terrain factory currently being edited
+    csRef<iTerrainFactory> factory;
+
+    csRef<iTerrainSystem> terrain;
 
   class CSTerrainEditSpace : public wxPanel, public csBaseEventHandler,
-    public scfImplementation2<CSTerrainEditSpace, iSpace , iModifiableListener>
+    public scfImplementation1<CSTerrainEditSpace, iSpace>
   {
   public:
     CSTerrainEditSpace (iBase* parent);
@@ -87,9 +93,7 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     void UpdateCellList  ();
     //void UpdateEffectorList ();
 
-    void OnButtonUpdateMesh (wxCommandEvent& event);
-
-    virtual void ValueChanged (iModifiable *modifiable, size_t parameterIndex);
+    void OnButtonDeleteCell (wxCommandEvent& event);    
 
   private:
     static const int borderWidth = 4; 
@@ -101,19 +105,16 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 
     iObjectRegistry* object_reg;
     csRef<iSpaceFactory> spaceFactory;
-    /// The terrain factory currently being edited
-    csRef<iTerrainFactory> factory;
-
-    csRef<iTerrainSystem> terrain;
+    
     
     /// Used to edit the general TS propertiees
     ModifiableEditor* mainEditor;
   
-    ModifiableEditor* secondaryEditor;
-
-    csRef<iModifiableListener> listener;
+    ModifiableEditor* secondaryEditor;  
 
     csRef<iModifiable> mod;
+
+
 
        // Various event ids
     iEventNameRegistry* nameRegistry;
@@ -121,16 +122,28 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     csStringID clearObjects;
     csStringID activateObject;
 
+   
     enum {
       idMainEditor = 42,
       idSecondaryEditor,
       idButtonAddCell,
       idCellList,
-      idButtonUpdateMesh
+      idButtonDeleteCell
       };
 
     DECLARE_EVENT_TABLE ();
   };
+
+  class ModifiableListener
+: public scfImplementation1<ModifiableListener, CS::Utility::iModifiableListener>
+{
+public:
+  ModifiableListener ()
+    : scfImplementationType (this) {}
+
+  virtual void ValueChanged (CS::Utility::iModifiable* modifiable, size_t parameterIndex);
+};
+
 }
 
 CS_PLUGIN_NAMESPACE_END (CSEditor)
