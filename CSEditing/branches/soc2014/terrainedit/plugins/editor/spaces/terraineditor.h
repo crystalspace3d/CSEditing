@@ -22,7 +22,6 @@
 #include <iutil/modifiable.h>
 #include "cseditor/modifiableeditor.h"
 
-
 #include <csutil/csbaseeventh.h>
 #include <csutil/eventnames.h>
 #include <csutil/ref.h>
@@ -32,6 +31,9 @@
 #include "ieditor/editor.h"
 #include "ieditor/space.h"
 
+#include "ivaria/decal.h"
+#include "imesh/terrain2.h"
+#include "imesh/modifiableterrain.h"
 
 using namespace CSE::Editor::Core;
 using namespace CSE::Editor::Utility;
@@ -40,8 +42,7 @@ using namespace CS::Utility;
 
 CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 {
-   
-  /// The terrain factory currently being edited
+   /// The terrain factory currently being edited
     csRef<iTerrainFactory> factory;
 
     csRef<iTerrainSystem> terrain;
@@ -63,8 +64,10 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     virtual void Update ();
     
   private:
-    // iEventHandler 
+
+       // iEventHandler 
     bool HandleEvent (iEvent &event);
+
 
     // Various events
     void OnSize           (wxSizeEvent& event);
@@ -95,6 +98,14 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 
     void OnButtonDeleteCell (wxCommandEvent& event);    
 
+    void OnButtonAddDecal (wxCommandEvent& event);
+
+    void OnButtonApplyModifier (wxCommandEvent& event);
+
+    void RemoveDecal ();
+
+
+
   private:
     static const int borderWidth = 4; 
     bool enabled;
@@ -112,23 +123,36 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
   
     ModifiableEditor* secondaryEditor;  
 
-    csRef<iModifiable> mod;
+    csRef<iModifiable> mod; 
+
+    //Decal Implementation Variables
+    float rectSize;
+    float rectHeight;
+
+      // Decal textures
+    csRef<iDecalManager> decalManager;
+    csRef<iDecalTemplate> decalTemplate;
+    iDecal* decal;
 
 
+    //TerrainModifier Variables
+    csRef<iTerrainModifier> modifier;
 
        // Various event ids
     iEventNameRegistry* nameRegistry;
     csStringID addObject;
     csStringID clearObjects;
     csStringID activateObject;
-
+  
    
     enum {
       idMainEditor = 42,
       idSecondaryEditor,
       idButtonAddCell,
       idCellList,
-      idButtonDeleteCell
+      idButtonDeleteCell,
+      idButtonAddDecal,
+      idButtonApplyModifier
       };
 
     DECLARE_EVENT_TABLE ();
