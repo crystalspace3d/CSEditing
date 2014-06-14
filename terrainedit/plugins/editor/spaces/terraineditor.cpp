@@ -52,6 +52,10 @@
 #include "terraineditor.h"
 
 
+#include "cstool/materialbuilder.h"
+#include "imesh/modifiableterrain.h"
+#include "ivideo/material.h"
+
 
 using namespace CS::Utility;
 using namespace CSE::Editor::Context;
@@ -71,6 +75,8 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     EVT_LISTBOX (idCellList, CSTerrainEditSpace::OnCellSelect)
     EVT_BUTTON (idButtonAddCell, CSTerrainEditSpace::OnButtonAddCell)
     EVT_BUTTON (idButtonDeleteCell , CSTerrainEditSpace::OnButtonDeleteCell) 
+    EVT_BUTTON (idButtonAddDecal , CSTerrainEditSpace::OnButtonAddDecal) 
+    EVT_BUTTON (idButtonApplyModifier , CSTerrainEditSpace::OnButtonApplyModifier) 
   END_EVENT_TABLE ()
 
   SCF_IMPLEMENT_FACTORY (CSTerrainEditSpace)
@@ -82,12 +88,14 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     // Setup namespace-scoped pointer to editor, to be used by the static
     // event handler to reach the space
     terrainEditorSpace = this;
+    decal = nullptr;
   }
 
   CSTerrainEditSpace::~CSTerrainEditSpace () 
   {
     delete mainEditor;
     delete secondaryEditor;
+    if (decal) decalManager->DeleteDecal (decal);
   }
 
   bool CSTerrainEditSpace::Initialize (iObjectRegistry* obj_reg, iEditor* editor,
@@ -103,17 +111,19 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 
     // Load the particle plugins
     csRef<iPluginManager> pluginManager = csQueryRegistry<iPluginManager> (object_reg);
-    
+
+    csInitializer::RequestPlugins (object_reg, CS_REQUEST_PLUGIN ("crystalspace.decal.manager",iDecalManager),CS_REQUEST_END);
+        
     // Setup the event names
     nameRegistry = csEventNameRegistry::GetRegistry (object_reg);
     //addObject = nameRegistry->GetID ("crystalspace.editor.context.selection.addselectedobject");
     //clearObjects = nameRegistry->GetID ("crystalspace.editor.context.selection.clearselectedobjects");
     activateObject = nameRegistry->GetID ("crystalspace.editor.context.selection.setactiveobject");
        
-   
     // Respond to context events
     //csEventID contextSelect = nameRegistry->GetID ("crystalspace.editor.context");
     RegisterQueue (editor->GetContext ()->GetEventQueue (), activateObject);
+    //RegisterQueue (editor->GetContext ()->GetEventQueue (), MouseMove);
        
     // Prepare modifiable editors
     mainEditor = new ModifiableEditor (object_reg, this, idMainEditor, wxDefaultPosition,
@@ -147,6 +157,20 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     wxButton* but2 = new wxButton (this, idButtonDeleteCell, wxT ("DeleteCell"));
     but->SetSize (-1, 32);
     middleRSizer->Add ( but2,
+                        0,
+                        wxALL | wxEXPAND,
+                        borderWidth );
+
+     wxButton* but3 = new wxButton (this, idButtonAddDecal, wxT ("Decal"));
+    but->SetSize (-1, 32);
+    middleRSizer->Add ( but3,
+                        0,
+                        wxALL | wxEXPAND,
+                        borderWidth );
+
+    wxButton* but4 = new wxButton (this, idButtonApplyModifier, wxT ("Modifier"));
+    but->SetSize (-1, 32);
+    middleRSizer->Add ( but4,
                         0,
                         wxALL | wxEXPAND,
                         borderWidth );
@@ -228,12 +252,27 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
       printf("Selected particle system is non-standard and doesn't implement iModifiable. It cannot be edited.");
       return;
     }
-    
+
     // Caches a casted pointer to the factory
     
    
     // Updates the GUI
     mainEditor->SetModifiable (modifiable);
+
+    // Setup the decal
+    decalManager = csQueryRegistry<iDecalManager> (object_reg);
+    
+    if (decalManager)
+    {
+    // Create the decal material
+    iMaterialWrapper* material = CS::Material::MaterialBuilder::CreateColorMaterial(object_reg, "decal", csColor (1.0f, 0.0f, 0.0f));
+    
+    // Setup the decal template
+    decalTemplate = decalManager->CreateDecalTemplate (material);
+    decalTemplate->SetDecalOffset (0.1f);
+    decalTemplate->SetMaximumVertexCount (128000);
+    decalTemplate->SetMaximumTriangleCount (64000);
+    }
   
   }
 
@@ -274,7 +313,7 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
       // The user activated (double-clicked) something!
       Populate ();
     }
-
+    
     return false;
   }
 
@@ -353,6 +392,53 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     
   }
 
+    void CSTerrainEditSpace::OnButtonAddDecal (wxCommandEvent &event ) 
+  {
+
+    csRef<iMeshObject> meshObject = scfQueryInterface<iMeshObject> (terrain);
+    rectSize = 50.0f;
+    rectHeight = 20.0f;
+
+    //RemoveDecal();
+    
+    // Create a new decal
+    csVector3 up (0.f, 1.f, 0.f);
+    csVector3 direction (0.f, 1.f, 0.f);
+    csVector3 position(0.0f , 20.0f ,0.0f);
+
+    iMeshWrapper* meshWrapper = meshObject->GetMeshWrapper ();
+
+    decal = decalManager->CreateDecal (decalTemplate, meshWrapper, position, up, direction, rectSize, rectSize);
+  }
+
+  void CSTerrainEditSpace::RemoveDecal () 
+  {
+    // Remove the previous decal
+    if (decal) decalManager->DeleteDecal (decal);
+    decal = nullptr;
+  }
+
+  void CSTerrainEditSpace::OnButtonApplyModifier (wxCommandEvent &event ) 
+  {
+    
+    rectSize = 50.0f;
+    rectHeight = 20.0f;
+    
+    csRef<iModifiableDataFeeder> feeder = scfQueryInterface<iModifiableDataFeeder> (factory->GetFeeder ());
+
+    if (!feeder)
+    {
+      csPrintf("oooops");
+      return;
+    }
+
+    csVector3 position(0.0f , 0.0f , 0.0f);
+
+    modifier = feeder->AddModifier (csVector3 (position.x, rectHeight, -position.z), rectSize, rectSize);   
+    //modifier.Invalidate ();
+    
+  }
+
   void ModifiableListener::ValueChanged (CS::Utility::iModifiable* modifiable, size_t parameterIndex)
   {
     csVariant value;
@@ -368,6 +454,8 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
       terrain->AddCell (cell);
     }
   }
+
+  
  
 }
 CS_PLUGIN_NAMESPACE_END (CSEditor)
