@@ -68,7 +68,6 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
        // iEventHandler 
     bool HandleEvent (iEvent &event);
 
-
     // Various events
     void OnSize           (wxSizeEvent& event);
 
@@ -104,19 +103,15 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 
     void RemoveDecal ();
 
-
-
   private:
     static const int borderWidth = 4; 
     bool enabled;
     wxBoxSizer* mainSizer, *middleSizer, *middleLSizer, *middleRSizer;
     wxListBox *cellList;
     csRef<iEditor> editor;
-    csRef<iEventQueue> queue;
 
     iObjectRegistry* object_reg;
     csRef<iSpaceFactory> spaceFactory;
-    
     
     /// Used to edit the general TS propertiees
     ModifiableEditor* mainEditor;
@@ -156,6 +151,40 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
       };
 
     DECLARE_EVENT_TABLE ();
+
+    class EventListener : public scfImplementation1<EventListener, iEventHandler>
+    {
+    public:
+      EventListener (CSTerrainEditSpace* editor);
+
+      //-- iEventHandler
+      bool HandleEvent (iEvent &event);
+
+    private:
+      CSTerrainEditSpace* editor;
+
+      CS_EVENTHANDLER_NAMES ("crystalspace.editor.space.terraineditor.mouse");
+  
+      virtual const csHandlerID * GenericPrec (csRef<iEventHandlerRegistry> &r1, 
+					       csRef<iEventNameRegistry> &r2, csEventID event) const 
+      {
+	static csHandlerID precConstraint[1];
+	precConstraint[0] = CS_HANDLERLIST_END;
+	return precConstraint;
+      }
+
+      virtual const csHandlerID * GenericSucc (csRef<iEventHandlerRegistry> &r1, 
+					       csRef<iEventNameRegistry> &r2, csEventID event) const 
+      {
+	static csHandlerID precConstraint[2];
+	precConstraint[0] = r1->GetGenericID("crystalspace.utilities.cameramanager");
+	precConstraint[1] = CS_HANDLERLIST_END;
+	return precConstraint;
+      }
+
+      CS_EVENTHANDLER_DEFAULT_INSTANCE_CONSTRAINTS;
+    };
+    csRef<EventListener> eventListener;
   };
 
   class ModifiableListener

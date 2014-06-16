@@ -123,8 +123,10 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     // Respond to context events
     //csEventID contextSelect = nameRegistry->GetID ("crystalspace.editor.context");
     RegisterQueue (editor->GetContext ()->GetEventQueue (), activateObject);
-    //RegisterQueue (editor->GetContext ()->GetEventQueue (), MouseMove);
-       
+
+    // Register a mouse listener to the global event queue
+    eventListener.AttachNew (new CSTerrainEditSpace::EventListener (this));
+
     // Prepare modifiable editors
     mainEditor = new ModifiableEditor (object_reg, this, idMainEditor, wxDefaultPosition,
 				       parent->GetSize (), 0L, wxT ("Modifiable editor"));
@@ -313,7 +315,7 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
       // The user activated (double-clicked) something!
       Populate ();
     }
-    
+
     return false;
   }
 
@@ -439,6 +441,37 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     
   }
 
+  CSTerrainEditSpace::EventListener::EventListener (CSTerrainEditSpace* editor)
+    : scfImplementationType (this), editor (editor)
+  {
+    // Find the main CS event queue
+    csRef<iEventQueue> eventQueue =
+      csQueryRegistry<iEventQueue> (editor->object_reg);
+
+    // Register to the 'mouse move' event
+    csEventID events[] = {
+      csevMouseMove (editor->object_reg, 0),
+      CS_EVENTLIST_END
+    };
+
+    eventQueue->RegisterListener (this, events);
+  }
+
+  bool CSTerrainEditSpace::EventListener::HandleEvent (iEvent &event)
+  {
+    iEventNameRegistry* nameRegistry = csEventNameRegistry::GetRegistry (editor->object_reg);
+
+    if (event.Name == csevMouseMove (nameRegistry, 0))
+    {
+      int mouse_x = csMouseEventHelper::GetX (&event);
+      int mouse_y = csMouseEventHelper::GetY (&event);
+
+      printf ("mouse move at position %i-%i\n", mouse_x, mouse_y);
+    }
+
+    return false;
+  }
+
   void ModifiableListener::ValueChanged (CS::Utility::iModifiable* modifiable, size_t parameterIndex)
   {
     csVariant value;
@@ -454,8 +487,5 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
       terrain->AddCell (cell);
     }
   }
-
-  
- 
 }
 CS_PLUGIN_NAMESPACE_END (CSEditor)
