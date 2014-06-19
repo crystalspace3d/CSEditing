@@ -35,6 +35,8 @@
 #include "imesh/terrain2.h"
 #include "imesh/modifiableterrain.h"
 
+#include "icontext/camera.h"
+
 using namespace CSE::Editor::Core;
 using namespace CSE::Editor::Utility;
 using namespace CS::Utility;
@@ -46,6 +48,9 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     csRef<iTerrainFactory> factory;
 
     csRef<iTerrainSystem> terrain;
+
+    float rectSize;
+    float rectHeight;
 
   class CSTerrainEditSpace : public wxPanel, public csBaseEventHandler,
     public scfImplementation1<CSTerrainEditSpace, iSpace>
@@ -97,11 +102,11 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 
     void OnButtonDeleteCell (wxCommandEvent& event);    
 
-    void OnButtonAddDecal (wxCommandEvent& event);
+    void RemoveModifier ();
 
-    void OnButtonApplyModifier (wxCommandEvent& event);
+    void UpdateModifier ( int x , int y);
 
-    void RemoveDecal ();
+    void Paint();
 
   private:
     static const int borderWidth = 4; 
@@ -112,8 +117,10 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 
     iObjectRegistry* object_reg;
     csRef<iSpaceFactory> spaceFactory;
-    
-    /// Used to edit the general TS propertiees
+
+    iObject* result;
+
+      /// Used to edit the general TS propertiees
     ModifiableEditor* mainEditor;
   
     ModifiableEditor* secondaryEditor;  
@@ -121,17 +128,16 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     csRef<iModifiable> mod; 
 
     //Decal Implementation Variables
-    float rectSize;
-    float rectHeight;
+   
 
       // Decal textures
     csRef<iDecalManager> decalManager;
     csRef<iDecalTemplate> decalTemplate;
     iDecal* decal;
 
-
     //TerrainModifier Variables
     csRef<iTerrainModifier> modifier;
+    csVector3 lastPosition;
 
        // Various event ids
     iEventNameRegistry* nameRegistry;
@@ -145,9 +151,7 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
       idSecondaryEditor,
       idButtonAddCell,
       idCellList,
-      idButtonDeleteCell,
-      idButtonAddDecal,
-      idButtonApplyModifier
+      idButtonDeleteCell      
       };
 
     DECLARE_EVENT_TABLE ();

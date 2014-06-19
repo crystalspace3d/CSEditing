@@ -45,12 +45,14 @@
 #include "icontext/objectselection.h"
 #include "ieditor/context.h"
 #include "ieditor/operator.h"
+#include "icontext/camera.h"    
 
 #include <wx/wx.h>
 #include <wx/artprov.h>
 
 #include "terraineditor.h"
 
+#include <iengine/camera.h>
 
 #include "cstool/materialbuilder.h"
 #include "imesh/modifiableterrain.h"
@@ -74,9 +76,7 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     EVT_SIZE  (CSTerrainEditSpace::OnSize)
     EVT_LISTBOX (idCellList, CSTerrainEditSpace::OnCellSelect)
     EVT_BUTTON (idButtonAddCell, CSTerrainEditSpace::OnButtonAddCell)
-    EVT_BUTTON (idButtonDeleteCell , CSTerrainEditSpace::OnButtonDeleteCell) 
-    EVT_BUTTON (idButtonAddDecal , CSTerrainEditSpace::OnButtonAddDecal) 
-    EVT_BUTTON (idButtonApplyModifier , CSTerrainEditSpace::OnButtonApplyModifier) 
+    EVT_BUTTON (idButtonDeleteCell , CSTerrainEditSpace::OnButtonDeleteCell)   
   END_EVENT_TABLE ()
 
   SCF_IMPLEMENT_FACTORY (CSTerrainEditSpace)
@@ -163,21 +163,7 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
                         wxALL | wxEXPAND,
                         borderWidth );
 
-     wxButton* but3 = new wxButton (this, idButtonAddDecal, wxT ("Decal"));
-    but->SetSize (-1, 32);
-    middleRSizer->Add ( but3,
-                        0,
-                        wxALL | wxEXPAND,
-                        borderWidth );
-
-    wxButton* but4 = new wxButton (this, idButtonApplyModifier, wxT ("Modifier"));
-    but->SetSize (-1, 32);
-    middleRSizer->Add ( but4,
-                        0,
-                        wxALL | wxEXPAND,
-                        borderWidth );
-
-   
+       
     secondaryEditor = new ModifiableEditor (object_reg, this, idSecondaryEditor,
       wxDefaultPosition, wxDefaultSize, 0L, wxT ("Secondary editor"));
 
@@ -211,7 +197,7 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
        
 
     // Search for the iModifiable interface of the particle factory
-    iObject* result = objectSelectionContext->GetActiveObject ();
+    result = objectSelectionContext->GetActiveObject ();
     if (!result)
     {
       printf("No object selected.");
@@ -274,8 +260,11 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     decalTemplate->SetDecalOffset (0.1f);
     decalTemplate->SetMaximumVertexCount (128000);
     decalTemplate->SetMaximumTriangleCount (64000);
-    }
-  
+
+    }  
+
+    rectSize = 50.0f;
+    rectHeight = -20.0f;
   }
 
   void CSTerrainEditSpace::Empty (const wxString& message)
@@ -392,53 +381,78 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     factory->RemoveCell (cellf);
     UpdateCellList();
     
-  }
+  }   
 
-    void CSTerrainEditSpace::OnButtonAddDecal (wxCommandEvent &event ) 
+  void CSTerrainEditSpace::UpdateModifier (int x, int y)
   {
-
-    csRef<iMeshObject> meshObject = scfQueryInterface<iMeshObject> (terrain);
-    rectSize = 50.0f;
-    rectHeight = 20.0f;
-
-    //RemoveDecal();
-    
-    // Create a new decal
-    csVector3 up (0.f, 1.f, 0.f);
-    csVector3 direction (0.f, 1.f, 0.f);
-    csVector3 position(0.0f , 20.0f ,0.0f);
-
-    iMeshWrapper* meshWrapper = meshObject->GetMeshWrapper ();
-
-    decal = decalManager->CreateDecal (decalTemplate, meshWrapper, position, up, direction, rectSize, rectSize);
-  }
-
-  void CSTerrainEditSpace::RemoveDecal () 
-  {
-    // Remove the previous decal
-    if (decal) decalManager->DeleteDecal (decal);
-    decal = nullptr;
-  }
-
-  void CSTerrainEditSpace::OnButtonApplyModifier (wxCommandEvent &event ) 
-  {
-    
-    rectSize = 50.0f;
-    rectHeight = 20.0f;
+    //printf("%i \t %i \n", x , y);
     
     csRef<iModifiableDataFeeder> feeder = scfQueryInterface<iModifiableDataFeeder> (factory->GetFeeder ());
+   
+     csRef<iContextCamera> contextCamera = scfQueryInterface<iContextCamera> (editor->GetContext ());
 
-    if (!feeder)
-    {
-      csPrintf("oooops");
-      return;
-    }
-
-    csVector3 position(0.0f , 0.0f , 0.0f);
-
-    modifier = feeder->AddModifier (csVector3 (position.x, rectHeight, -position.z), rectSize, rectSize);   
-    //modifier.Invalidate ();
     
+    iCamera* camera = contextCamera->GetCamera();
+    iView* view = contextCamera->GetView();
+
+    csVector2 v2d (x, y);
+    csVector3 v3d = view->InvProject (v2d, 1000.0f);    
+    csVector3 startBeam = camera->GetTransform ().GetOrigin ();
+    csVector3 endBeam = camera->GetTransform ().This2Other (v3d);   
+  
+    csRef<iMeshObject> meshObject = scfQueryInterface<iMeshObject> (terrain);
+    csVector3 position;
+
+    if (!meshObject->HitBeamObject (startBeam, endBeam, position, nullptr))
+    {
+    RemoveModifier ();
+    return;
+    }    
+
+    if ((position - lastPosition).Norm () < 0.1f)
+    {
+    return;
+    } 
+    
+    
+    lastPosition = position;
+
+    RemoveModifier();
+
+    // Create the terrain modifier
+    //TODO: why this minus on Z???
+    //modifier = feeder->AddModifier (csVector3 (position.x, rectHeight, -position.z), rectSize, rectSize);   
+
+
+    //Decals
+    csVector3 up (0.f, 1.f, 0.f);
+    csVector3 direction (0.f, 1.f, 0.f);    
+    iMeshWrapper* meshWrapper = meshObject->GetMeshWrapper (); 
+
+    decal = decalManager->CreateDecal (decalTemplate, meshWrapper, position, up, direction, rectSize, rectSize);
+    
+  
+  } 
+
+
+  void CSTerrainEditSpace::RemoveModifier () 
+  {
+    // Remove the previous decal
+    
+    csRef<iModifiableDataFeeder> feeder = scfQueryInterface<iModifiableDataFeeder> (factory->GetFeeder ());
+    if (modifier) feeder->RemoveModifier (modifier);
+    modifier.Invalidate ();
+
+    // Remove the previous decal
+    if (decal) decalManager->DeleteDecal (decal);
+    decal = nullptr; 
+  }
+
+  void CSTerrainEditSpace::Paint () 
+  {
+    // Remove the previous decal
+    printf("Inside paint !");
+    modifier.Invalidate ();
   }
 
   CSTerrainEditSpace::EventListener::EventListener (CSTerrainEditSpace* editor)
@@ -451,6 +465,8 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     // Register to the 'mouse move' event
     csEventID events[] = {
       csevMouseMove (editor->object_reg, 0),
+      csevMouseClick (editor->object_reg, 0),
+      csevMouseDown (editor->object_reg, 0),
       CS_EVENTLIST_END
     };
 
@@ -460,13 +476,55 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
   bool CSTerrainEditSpace::EventListener::HandleEvent (iEvent &event)
   {
     iEventNameRegistry* nameRegistry = csEventNameRegistry::GetRegistry (editor->object_reg);
-
+    
     if (event.Name == csevMouseMove (nameRegistry, 0))
     {
       int mouse_x = csMouseEventHelper::GetX (&event);
       int mouse_y = csMouseEventHelper::GetY (&event);
 
       printf ("mouse move at position %i-%i\n", mouse_x, mouse_y);
+
+      editor->UpdateModifier(mouse_x, mouse_y);
+    }
+    
+    else if (event.Name == csevMouseClick(nameRegistry, 0))
+    {
+      int mouse_x = csMouseEventHelper::GetX (&event);
+      int mouse_y = csMouseEventHelper::GetY (&event);
+
+      printf ("mouse click at position %i-%i\n", mouse_x, mouse_y);
+
+      if (csMouseEventHelper::GetButton (&event) == csmbLeft)
+      {
+        editor->Paint();
+        printf("Left Click");
+      }
+
+      return false;
+    }
+
+    else if (event.Name == csevMouseDown(nameRegistry, 0))
+    {
+
+      int mouse_x = csMouseEventHelper::GetX (&event);
+      int mouse_y = csMouseEventHelper::GetY (&event);
+
+      if (csMouseEventHelper::GetButton (&event) == csmbWheelUp)
+      {
+        rectSize += 5.0f;
+        if (rectSize > 100.f)
+          rectSize = 100.f;
+          editor->UpdateModifier(mouse_x, mouse_y);
+      }
+      else if (csMouseEventHelper::GetButton (&event) == csmbWheelDown)
+      {
+        rectSize -= 5.0f;
+        if (rectSize < 5.0f)
+          rectSize = 5.0f;
+          editor->UpdateModifier(mouse_x, mouse_y);
+      }
+
+        return false;
     }
 
     return false;
