@@ -117,6 +117,7 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 
     iObjectRegistry* object_reg;
     csRef<iSpaceFactory> spaceFactory;
+    csRef<iTerrainDataFeeder> feeder;
 
     iObject* result;
 
