@@ -113,6 +113,14 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     csRef<iPluginManager> pluginManager = csQueryRegistry<iPluginManager> (object_reg);
 
     csInitializer::RequestPlugins (object_reg, CS_REQUEST_PLUGIN ("crystalspace.decal.manager",iDecalManager),CS_REQUEST_END);
+
+    feeder = csLoadPluginCheck<iTerrainDataFeeder>
+    (pluginManager, "crystalspace.mesh.object.terrain2.modifiabledatafeeder");
+
+    if(!feeder)
+    {
+      printf("no feeder found");
+    }
         
     // Setup the event names
     nameRegistry = csEventNameRegistry::GetRegistry (object_reg);
@@ -228,6 +236,8 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
       printf("No terrain factory selected.");
       return;
     }
+
+    terrainFactory->SetFeeder(feeder);
  	
  	  factory = terrainFactory;
  	  terrain = terrainSys;
@@ -386,10 +396,14 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
   void CSTerrainEditSpace::UpdateModifier (int x, int y)
   {
     //printf("%i \t %i \n", x , y);
-    
-    csRef<iModifiableDataFeeder> feeder = scfQueryInterface<iModifiableDataFeeder> (factory->GetFeeder ());
-   
-     csRef<iContextCamera> contextCamera = scfQueryInterface<iContextCamera> (editor->GetContext ());
+    csRef<iModifiableDataFeeder> feeder_temp = scfQueryInterface<iModifiableDataFeeder> (factory->GetFeeder ());
+
+    if(!feeder_temp)
+    {
+      printf("no feeder found");
+    }
+       
+    csRef<iContextCamera> contextCamera = scfQueryInterface<iContextCamera> (editor->GetContext ());
 
     
     iCamera* camera = contextCamera->GetCamera();
@@ -420,18 +434,20 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     RemoveModifier();
 
     // Create the terrain modifier
-    //TODO: why this minus on Z???
-    //modifier = feeder->AddModifier (csVector3 (position.x, rectHeight, -position.z), rectSize, rectSize);   
-
+    
+    modifier = feeder_temp->AddModifier (csVector3 (position.x, rectHeight, -position.z), rectSize, rectSize);   
+    
+    if(!modifier)
+    {
+      printf("no modifier added");
+    }
 
     //Decals
     csVector3 up (0.f, 1.f, 0.f);
     csVector3 direction (0.f, 1.f, 0.f);    
     iMeshWrapper* meshWrapper = meshObject->GetMeshWrapper (); 
 
-    decal = decalManager->CreateDecal (decalTemplate, meshWrapper, position, up, direction, rectSize, rectSize);
-    
-  
+    decal = decalManager->CreateDecal (decalTemplate, meshWrapper, position, up, direction, rectSize, rectSize , decal);  
   } 
 
 
@@ -439,8 +455,8 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
   {
     // Remove the previous decal
     
-    csRef<iModifiableDataFeeder> feeder = scfQueryInterface<iModifiableDataFeeder> (factory->GetFeeder ());
-    if (modifier) feeder->RemoveModifier (modifier);
+    csRef<iModifiableDataFeeder> feeder_temp = scfQueryInterface<iModifiableDataFeeder> (factory->GetFeeder ());
+    if (modifier) feeder_temp->RemoveModifier (modifier);
     modifier.Invalidate ();
 
     // Remove the previous decal
