@@ -52,6 +52,8 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     float rectSize;
     float rectHeight;
 
+    bool mouseready = 0;
+
   class CSTerrainEditSpace : public wxPanel, public csBaseEventHandler,
     public scfImplementation1<CSTerrainEditSpace, iSpace>
   {
@@ -129,6 +131,8 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     csRef<iModifiable> mod; 
 
     //Decal Implementation Variables
+
+
    
 
       // Decal textures

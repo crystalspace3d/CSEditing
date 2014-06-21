@@ -274,7 +274,9 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     }  
 
     rectSize = 50.0f;
-    rectHeight = -20.0f;
+    rectHeight = 20.0f;
+
+    mouseready = 1;
   }
 
   void CSTerrainEditSpace::Empty (const wxString& message)
@@ -499,8 +501,10 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
       int mouse_y = csMouseEventHelper::GetY (&event);
 
       printf ("mouse move at position %i-%i\n", mouse_x, mouse_y);
-
+      if(mouseready)
+      {
       editor->UpdateModifier(mouse_x, mouse_y);
+      }
     }
     
     else if (event.Name == csevMouseClick(nameRegistry, 0))
