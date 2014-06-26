@@ -37,6 +37,11 @@
 
 #include "icontext/camera.h"
 
+#include <iutil/document.h>
+#include <iutil/vfs.h>
+
+#include <vector>
+
 using namespace CSE::Editor::Core;
 using namespace CSE::Editor::Utility;
 using namespace CS::Utility;
@@ -110,6 +115,8 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 
     void Paint();
 
+    void ParseCell();
+
   private:
     static const int borderWidth = 4; 
     bool enabled;
@@ -130,10 +137,7 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 
     csRef<iModifiable> mod; 
 
-    //Decal Implementation Variables
-
-
-   
+    //Decal Implementation Variables   
 
       // Decal textures
     csRef<iDecalManager> decalManager;

@@ -58,7 +58,12 @@
 #include "imesh/modifiableterrain.h"
 #include "ivideo/material.h"
 
+#include <iutil/document.h>
+#include <iutil/vfs.h>
 
+#include <vector>
+
+using namespace CS;
 using namespace CS::Utility;
 using namespace CSE::Editor::Context;
 
@@ -113,7 +118,7 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     csRef<iPluginManager> pluginManager = csQueryRegistry<iPluginManager> (object_reg);
 
     csInitializer::RequestPlugins (object_reg, CS_REQUEST_PLUGIN ("crystalspace.decal.manager",iDecalManager),CS_REQUEST_END);
-
+    /*
     feeder = csLoadPluginCheck<iTerrainDataFeeder>
     (pluginManager, "crystalspace.mesh.object.terrain2.modifiabledatafeeder");
 
@@ -121,7 +126,7 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     {
       printf("no feeder found");
     }
-        
+    */    
     // Setup the event names
     nameRegistry = csEventNameRegistry::GetRegistry (object_reg);
     //addObject = nameRegistry->GetID ("crystalspace.editor.context.selection.addselectedobject");
@@ -237,7 +242,7 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
       return;
     }
 
-    terrainFactory->SetFeeder(feeder);
+    //terrainFactory->SetFeeder(feeder);
  	
  	  factory = terrainFactory;
  	  terrain = terrainSys;
@@ -328,6 +333,8 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
       csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
       csRef<iMaterialWrapper> terrainmat = engine->CreateMaterial ("terrain", 0);
 
+      ParseCell();
+
       csRef<iTerrainFactoryCell> cellf(factory->AddCell ());
      //defining new cell properties 
       cellf->SetName ("2");    
@@ -399,11 +406,6 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
   {
     //printf("%i \t %i \n", x , y);
     csRef<iModifiableDataFeeder> feeder_temp = scfQueryInterface<iModifiableDataFeeder> (factory->GetFeeder ());
-
-    if(!feeder_temp)
-    {
-      printf("no feeder found");
-    }
        
     csRef<iContextCamera> contextCamera = scfQueryInterface<iContextCamera> (editor->GetContext ());
 
@@ -414,10 +416,11 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     csVector2 v2d (x, y);
     csVector3 v3d = view->InvProject (v2d, 1000.0f);    
     csVector3 startBeam = camera->GetTransform ().GetOrigin ();
-    csVector3 endBeam = camera->GetTransform ().This2Other (v3d);   
+    csVector3 endBeam = camera->GetTransform ().This2Other (v3d);  
+    csVector3 position; 
   
     csRef<iMeshObject> meshObject = scfQueryInterface<iMeshObject> (terrain);
-    csVector3 position;
+    
 
     if (!meshObject->HitBeamObject (startBeam, endBeam, position, nullptr))
     {
@@ -433,8 +436,8 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     
     lastPosition = position;
 
+    
     RemoveModifier();
-
     // Create the terrain modifier
     
     modifier = feeder_temp->AddModifier (csVector3 (position.x, rectHeight, -position.z), rectSize, rectSize);   
@@ -449,7 +452,8 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     csVector3 direction (0.f, 1.f, 0.f);    
     iMeshWrapper* meshWrapper = meshObject->GetMeshWrapper (); 
 
-    decal = decalManager->CreateDecal (decalTemplate, meshWrapper, position, up, direction, rectSize, rectSize , decal);  
+    decal = decalManager->CreateDecal (decalTemplate, meshWrapper, position, up, direction, rectSize, rectSize);  
+       
   } 
 
 
@@ -471,6 +475,7 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     // Remove the previous decal
     printf("Inside paint !");
     modifier.Invalidate ();
+    decal = nullptr;    
   }
 
   CSTerrainEditSpace::EventListener::EventListener (CSTerrainEditSpace* editor)
@@ -548,6 +553,11 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     }
 
     return false;
+  }
+
+  void CSTerrainEditSpace::ParseCell()
+  {
+   
   }
 
   void ModifiableListener::ValueChanged (CS::Utility::iModifiable* modifiable, size_t parameterIndex)
