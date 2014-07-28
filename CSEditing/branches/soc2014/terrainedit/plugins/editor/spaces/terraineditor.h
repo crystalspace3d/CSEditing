@@ -40,8 +40,6 @@
 #include <iutil/document.h>
 #include <iutil/vfs.h>
 
-#include <vector>
-
 using namespace CSE::Editor::Core;
 using namespace CSE::Editor::Utility;
 using namespace CS::Utility;
@@ -107,7 +105,9 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     void UpdateCellList  ();
     //void UpdateEffectorList ();
 
-    void OnButtonDeleteCell (wxCommandEvent& event);    
+    void OnButtonDeleteCell (wxCommandEvent& event);
+
+    void OnButtonCreateMeshGenerator (wxCommandEvent& event);   
 
     void RemoveModifier ();
 
@@ -117,11 +117,16 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 
     void ParseCell();
 
+    void UpdateMaterialList();
+
+    void OnMatSelect (wxCommandEvent& event);
+
+
   private:
     static const int borderWidth = 4; 
     bool enabled;
     wxBoxSizer* mainSizer, *middleSizer, *middleLSizer, *middleRSizer;
-    wxListBox *cellList;
+    wxListBox *cellList, *matList;
     csRef<iEditor> editor;
 
     iObjectRegistry* object_reg;
@@ -152,15 +157,21 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     iEventNameRegistry* nameRegistry;
     csStringID addObject;
     csStringID clearObjects;
-    csStringID activateObject;
-  
+    csStringID activateObject; 
+
+    iMaterialList* materialList;
+    iMaterialWrapper* activeMat;
+    
+    csRef<iLoader> loader;
    
     enum {
       idMainEditor = 42,
       idSecondaryEditor,
       idButtonAddCell,
       idCellList,
-      idButtonDeleteCell      
+      idButtonDeleteCell,
+      idMatList,
+      idButtonCreateMeshGenerator      
       };
 
     DECLARE_EVENT_TABLE ();

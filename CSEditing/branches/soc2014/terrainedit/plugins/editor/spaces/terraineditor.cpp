@@ -53,6 +53,8 @@
 #include "terraineditor.h"
 
 #include <iengine/camera.h>
+#include <iengine/meshgen.h>
+#include <iengine/sector.h>
 
 #include "cstool/materialbuilder.h"
 #include "imesh/modifiableterrain.h"
@@ -60,8 +62,6 @@
 
 #include <iutil/document.h>
 #include <iutil/vfs.h>
-
-#include <vector>
 
 using namespace CS;
 using namespace CS::Utility;
@@ -80,8 +80,11 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
   BEGIN_EVENT_TABLE (CSTerrainEditSpace, wxPanel)
     EVT_SIZE  (CSTerrainEditSpace::OnSize)
     EVT_LISTBOX (idCellList, CSTerrainEditSpace::OnCellSelect)
+    EVT_LISTBOX (idMatList, CSTerrainEditSpace::OnMatSelect)
     EVT_BUTTON (idButtonAddCell, CSTerrainEditSpace::OnButtonAddCell)
-    EVT_BUTTON (idButtonDeleteCell , CSTerrainEditSpace::OnButtonDeleteCell)   
+    EVT_BUTTON (idButtonDeleteCell , CSTerrainEditSpace::OnButtonDeleteCell)
+    EVT_BUTTON (idButtonCreateMeshGenerator , CSTerrainEditSpace::OnButtonCreateMeshGenerator)
+       
   END_EVENT_TABLE ()
 
   SCF_IMPLEMENT_FACTORY (CSTerrainEditSpace)
@@ -164,19 +167,33 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 
     wxButton* but = new wxButton (this, idButtonAddCell, wxT ("Add Cell"));
     but->SetSize (-1, 32);
-    middleRSizer->Add ( but,
+    middleLSizer->Add ( but,
                         0,
                         wxALL | wxEXPAND,
                         borderWidth );
 
     wxButton* but2 = new wxButton (this, idButtonDeleteCell, wxT ("DeleteCell"));
-    but->SetSize (-1, 32);
-    middleRSizer->Add ( but2,
+    but2->SetSize (-1, 32);
+    middleLSizer->Add ( but2,
                         0,
                         wxALL | wxEXPAND,
                         borderWidth );
 
-       
+    wxButton* but3 = new wxButton (this, idButtonCreateMeshGenerator, wxT ("Mesh"));
+    but3->SetSize (-1, 32);
+    middleLSizer->Add ( but3,
+                        0,
+                        wxALL | wxEXPAND,
+                        borderWidth );
+
+    middleRSizer->Add (new wxStaticText (this, wxID_ANY, wxT ("Materials")));
+    matList = new wxListBox (this,idMatList);
+    middleRSizer->Add ( matList,
+                        1,
+                        wxALL | wxEXPAND,
+                        borderWidth );
+
+                
     secondaryEditor = new ModifiableEditor (object_reg, this, idSecondaryEditor,
       wxDefaultPosition, wxDefaultSize, 0L, wxT ("Secondary editor"));
 
@@ -264,20 +281,38 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 
     // Setup the decal
     decalManager = csQueryRegistry<iDecalManager> (object_reg);
-    
-    if (decalManager)
+
+    csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
+
+    if(!engine)
     {
-    // Create the decal material
-    iMaterialWrapper* material = CS::Material::MaterialBuilder::CreateColorMaterial(object_reg, "decal", csColor (1.0f, 0.0f, 0.0f));
+      printf("engine not found");
+    }
+
+    materialList = engine->GetMaterialList ();
+    UpdateMaterialList();
+
+    activeMat = materialList->Get(0);
+
     
-    // Setup the decal template
-    decalTemplate = decalManager->CreateDecalTemplate (material);
-    decalTemplate->SetDecalOffset (0.1f);
-    decalTemplate->SetMaximumVertexCount (128000);
-    decalTemplate->SetMaximumTriangleCount (64000);
+    loader = csQueryRegistry<iLoader>(object_reg);
+    if(!loader)
+    {
+      printf("no loader found");
+    }
 
-    }  
+    loader->LoadTexture("grass.png", "/lev/terrain/grass.png");  
+    /*
+    iMaterialWrapper* material = engine->GetMaterialList ()->FindByName ("box1");
 
+    if(!material)
+    {
+      printf("Grass not found \n");
+
+    }    
+    */
+   
+   
     rectSize = 50.0f;
     rectHeight = 20.0f;
 
@@ -402,12 +437,58 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     
   }   
 
+  void CSTerrainEditSpace::OnMatSelect (wxCommandEvent &event ) 
+  {
+    activeMat = static_cast<iMaterialWrapper*> (matList->GetClientData (event.GetSelection ()));
+    if(!activeMat)
+    {
+      printf("texture caught");
+    }
+  }   
+
+  void CSTerrainEditSpace::UpdateMaterialList()
+  {
+    matList->Clear();
+
+    for (int i = 0; i < materialList->GetCount (); i++) {
+      iMaterialWrapper* mat = materialList->Get(i);
+      matList->Append (wxString::Format (wxT (" %u"), i), (void*)mat);
+    }
+  }
+
+  void CSTerrainEditSpace::OnButtonCreateMeshGenerator (wxCommandEvent &event ) 
+  {
+
+    csRef<iContextCamera> contextCamera = scfQueryInterface<iContextCamera> (editor->GetContext ());
+    iCamera* camera = contextCamera->GetCamera();
+
+    iSector* sector = camera->GetSector();
+    csRef<iMeshObject> meshObject = scfQueryInterface<iMeshObject> (terrain);
+    iMeshWrapper* meshWrapper = meshObject->GetMeshWrapper ();
+
+
+    if(sector)
+    {
+      printf("sector found");
+    } 
+
+    iMeshGenerator* meshGen = sector->CreateMeshGenerator("newGenerator");
+    meshGen->AddMesh(meshWrapper);
+    iMeshGeneratorGeometry* geometry= meshGen->CreateGeometry();
+
+
+
+    
+  }
+
   void CSTerrainEditSpace::UpdateModifier (int x, int y)
   {
     //printf("%i \t %i \n", x , y);
     csRef<iModifiableDataFeeder> feeder_temp = scfQueryInterface<iModifiableDataFeeder> (factory->GetFeeder ());
        
     csRef<iContextCamera> contextCamera = scfQueryInterface<iContextCamera> (editor->GetContext ());
+
+    csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
 
     
     iCamera* camera = contextCamera->GetCamera();
@@ -447,6 +528,19 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
       printf("no modifier added");
     }
 
+     if (decalManager)
+    {
+    // Create the decal material       
+    // Setup the decal template
+    decalTemplate = decalManager->CreateDecalTemplate (activeMat);
+    decalTemplate->SetDecalOffset (0.1f);
+    decalTemplate->SetMaximumVertexCount (128000);
+    decalTemplate->SetMaximumTriangleCount (64000);
+    decalTemplate->SetTopClipping (false);
+    decalTemplate->SetBottomClipping (false, 0.0f);
+
+    }  
+
     //Decals
     csVector3 up (0.f, 1.f, 0.f);
     csVector3 direction (0.f, 1.f, 0.f);    
@@ -475,9 +569,11 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     // Remove the previous decal
     printf("Inside paint !");
     modifier.Invalidate ();
+
     decal = nullptr;    
   }
 
+   
   CSTerrainEditSpace::EventListener::EventListener (CSTerrainEditSpace* editor)
     : scfImplementationType (this), editor (editor)
   {
