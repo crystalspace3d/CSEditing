@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 by Andrei Barsan
+    Copyright (C) 2014 by Soumitra Saxena
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -52,10 +52,10 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 
     csRef<iTerrainSystem> terrain;
 
-    float rectSize;
-    float rectHeight;
+  float rectSize;
+  float rectHeight;
 
-    bool mouseready = 0;
+  bool mouseready = 0;
 
   class CSTerrainEditSpace : public wxPanel, public csBaseEventHandler,
     public scfImplementation1<CSTerrainEditSpace, iSpace>
@@ -105,6 +105,10 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     void UpdateCellList  ();
     //void UpdateEffectorList ();
 
+    void OnButtonDefaultMode (wxCommandEvent& event); 
+    void OnButtonPaintMode (wxCommandEvent& event); 
+    void OnButtonModifierMode (wxCommandEvent& event); 
+
     void OnButtonDeleteCell (wxCommandEvent& event);
 
     void OnButtonCreateMeshGenerator (wxCommandEvent& event);   
@@ -142,6 +146,9 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 
     csRef<iModifiable> mod; 
 
+    //Mode variable Default = 0 , Decal = 1 , Modifier = 2
+    int mode;
+
     //Decal Implementation Variables   
 
       // Decal textures
@@ -171,7 +178,10 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
       idCellList,
       idButtonDeleteCell,
       idMatList,
-      idButtonCreateMeshGenerator      
+      idButtonCreateMeshGenerator,
+      idButtonDefaultMode,
+      idButtonPaintMode,
+      idButtonModifierMode      
       };
 
     DECLARE_EVENT_TABLE ();

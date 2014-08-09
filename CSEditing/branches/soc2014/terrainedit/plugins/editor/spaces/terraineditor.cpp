@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 by Andrei Barsan
+    Copyright (C) 2014 by Soumitra Saxena
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -84,6 +84,9 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     EVT_BUTTON (idButtonAddCell, CSTerrainEditSpace::OnButtonAddCell)
     EVT_BUTTON (idButtonDeleteCell , CSTerrainEditSpace::OnButtonDeleteCell)
     EVT_BUTTON (idButtonCreateMeshGenerator , CSTerrainEditSpace::OnButtonCreateMeshGenerator)
+    EVT_RADIOBUTTON (idButtonDefaultMode , CSTerrainEditSpace::OnButtonDefaultMode)
+    EVT_RADIOBUTTON (idButtonPaintMode , CSTerrainEditSpace::OnButtonPaintMode)
+    EVT_RADIOBUTTON (idButtonModifierMode , CSTerrainEditSpace::OnButtonModifierMode)
        
   END_EVENT_TABLE ()
 
@@ -179,13 +182,32 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
                         wxALL | wxEXPAND,
                         borderWidth );
 
+    wxRadioButton* butDefault = new wxRadioButton (this , idButtonDefaultMode , wxT ("Default"));
+    middleLSizer->Add ( butDefault,
+                        0,
+                        wxALL | wxEXPAND,
+                        borderWidth );
+
+    wxRadioButton* butPaint = new wxRadioButton (this , idButtonPaintMode , wxT ("Paint"));
+    middleLSizer->Add ( butPaint,
+                        0,
+                        wxALL | wxEXPAND,
+                        borderWidth );
+
+    wxRadioButton* butModifier = new wxRadioButton (this , idButtonModifierMode , wxT ("Modifier"));
+    middleLSizer->Add ( butModifier,
+                        0,
+                        wxALL | wxEXPAND,
+                        borderWidth );
+
+    /*
     wxButton* but3 = new wxButton (this, idButtonCreateMeshGenerator, wxT ("Mesh"));
     but3->SetSize (-1, 32);
     middleLSizer->Add ( but3,
                         0,
                         wxALL | wxEXPAND,
                         borderWidth );
-
+    */
     middleRSizer->Add (new wxStaticText (this, wxID_ANY, wxT ("Materials")));
     matList = new wxListBox (this,idMatList);
     middleRSizer->Add ( matList,
@@ -317,6 +339,8 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     rectHeight = 20.0f;
 
     mouseready = 1;
+    mode = 0;
+
   }
 
   void CSTerrainEditSpace::Empty (const wxString& message)
@@ -474,11 +498,7 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 
     iMeshGenerator* meshGen = sector->CreateMeshGenerator("newGenerator");
     meshGen->AddMesh(meshWrapper);
-    iMeshGeneratorGeometry* geometry= meshGen->CreateGeometry();
-
-
-
-    
+    iMeshGeneratorGeometry* geometry= meshGen->CreateGeometry();    
   }
 
   void CSTerrainEditSpace::UpdateModifier (int x, int y)
@@ -503,30 +523,35 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     csRef<iMeshObject> meshObject = scfQueryInterface<iMeshObject> (terrain);
     
 
-    if (!meshObject->HitBeamObject (startBeam, endBeam, position, nullptr))
-    {
-    RemoveModifier ();
-    return;
-    }    
+      if (!meshObject->HitBeamObject (startBeam, endBeam, position, nullptr))
+      {
+      RemoveModifier ();
+      return;
+      }    
 
-    if ((position - lastPosition).Norm () < 0.1f)
-    {
-    return;
-    } 
-    
-    
-    lastPosition = position;
+      if ((position - lastPosition).Norm () < 0.1f)
+      {
+      return;
+      } 
+      
+      
+      lastPosition = position;
 
+      
+      RemoveModifier();
+      // Create the terrain modifier
+     
+      if (mode == 2)
+      {    
+      modifier = feeder_temp->AddModifier (csVector3 (position.x, rectHeight, -position.z), rectSize, rectSize);   
+      }
+      
+      if(!modifier)
+      {
+        printf("no modifier added");
+      }
     
-    RemoveModifier();
-    // Create the terrain modifier
-    
-    modifier = feeder_temp->AddModifier (csVector3 (position.x, rectHeight, -position.z), rectSize, rectSize);   
-    
-    if(!modifier)
-    {
-      printf("no modifier added");
-    }
+     
 
      if (decalManager)
     {
@@ -545,32 +570,41 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     csVector3 up (0.f, 1.f, 0.f);
     csVector3 direction (0.f, 1.f, 0.f);    
     iMeshWrapper* meshWrapper = meshObject->GetMeshWrapper (); 
-
+    
     decal = decalManager->CreateDecal (decalTemplate, meshWrapper, position, up, direction, rectSize, rectSize);  
-       
+    
+
+    
   } 
 
 
   void CSTerrainEditSpace::RemoveModifier () 
   {
-    // Remove the previous decal
+    // Remove the previous modifier
     
     csRef<iModifiableDataFeeder> feeder_temp = scfQueryInterface<iModifiableDataFeeder> (factory->GetFeeder ());
     if (modifier) feeder_temp->RemoveModifier (modifier);
-    modifier.Invalidate ();
-
+    modifier.Invalidate ();     
+  
     // Remove the previous decal
     if (decal) decalManager->DeleteDecal (decal);
-    decal = nullptr; 
+    decal = nullptr;
   }
 
   void CSTerrainEditSpace::Paint () 
   {
     // Remove the previous decal
     printf("Inside paint !");
+   if (mode == 2)
+   { 
     modifier.Invalidate ();
+   }
 
+   if (mode == 1)
+   {
     decal = nullptr;    
+   }
+
   }
 
    
@@ -601,7 +635,7 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
       int mouse_x = csMouseEventHelper::GetX (&event);
       int mouse_y = csMouseEventHelper::GetY (&event);
 
-      printf ("mouse move at position %i-%i\n", mouse_x, mouse_y);
+      //printf ("mouse move at position %i-%i\n", mouse_x, mouse_y);
       if(mouseready)
       {
       editor->UpdateModifier(mouse_x, mouse_y);
@@ -613,12 +647,12 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
       int mouse_x = csMouseEventHelper::GetX (&event);
       int mouse_y = csMouseEventHelper::GetY (&event);
 
-      printf ("mouse click at position %i-%i\n", mouse_x, mouse_y);
+      //printf ("mouse click at position %i-%i\n", mouse_x, mouse_y);
 
       if (csMouseEventHelper::GetButton (&event) == csmbLeft)
       {
         editor->Paint();
-        printf("Left Click");
+        //printf("Left Click");
       }
 
       return false;
@@ -649,6 +683,26 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     }
 
     return false;
+  }
+
+  void CSTerrainEditSpace::OnButtonDefaultMode ( wxCommandEvent& event )
+  {
+    printf("Inside Default Mode");
+    mode = 0;
+  }
+
+
+  void CSTerrainEditSpace::OnButtonPaintMode ( wxCommandEvent& event )
+  {
+    printf("Inside Paint Mode");
+    mode = 1;
+  }
+
+
+  void CSTerrainEditSpace::OnButtonModifierMode ( wxCommandEvent& event )
+  {
+    printf("Inside Modifier Mode");
+    mode = 2;
   }
 
   void CSTerrainEditSpace::ParseCell()
