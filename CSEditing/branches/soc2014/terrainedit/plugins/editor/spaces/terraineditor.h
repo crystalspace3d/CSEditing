@@ -47,15 +47,23 @@ using namespace CS::Utility;
 
 CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 {
-   /// The terrain factory currently being edited
+   /// The Terrain Factory currently being edited
     csRef<iTerrainFactory> factory;
 
+
+   /// The Terrain System currently being used
     csRef<iTerrainSystem> terrain;
 
-  float rectSize;
-  float rectHeight;
 
-  bool mouseready = 0;
+   /// A reference Terrain Factory Cell to define properties for any subsequent new Terrain Factory Cell 
+    csRef<iTerrainFactoryCell> terrainFactoryCell;
+
+   /// Dimensions for Terrain Modifier 
+    float rectSize;
+    float rectHeight;
+
+   /// Boolean that tells when my mouse functions are ready to kick in.
+    bool mouseready = 0;
 
   class CSTerrainEditSpace : public wxPanel, public csBaseEventHandler,
     public scfImplementation1<CSTerrainEditSpace, iSpace>
@@ -83,7 +91,7 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 
     /**
      * Checks the current editor context and, if available, gets the selected
-     * particle system, passing it to the modifiable editor and updating the rest of
+     * Terrain System, passing it to the modifiable editor and updating the rest of
      * the GUI.
      */
     void Populate ();
@@ -91,38 +99,75 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 
     /**
      * Called when the editor should be cleared, e.g. when the selected data isn't
-     * a particle system, with the message containing the reason.
+     * a terrain system, with the message containing the reason.
      */
     void Empty (const wxString& message);
 
+    /**
+     * Function that is called when the Add cell button is clicked. It adds a Cell to the Factory, defines it,
+     and then adds it to the system.
+     */
     void OnButtonAddCell (wxCommandEvent &event);
-    //void OnButtonRemoveCell (wxCommandEvent &event);
-    //void OnButtonAddEffector (wxCommandEvent &event);
-    //void OnButtonRemoveEffector (wxCommandEvent &event);
+
+    /**
+     * Function that is called when a cell is selected from the list. It loads the secondary modifier corresponding
+     to the cell and displays it's properties at the bottom sizer.
+     */
     void OnCellSelect (wxCommandEvent& event);
-    //void OnEffectorSelect (wxCommandEvent& event);
+    
+
+    /**
+     * Function that updates the Cell list to display the current number of cells in the Factory.
+     */
 
     void UpdateCellList  ();
-    //void UpdateEffectorList ();
+
+
+    /**
+     * Functions that are called when the "mode" of the Editor is changed. The Default(0) mode does nothing, the Paint mode(1)
+     is used for painting on the terrain using decals , and the Modifier(2) mode is used to modify the terrain under the decal.
+     */    
 
     void OnButtonDefaultMode (wxCommandEvent& event); 
     void OnButtonPaintMode (wxCommandEvent& event); 
     void OnButtonModifierMode (wxCommandEvent& event); 
 
+
+    /**
+     * Function that is called when the Delete cell button is clicked. It deletes a Cell from the Factory and the system.
+     */
     void OnButtonDeleteCell (wxCommandEvent& event);
 
+    /**
+     * Function that creates the mesh generator. No button is associated to this Function yet, but it has been defined in the cpp.
+     */
     void OnButtonCreateMeshGenerator (wxCommandEvent& event);   
 
+    /**
+     * Function that Removes the previous Modifier and decal.
+     */
     void RemoveModifier ();
 
+    /**
+     * Function that is responsible for Updating the Decal and Modifier. It uses the current mouse x and y , and is called on every 
+     mouse move event.
+     */
     void UpdateModifier ( int x , int y);
 
+    /**
+     * Function that is responsible for Painting the current active decal on the Terrain. It is called on every mouse click.
+     mouse move event.
+     */
     void Paint();
 
-    void ParseCell();
-
+    /**
+     * Function that Updates the Material list.
+     */    
     void UpdateMaterialList();
 
+    /**
+     * Function that sets the current selected Material as the active material.
+     */
     void OnMatSelect (wxCommandEvent& event);
 
 
@@ -150,27 +195,21 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     int mode;
 
     //Decal Implementation Variables   
-
-      // Decal textures
+   
     csRef<iDecalManager> decalManager;
     csRef<iDecalTemplate> decalTemplate;
     iDecal* decal;
+    iMaterialList* materialList;
+    iMaterialWrapper* activeMat; //The active material at any given time.
 
     //TerrainModifier Variables
     csRef<iTerrainModifier> modifier;
     csVector3 lastPosition;
 
-       // Various event ids
+    // Various event ids
     iEventNameRegistry* nameRegistry;
-    csStringID addObject;
-    csStringID clearObjects;
     csStringID activateObject; 
-
-    iMaterialList* materialList;
-    iMaterialWrapper* activeMat;
     
-    csRef<iLoader> loader;
-   
     enum {
       idMainEditor = 42,
       idSecondaryEditor,
@@ -186,6 +225,11 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
 
     DECLARE_EVENT_TABLE ();
 
+///*
+/*
+  Event Listener class that helps in implementing Mouse Events.
+*/
+///
     class EventListener : public scfImplementation1<EventListener, iEventHandler>
     {
     public:
@@ -220,6 +264,14 @@ CS_PLUGIN_NAMESPACE_BEGIN (CSEditor)
     };
     csRef<EventListener> eventListener;
   };
+
+
+
+///*
+/*
+  ModifiableListener implementation to add Value changed events to Modifiers.
+*/
+///
 
   class ModifiableListener
 : public scfImplementation1<ModifiableListener, CS::Utility::iModifiableListener>
